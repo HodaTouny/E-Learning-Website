@@ -9,6 +9,7 @@ import AllCourses from './Components/Courses/allCourses';
 import Login from './Components/Login/login';
 import Register from './Components/Register/register';
 import ViewProfile from './Components/ProfileManagment/ViewProfile';
+import CourseDetails from './Components/CourseDetails/coursedetails';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
     {/* <AllCourses /> */}
     {/* <Login /> */}
     {/* <Register /> */}
+    {/* <CourseDetails/> */}
     {/* <ViewProfile /> */}
   </React.StrictMode>
 );
