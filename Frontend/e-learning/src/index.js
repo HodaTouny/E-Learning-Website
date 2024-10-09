@@ -14,14 +14,14 @@ import CourseDetails from './Components/CourseDetails/coursedetails';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <Navbar /> */}
-    {/* <Home /> */}
-    {/* <PopularCourses /> */}
-    {/* <AllCourses /> */}
-    {/* <Login /> */}
-    {/* <Register /> */}
-    {/* <CourseDetails/> */}
-    {/* <ViewProfile /> */}
+    <Navbar />
+    <Home />
+    <PopularCourses />
+    <AllCourses />
+    <Login />
+    <Register />
+    <CourseDetails/>
+    <ViewProfile />
   </React.StrictMode>
 );
 
