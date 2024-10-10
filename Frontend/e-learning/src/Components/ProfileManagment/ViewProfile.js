@@ -10,6 +10,7 @@ import '../assets/layout/css/styles.css';
 import '../assets/css/viewprofile.css';
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AuthorCard = () => {
@@ -140,6 +141,7 @@ const ProfileSettings = () => {
   );
 };
 
+
 const ProfilePage = () => {
   return (
     <div className="container mt-5">
@@ -162,7 +164,7 @@ const ProfilePage = () => {
             <a className="list-group-item" href="#">
               <i className="fe-icon-map-pin text-muted"></i>Addresses
             </a>
-            <a className="list-group-item" href="#">
+            <Link to="/wishlist" className="list-group-item">
               <div className="d-flex justify-content-between align-items-center">
                 <div>
                   <i className="fe-icon-heart mr-1 text-muted"></i>
@@ -170,7 +172,7 @@ const ProfilePage = () => {
                 </div>
                 <span className="badge badge-secondary">3</span>
               </div>
-            </a>
+            </Link>
             <a className="list-group-item" href="#">
               <div className="d-flex justify-content-between align-items-center">
                 <div>
