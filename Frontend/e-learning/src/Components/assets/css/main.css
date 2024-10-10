@@ -942,7 +942,29 @@ th {
 
 .navbar-light .navbar-toggler {
   color: #fff;
-  border-color: #fff;
+  border: none;
+}
+
+.navbar-toggler {
+  width: fit-content;
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width:990px) {
+  .navbar .navbar-collapse {
+    background-color: #000000d4 !important;
+  }
+}
+
+.navbar .navbar-collapse a {
+  color: #fff !important;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar .navbar-collapse a:hover {
+  color: #9600d7 !important;
+  font-size: 16px;
 }
 
 .navbar-light .navbar-toggler:focus {
@@ -1195,6 +1217,10 @@ th {
   background-size: cover;
   background-position: center center;
   max-height: 1200px;
+}
+
+.homeContainer{
+  margin: -500px 0 0 0;
 }
 
 @media (min-width: 1921px) {
@@ -1842,7 +1868,15 @@ th {
 
 .registration-area {
   background: url(../img/registration-bg.png) no-repeat center;
-  padding: 157px 0px;
+  padding: 100px 0px;
+}
+
+.registration-area form {
+  background-color: transparent !important;
+}
+
+.registration-area form input::placeholder {
+  color: #000;
 }
 
 @media (max-width: 991px) {
@@ -4353,7 +4387,7 @@ h6 {
   border: none;
   border-radius: 0px;
   height: 40px;
-  background: #f9f9ff;
+  /* background: #f9f9ff; */
   padding-left: 45px;
   padding-right: 40px;
   width: 100%;
@@ -4400,8 +4434,12 @@ h6 {
 }
 
 .footer-area {
-  padding: 339px 0px 120px;
+  padding: 415px 0px 100px;
   background: url(../img/footer-bg.png) no-repeat center;
+}
+
+.footer-area form {
+  background-color: transparent !important;
 }
 
 @media (max-width: 991px) {
@@ -4409,6 +4447,10 @@ h6 {
     background: #222222;
     padding: 60px 0px;
   }
+}
+
+.footer-area .single-footer-widget {
+  text-align: start !important;
 }
 
 @media (max-width: 991px) {
@@ -4432,6 +4474,11 @@ h6 {
   .footer-area .single-footer-widget h4 {
     margin-bottom: 15px;
   }
+}
+
+.footer-area .single-footer-widget ul {
+  text-align: start !important;
+  padding: 0 !important;
 }
 
 .footer-area .single-footer-widget ul li {
@@ -4511,7 +4558,7 @@ h6 {
 }
 
 .footer-area .footer-bottom {
-  margin-top: 90px;
+  margin-top: 36px;
 }
 
 @media (max-width: 991px) {

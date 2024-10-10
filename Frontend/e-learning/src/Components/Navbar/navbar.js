@@ -43,7 +43,7 @@ const Navbar = () => {
                 className={`navbar navbar-expand-lg ${collapsed ? 'navbar-light' : 'navbar-dark'} ${scrolled ? 'header-scrolled sticky' : ''
                     }`}
             >
-                <div className="container">
+                <div className="container p-3">
                     <a className="navbar-brand" href="#home">
                         <img src={logo} alt="Logo" />
                     </a>
@@ -65,13 +65,18 @@ const Navbar = () => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#about">
-                                    About
+                                <a className="nav-link" href="#courses">
+                                    Courses
                                 </a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#courses">
                                     Courses
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#about">
+                                    About
                                 </a>
                             </li>
                             {/* <li className="nav-item dropdown">

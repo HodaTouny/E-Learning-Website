@@ -1,0 +1,8 @@
+.row .col-lg-5 {
+    margin: 290px 0 0 0;
+    align-self: flex-start;
+}
+
+.align-items-end {
+    align-items: center !important;
+}

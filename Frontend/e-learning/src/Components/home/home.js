@@ -8,50 +8,51 @@ import '../assets/css/hexagons.min.css';
 import '../assets/css/main.css';
 
 import headerimg from '../assets/img/header-img.png';
+import PopularCourses from '../PopularCourses/popularcourses';
 
 
 function Home() {
     return (
         <>
-            <section class="home-banner-area p-5">
-                <div class="container p-5">
-                    <div class="row justify-content-center fullscreen align-items-center m-5 p-2">
-                        <div class="col-lg-5 col-md-8 home-banner-left">
-                            <h1 class="text-white">
+            <section className="home-banner-area p-5">
+                <div className="container homeContainer p-5 pt-0">
+                    <div className="row justify-content-center fullscreen align-items-center m-lg-5 m-xl-5 p-2">
+                        <div className="col-lg-5 col-md-8 home-banner-left">
+                            <h1 className="text-white">
                                 Take the first step <br />
                                 to learn with us
                             </h1>
-                            <p class="mx-auto text-white  mt-20 mb-40">
+                            <p className="mx-auto text-white mt-20 mb-40">
                                 In the history of modern astronomy, there is probably no one
                                 greater leap forward than the building and launch of the space
                                 telescope known as the Hubble.
                             </p>
                         </div>
-                        <div class="offset-lg-2 col-lg-5 col-md-12 home-banner-right">
-                            <img class="img-fluid" src="img/header-img.png" alt="" />
+                        <div className="offset-lg-2 col-lg-5 col-md-12 home-banner-right">
+                            <img className="img-fluid" src="img/header-img.png" alt="" />
                             <img src={headerimg} alt="header-img" />
                         </div>
                     </div>
                 </div>
             </section>
-            <section class="feature-area">
-                <div class="container-fluid">
-                    <div class="feature-inner row">
-                        <div class="col-lg-2 col-md-6">
-                            <div class="feature-item d-flex">
-                                <i class="ti-book"></i>
-                                <div class="ml-20">
-                                    <h4>New Classes</h4>
+            <section className="feature-area">
+                <div className="container-fluid">
+                    <div className="feature-inner row">
+                        <div className="col-lg-2 col-md-6">
+                            <div className="feature-item d-flex">
+                                <i className="ti-book"></i>
+                                <div className="ml-20">
+                                    <h4>New classNamees</h4>
                                     <p>
                                         In the history of modern astronomy, there is probably no one greater leap forward.
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-6">
-                            <div class="feature-item d-flex">
-                                <i class="ti-cup"></i>
-                                <div class="ml-20">
+                        <div className="col-lg-2 col-md-6">
+                            <div className="feature-item d-flex">
+                                <i className="ti-cup"></i>
+                                <div className="ml-20">
                                     <h4>Top Courses</h4>
                                     <p>
                                         In the history of modern astronomy, there is probably no one greater leap forward.
@@ -59,10 +60,10 @@ function Home() {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-6">
-                            <div class="feature-item d-flex border-right-0">
-                                <i class="ti-desktop"></i>
-                                <div class="ml-20">
+                        <div className="col-lg-2 col-md-6">
+                            <div className="feature-item d-flex border-right-0">
+                                <i className="ti-desktop"></i>
+                                <div className="ml-20">
                                     <h4>Full E-Books</h4>
                                     <p>
                                         In the history of modern astronomy, there is probably no one greater leap forward.
@@ -73,6 +74,7 @@ function Home() {
                     </div>
                 </div>
             </section>
+            <PopularCourses />
         </>
     );
 }
