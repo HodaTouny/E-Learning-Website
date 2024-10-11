@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+<<<<<<< HEAD
 import reportWebVitals from './reportWebVitals';
 import Navbar from './Components/Navbar/navbar';
 import Home from './Components/home/home';
@@ -27,6 +28,14 @@ root.render(
     {/* <CourseDetails/> */}
     {/* <ViewProfile /> */}
   </React.StrictMode>
-);
+=======
+import App from './Components/App';
+import { BrowserRouter as Router } from "react-router-dom";
 
-reportWebVitals();
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <Router>
+    <App />
+  </Router> 
+>>>>>>> 1d7c7de60f0f66080bb2c490449ef85df9c7ba1c
+);
