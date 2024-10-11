@@ -19,8 +19,8 @@ const ContactUs = () => {
                     <div class="col-lg-5 part">
                         <div class="section-title text-left text-white">
                             <h2 class="text-white">
-                                Watch Our Trainers <br />
-                                in Live Action
+                                Contact Us <br />
+                                To Stay In Touch
                             </h2>
                             <p>
                                 If you are looking at blank cassettes on the web, you may be
@@ -31,7 +31,7 @@ const ContactUs = () => {
                     </div>
                     <div class="offset-lg-3 col-lg-4 col-md-6">
                         <div class="course-form-section">
-                            <h3 class="text-white">Courses for Free</h3>
+                            <h3 class="text-white">Contact Us</h3>
                             <p class="text-white">It is high time for learning</p>
                             <form class="course-form-area contact-page-form course-form text-right" id="myForm" action="mail.html"
                                 method="post">

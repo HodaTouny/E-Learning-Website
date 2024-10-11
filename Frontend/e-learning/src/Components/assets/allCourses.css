@@ -1,7 +1,7 @@
 :root {
     --black: #3a3a3a;
     --white: #fff;
-    --green: #49b293;
+    --purple: #7c32ff;
 }
 
 * {
@@ -13,25 +13,12 @@ img {
     display: block;
     max-width: 100%;
     height: auto;
+    margin: auto;
 }
 
 ol {
     list-style: none;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-body {
-    /* margin: 50px 0; */
-    /* color: var(--black);
-    font: 1rem/1.3 sans-serif; */
-}
-
-.author-archive {
-    padding: 1.5rem;
+    padding: 0 !important;
 }
 
 .container {
@@ -41,16 +28,7 @@ body {
 
 h1 {
     text-align: center;
-    margin-bottom: 2rem;
-}
-
-h1 a {
-    transition: all 0.1s;
-}
-
-h1 a:hover {
-    background: var(--green);
-    color: var(--white);
+    margin-bottom: 2.3rem;
 }
 
 input[type="radio"] {
@@ -80,8 +58,13 @@ input[type="radio"] {
     transition: all 0.1s;
 }
 
+.filters label:has(input:checked) {
+    background: var(--purple);
+    color: var(--white);
+}
+
 .filters label:hover {
-    background: var(--green);
+    background: var(--purple);
     color: var(--white);
 }
 
@@ -100,11 +83,16 @@ input[type="radio"] {
 }
 
 .posts .post-title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
 }
 
-.posts .post-title:hover {
-    text-decoration: underline;
+.posts .post-title a {
+    color: #1f1f1f;
+    text-decoration: none;
+}
+
+.posts .post-title:hover a {
+    color: var(--purple);
 }
 
 .posts figcaption {
@@ -121,10 +109,7 @@ input[type="radio"] {
 }
 
 .posts .post-categories li {
-    margin-bottom: 0.2rem;
-}
-
-.posts .post-categories a {
+    margin: 0.2rem;
     padding: 0.2rem 0.5rem;
     border-radius: 1rem;
     border: 1px solid;
@@ -132,63 +117,41 @@ input[type="radio"] {
     transition: all 0.1s;
 }
 
-.posts .post-categories a:hover {
-    background: var(--green);
+.posts .post-categories li:hover {
+    background: var(--purple);
     color: var(--white);
 }
 
 
 /* FILTERING RULES
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-[value="All"]:checked~.filters [for="All"],
-[value="CSS"]:checked~.filters [for="CSS"],
-[value="JavaScript"]:checked~.filters [for="JavaScript"],
-[value="jQuery"]:checked~.filters [for="jQuery"],
-[value="WordPress"]:checked~.filters [for="WordPress"],
-[value="Slider"]:checked~.filters [for="Slider"],
-[value="fullPage.js"]:checked~.filters [for="fullPage.js"] {
-    background: var(--green);
-    color: var(--white);
-}
-
 [value="All"]:checked~.posts [data-category] {
     display: block;
+    /* Show all posts */
 }
 
 [value="CSS"]:checked~.posts .post:not([data-category~="CSS"]),
-[value="JavaScript"]:checked~.posts .post:not([data-category~="JavaScript"]),
-[value="jQuery"]:checked~.posts .post:not([data-category~="jQuery"]),
-[value="WordPress"]:checked~.posts .post:not([data-category~="WordPress"]),
-[value="Slider"]:checked~.posts .post:not([data-category~="Slider"]),
-[value="fullPage.js"]:checked~.posts .post:not([data-category~="fullPage.js"]) {
+[value="JavaScript"]:checked~.posts .post:not([data-category~="JavaScript"]) {
     display: none;
+    /* Hide posts that do not match the selected category */
 }
-
-
-/* FOOTER
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
-footer {
-    font-size: 1rem;
-    padding: 0 1.5rem;
-    text-align: right;
-}
-
-footer span {
-    color: #e31b23;
-}
-
 
 /* MQ
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 950px) {
     .posts {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media screen and (max-width: 650px) {
-
+@media screen and (max-width: 750px) {
     .posts {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .posts {
+        grid-template-columns: repeat(1, 1fr);
     }
 }

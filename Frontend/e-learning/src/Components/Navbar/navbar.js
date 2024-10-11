@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Link as ScrollLink } from 'react-scroll'; // Import from react-scroll
+import { Link, useLocation } from 'react-router-dom';
 
 import '../assets/css/linearicons.css';
 import '../assets/css/font-awesome.min.css';
@@ -14,11 +16,12 @@ import logo from '../assets/img/logo.png';
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [collapsed, setCollapsed] = useState(true); // For toggling collapse
-
-    // Handle scrolling effect
+    const location = useLocation();
+    
+    // Handle scrolling effect to make the navbar sticky
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 100) {
+            if (window.scrollY > 50) {  // You can adjust this threshold (50px) based on your needs
                 setScrolled(true);
             } else {
                 setScrolled(false);
@@ -27,6 +30,7 @@ const Navbar = () => {
 
         window.addEventListener('scroll', handleScroll);
 
+        // Clean up the event listener when the component unmounts
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -37,14 +41,20 @@ const Navbar = () => {
         setCollapsed(!collapsed); // Toggle the collapsed state
     };
 
+    const isHomePage = location.pathname === '/';
+    // Add a special class to 'default-header' if the location is not the homepage
+    const isAllCoursesPage = location.pathname === '/AllCourses'; // Adjust the path as needed
+    const isCourseDetailsPage = location.pathname === '/CourseDetails'; // Adjust the path as needed
+    const headerClass = isAllCoursesPage | isCourseDetailsPage ? 'default-header visibleStyle' : 'default-header'; // Add 'other-page' class for other routes
+
     return (
-        <header className="default-header">
+        <header className={headerClass}>
             <nav
                 className={`navbar navbar-expand-lg ${collapsed ? 'navbar-light' : 'navbar-dark'} ${scrolled ? 'header-scrolled sticky' : ''
-                    }`}
+                    }`} // Apply 'header-scrolled' and 'sticky' class on scroll
             >
                 <div className="container p-3">
-                    <a className="navbar-brand" href="#home">
+                    <a className="navbar-brand" href="#Home">
                         <img src={logo} alt="Logo" />
                     </a>
                     <button
@@ -60,61 +70,33 @@ const Navbar = () => {
                     <div className={`collapse navbar-collapse justify-content-end align-items-center ${collapsed ? '' : 'show'}`}>
                         <ul className="navbar-nav">
                             <li className="nav-item">
-                                <a className="nav-link" href="#home">
-                                    Home
-                                </a>
+                                {isHomePage ? (
+                                    <ScrollLink
+                                        className="nav-link"
+                                        to="Home" // The section ID to scroll to
+                                        spy={true}
+                                        smooth={true}
+                                        duration={300}
+                                        offset={-70} // Adjust offset for sticky navbar height
+                                    >
+                                        Home
+                                    </ScrollLink>
+                                ) : (
+                                    <Link className="nav-link" to="/"> {/* Link to Home route */}
+                                        Home
+                                    </Link>
+                                )}
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#courses">
-                                    Courses
-                                </a>
+                                <Link className="nav-link" to="/AllCourses">
+                                    All Courses
+                                </Link>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="#courses">
-                                    Courses
-                                </a>
+                                <ScrollLink className="nav-link" to="ContactUs" smooth={true} duration={500} offset={-70}>
+                                    Contact Us
+                                </ScrollLink>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#about">
-                                    About
-                                </a>
-                            </li>
-                            {/* <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                    Pages
-                                </a>
-                                <div className="dropdown-menu">
-                                    <a className="dropdown-item" href="#elements">
-                                        Elements
-                                    </a>
-                                    <a className="dropdown-item" href="#course-details">
-                                        Course Details
-                                    </a>
-                                </div>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                                    Blog
-                                </a>
-                                <div className="dropdown-menu">
-                                    <a className="dropdown-item" href="#blog-home">
-                                        Blog Home
-                                    </a>
-                                    <a className="dropdown-item" href="#blog-single">
-                                        Blog Details
-                                    </a>
-                                </div>
-                            </li> */}
-                            <li className="nav-item">
-                                <a className="nav-link" href="#contacts">
-                                    Contacts
-                                </a>
-                            </li>
-                            {/* <li className="nav-item">
-                                <button className="search">
-                                    <span className="lnr lnr-magnifier" id="search"></span>
-                                </button>
-                            </li> */}
                         </ul>
                     </div>
                 </div>

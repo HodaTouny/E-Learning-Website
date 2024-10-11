@@ -783,7 +783,7 @@ th {
 }
 
 .section-gap {
-  padding: 120px 0;
+  padding: 70px 0;
 }
 
 @media (max-width: 991px) {
@@ -972,11 +972,16 @@ th {
 }
 
 .default-header {
-  position: absolute;
+  /* position: absolute; */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 9;
+  z-index: 10;
+}
+
+.visibleStyle {
+  background-image: linear-gradient(90deg, #6d28e6, #b537ff);
 }
 
 .navbar {
@@ -1219,7 +1224,7 @@ th {
   max-height: 1200px;
 }
 
-.homeContainer{
+.homeContainer {
   margin: -500px 0 0 0;
 }
 

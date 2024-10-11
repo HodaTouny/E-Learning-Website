@@ -8,6 +8,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import AllCourses from './Courses/allCourses';
 import Login from './Login/login';
 import Register from './Register/register';
+import ContactUs from './ContactUs/ContactUs'
+import Footer from './Footer/Footer'
 import ViewProfile from './ProfileManagment/ViewProfile';
 import Wishlist from './ProfileManagment/enrolledcourses';
 import CourseDetails from './CourseDetails/coursedetails';
@@ -15,16 +17,17 @@ import CourseDetails from './CourseDetails/coursedetails';
 function App() {
     return (
         <>
-          <Navbar />
-          <Home />
-          <PopularCourses />
-          <AllCourses />
-          <CourseDetails/>
-          <Login />
-          <Register />
+            {/* <PopularCourses /> */}
+            {/* <AllCourses /> */}
+            {/* <CourseDetails/> */}
+            {/* <Login /> */}
+            {/* <Register /> */}
             <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/AllCourses" element={<AllCourses />} />
+                <Route path="/CourseDetails" element={<CourseDetails />} />
                 <Route path="/wishlist" element={<Wishlist />} />
-                <Route path="/" element={<ViewProfile />} />
+                <Route path="/EditProfile" element={<ViewProfile />} />
             </Routes>
         </>
     );
