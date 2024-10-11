@@ -16,7 +16,7 @@ const ContactUs = () => {
         <section class="registration-area">
             <div class="container">
                 <div class="row align-items-end">
-                    <div class="col-lg-5">
+                    <div class="col-lg-5 part">
                         <div class="section-title text-left text-white">
                             <h2 class="text-white">
                                 Watch Our Trainers <br />

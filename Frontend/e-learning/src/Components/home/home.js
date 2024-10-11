@@ -6,6 +6,7 @@ import '../assets/css/owl.carousel.css';
 import '../assets/css/nice-select.css';
 import '../assets/css/hexagons.min.css';
 import '../assets/css/main.css';
+import '../assets/css/home.css';
 
 import headerimg from '../assets/img/header-img.png';
 import PopularCourses from '../PopularCourses/popularcourses';
