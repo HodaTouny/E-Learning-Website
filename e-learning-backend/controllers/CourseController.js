@@ -1,16 +1,43 @@
 const Courses = require('../models/course/CourseModel');
+
+const multer = require('multer');
+
 const Course=new Courses().getModel();
 
-const createCourse=async (req, res)=>{
-    try{
-        const newCourse=new Course(req.body);
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '/uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage });
+
+
+const createCourse = async (req, res) => {
+    try {
+        const { name, description, category, isPremium, price, teacherID } = req.body;
+        const isPremVal = req.body.isPremium === 'true' ? price : 0;
+        const imgPath = req.files.image ? req.files.image[0].path.replace(/\\/g, '/') : '';
+        const videoPath = req.files.video ? req.files.video[0].path.replace(/\\/g, '/') : '';
+
+        const newCourse = new Course({
+            name, 
+            description, 
+            category, 
+            isPremium: isPremVal, 
+            image: imgPath,
+            video:videoPath,
+            teacherID
+        });
         await newCourse.save();
         res.status(201).json(newCourse);
-    }
-    catch(err){
-        res.status(400).json({error:err.message});
+    } catch (err) {
+        res.status(400).json({ error: err.message });
     }
 };
+
 
 const getCourses=async (req, res)=>{
     try{
@@ -45,4 +72,15 @@ const updateCourse=async(req, res)=>{
     }
 }
 
-module.exports={createCourse, getCourses, deleteCourse, updateCourse}
+const getCourseById=async(req, res)=>{
+    try{
+        const course=await Course.findOne({courseID:req.params.courseID});
+        if(!course)
+            return res.status(404).send('course is not found');
+        res.status(200).json(course);
+    }
+    catch(err){
+        res.status(500).send('server error');
+    }
+};
+module.exports={createCourse, getCourses, deleteCourse, updateCourse, getCourseById}

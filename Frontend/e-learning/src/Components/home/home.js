@@ -12,12 +12,10 @@ import headerimg from '../assets/img/header-img.png';
 import PopularCourses from '../PopularCourses/popularcourses';
 import ContactUs from '../ContactUs/ContactUs'
 import Footer from '../Footer/Footer'
-import Navbar from '../Navbar/navbar'
 
 function Home() {
     return (
         <>
-            <Navbar />
             <section className="home-banner-area p-5" id="Home">
                 <div className="container homeContainer p-5">
                     <div className="row justify-content-center fullscreen align-items-center m-lg-5 m-xl-5 p-2">

@@ -43,7 +43,7 @@ const Navbar = () => {
 
     const isHomePage = location.pathname === '/';
     // Add a special class to 'default-header' if the location is not the homepage
-    const isAllCoursesPage = location.pathname === '/AllCourses'; // Adjust the path as needed
+    const isAllCoursesPage = location.pathname === '/courses'; // Adjust the path as needed
     const isCourseDetailsPage = location.pathname === '/CourseDetails'; // Adjust the path as needed
     const headerClass = isAllCoursesPage | isCourseDetailsPage ? 'default-header visibleStyle' : 'default-header'; // Add 'other-page' class for other routes
 
@@ -88,7 +88,7 @@ const Navbar = () => {
                                 )}
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/AllCourses">
+                                <Link className="nav-link" to="/courses">
                                     All Courses
                                 </Link>
                             </li>
@@ -97,6 +97,20 @@ const Navbar = () => {
                                     Contact Us
                                 </ScrollLink>
                             </li>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="add-course-form" smooth={true} duration={500} offset={-70}>
+                                    Add Course
+                                </Link>
+                            </li>
+
+                             {/* <li className="nav-item">
+                                <Link className="nav-link" to="backend-courses" smooth={true} duration={500} offset={-70}>
+                                    Backend Courses
+                                </Link>
+                            </li> */}
+
+
                         </ul>
                     </div>
                 </div>
