@@ -18,7 +18,8 @@ function App() {
             <Navbar />
             {/* <PopularCourses /> */}
             {/* <AllCourses /> */}
-            {/* <CourseDetails/> */}
+            {/*  <CourseDetails/>
+             <UploadCourseForm/> */}
             {/* <Login /> */}
             {/* <Register /> */}
             <Routes>
