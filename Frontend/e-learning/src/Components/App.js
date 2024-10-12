@@ -11,6 +11,7 @@ import UploadCourseForm from './UploadCourseForm/UploadCourseForm';
 import CourseDetail from './Courses/CourseDetail';
 import Login from './Login/login';
 import Register from './Register/register';
+import About from './About/About';
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
             {/* <Register /> */}
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/about-us" element={<About />} />
                 <Route path="/courses" element={<AllCourses />} />
                 <Route path="/CourseDetails" element={<CourseDetails />} />
                 <Route path="/wishlist" element={<Wishlist />} />
