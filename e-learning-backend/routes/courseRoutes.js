@@ -30,13 +30,20 @@ const storage=multer.diskStorage({
 
 const upload=multer({
     storage, fileFilter
-});
+}).fields([
+        {
+            name:'image', maxCount:1
+        },
+        {
+            name:'lessonVideos', maxCount:100
+        }
+    ]);
 
 router.get('/getCourses', course.getCourses)
 
 router.get('/getCourse/:courseID', course.getCourseById)
 
-router.post('/addCourse', upload.fields([{ name: 'image' }, { name: 'video' }]), course.createCourse);
+router.post('/addCourse', upload, course.createCourse);
 
 router.delete('/deleteCourse/:courseID', course.deleteCourse)
 

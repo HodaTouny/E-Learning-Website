@@ -17,10 +17,17 @@ const upload = multer({ storage });
 
 const createCourse = async (req, res) => {
     try {
-        const { name, description, category, isPremium, price, teacherID } = req.body;
-        const isPremVal = req.body.isPremium === 'true' ? price : 0;
+        console.log(req.body);
+        const { name, description, category, isPremium, price, teacherID, lessons } = req.body;
+        const isPremVal = isPremium === 'true' ? price : 0;
         const imgPath = req.files.image ? req.files.image[0].path.replace(/\\/g, '/') : '';
         const videoPath = req.files.video ? req.files.video[0].path.replace(/\\/g, '/') : '';
+
+        const lessonsArray=Array.isArray(lessons)?lessons.map((lesson, index)=>({
+            title:lesson.title,
+            video:req.files.lessonVideos[index]?.path.replace(/\\/g, '/')
+        })):[];
+        
 
         const newCourse = new Course({
             name, 
@@ -29,11 +36,13 @@ const createCourse = async (req, res) => {
             isPremium: isPremVal, 
             image: imgPath,
             video:videoPath,
-            teacherID
+            teacherID,
+            lessons:lessonsArray
         });
         await newCourse.save();
         res.status(201).json(newCourse);
     } catch (err) {
+        console.error(err);
         res.status(400).json({ error: err.message });
     }
 };
