@@ -9,6 +9,8 @@ import Wishlist from './ProfileManagment/enrolledcourses';
 import CourseDetails from './CourseDetails/coursedetails';
 import UploadCourseForm from './UploadCourseForm/UploadCourseForm';
 import CourseDetail from './Courses/CourseDetail';
+import Login from './Login/login';
+import Register from './Register/register';
 
 function App() {
     return (
@@ -25,6 +27,8 @@ function App() {
                 <Route path="/CourseDetails" element={<CourseDetails />} />
                 <Route path="/wishlist" element={<Wishlist />} />
                 <Route path="/EditProfile" element={<ViewProfile />} />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/Register" element={<Register />} />
 
                 {/* <Route path="/backend-courses" element={<Courses />} /> */}
                 <Route path="/course/:id" element={<CourseDetail />} />

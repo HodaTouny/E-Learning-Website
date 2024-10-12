@@ -97,7 +97,16 @@ const Navbar = () => {
                                     Contact Us
                                 </ScrollLink>
                             </li>
-
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/Login">
+                                    Login
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/Register">
+                                    Register
+                                </Link>
+                            </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to="add-course-form" smooth={true} duration={500} offset={-70}>
                                     Add Course

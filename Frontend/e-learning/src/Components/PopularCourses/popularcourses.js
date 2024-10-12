@@ -10,7 +10,10 @@ import '../assets/layout/css/styles.css';
 
 import pic1 from '../assets/img/popular-course/p1.jpg';
 
-function PopularCourses() {
+function PopularCourses({ courses }) {
+    let selectedCourses = courses.slice(0, 4)
+    console.log(selectedCourses)
+
     return (
         <section class="popular-course-area section-gap">
             <div class="container-fluid">
@@ -28,7 +31,49 @@ function PopularCourses() {
                 </div>
                 <section>
                     <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                        <div class="col mb-5">
+
+                        {selectedCourses.map((course, index) => (
+                            <div class="col mb-5">
+                                <div class="card h-100">
+                                    <div class="single-popular-course">
+                                        <div class="thumb">
+                                            <img class="f-img img-fluid mx-auto" src={pic1} alt="" />
+                                        </div>
+                                        <div class="details">
+                                            <div class="d-flex justify-content-between mb-20">
+                                                <p class="name">programming language</p>
+                                                <p class="value">$150</p>
+                                            </div>
+                                            <a href="#">
+                                                <h4>{course.title}</h4>
+                                            </a>
+                                            <div class="bottom d-flex mt-15">
+                                                <ul class="list">
+                                                    <li>
+                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#"><i class="fa fa-star"></i></a>
+                                                    </li>
+                                                </ul>
+                                                <p class="ml-20">25 Reviews</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+
+                        {/* <div class="col mb-5">
                             <div class="card h-100">
                                 <div class="single-popular-course">
                                     <div class="thumb">
@@ -179,7 +224,7 @@ function PopularCourses() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </section>
             </div>
