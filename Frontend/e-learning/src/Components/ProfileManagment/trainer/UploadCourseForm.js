@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../assets/css/Courses.css';
+import '../../assets/css/Courses.css';
 
 const UploadCourseForm = () => {
   const [courseData, setCourseData] = useState({
