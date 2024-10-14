@@ -3,6 +3,7 @@ import '../../assets/css/profilesitting.css'
 import Navbar from '../../Navbar/navbar';
 import CourseList from './CourseList';
 import EditProfile from '../EditProfile';
+import UploadCourseForm from './UploadCourseForm';
 
 
 function ProfileSitting() {
@@ -14,6 +15,10 @@ function ProfileSitting() {
 
     const handleEditProfileClick = () => {
         setActiveTab("editProfile"); // Show EditProfile component
+    };
+
+    const handleUploadCourseClick = () => {
+        setActiveTab("uploadcourse"); // Show EditProfile component
     };
     return (
         <>
@@ -37,11 +42,14 @@ function ProfileSitting() {
                             <nav class="list-group list-group-flush">
                                 <a class="list-group-item" href="#" onClick={handleEditProfileClick}>
                                     <i class="fa fa-user text-muted"></i>Edit Profile
-                                    </a>
+                                </a>
+                                <a class="list-group-item" href="#" onClick={handleUploadCourseClick}>
+                                    <i class="fa fa-plus-circle text-muted"></i>Upload New Course
+                                </a>
                                 <a class="list-group-item" href="#" onClick={handleCourseListClick}>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div><i class="fa fa-tag mr-1 text-muted"></i>
-                                            <div class="d-inline-block font-weight-medium text-uppercase">Course List</div>
+                                        <div><i class="fa fa-book mr-1 text-muted"></i>
+                                            <div class="d-inline-block font-weight-medium text-uppercase">Courses</div>
                                         </div><span class="badge badge-secondary">4</span>
                                     </div>
                                 </a>
@@ -51,6 +59,7 @@ function ProfileSitting() {
                     <div className="col-lg-8 pb-5">
                         {activeTab === "courselist" && <CourseList />}
                         {activeTab === "editProfile" && <EditProfile />}
+                        {activeTab === "uploadcourse" && <UploadCourseForm />}
                     </div>
                 </div>
             </div>

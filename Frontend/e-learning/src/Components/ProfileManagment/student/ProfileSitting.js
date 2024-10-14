@@ -40,7 +40,7 @@ function ProfileSitting() {
                                     </a>
                                 <a class="list-group-item" href="#" onClick={handleEnrolledCoursesClick}>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <div><i class="fa fa-tag mr-1 text-muted"></i>
+                                        <div><i class="fa fa-list mr-1 text-muted"></i>
                                             <div class="d-inline-block font-weight-medium text-uppercase">Enrolled courses</div>
                                         </div><span class="badge badge-secondary">4</span>
                                     </div>

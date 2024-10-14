@@ -5,7 +5,6 @@ import Home from './home/home';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import AllCourses from './Courses/allCourses';
 import CourseDetails from './CourseDetails/coursedetails';
-import UploadCourseForm from './UploadCourseForm/UploadCourseForm';
 import CourseDetail from './Courses/CourseDetail';
 import Login from './Login/login';
 import Register from './Register/register';
@@ -34,7 +33,6 @@ function App() {
 
                 {/* <Route path="/backend-courses" element={<Courses />} /> */}
                 <Route path="/course/:id" element={<CourseDetail />} />
-                <Route path="/add-course-form" element={<UploadCourseForm />} />
             </Routes>
             
         </>

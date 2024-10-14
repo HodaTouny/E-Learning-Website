@@ -9,66 +9,49 @@ function CourseList() {
             <Navbar />
             <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
-            <div class="d-flex justify-content-end pb-3">
-                <div class="form-inline">
-                    <label class="text-muted mr-3" for="order-sort">Sort courses</label>
-                    <select class="form-control" id="order-sort">
-                        <option>Course Name</option>
-                        <option>Trainer’s Name</option>
-                        <option>Status</option>
-                        <option>Fee</option>
-                    </select>
+            <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i
+                class="fa fa-times"></i></span>
+                <div class="px-3 my-3">
+                    <a class="cart-item-product" href="#">
+                        <div class="cart-item-product-thumb"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                            alt="Product" /></div>
+                        <div class="cart-item-product-info">
+                            <h4 class="cart-item-product-title">React JS</h4>
+                            <div class="text-lg text-body font-weight-medium pb-1">$110.00</div>
+                            <div class="text-lg text-body font-weight-medium pb-1">50 Student enrolled</div>
+                        </div>
+                    </a>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead>
-                        <tr>
-                            <th>Course Name</th>
-                            <th>Trainer</th>
-                            <th>Status</th>
-                            <th>Fee</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-info m-0">Started</span></td>
-                            <td><span>$760.50</span></td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-info m-0">Started</span></td>
-                            <td>$315.20</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-info m-0">Started</span></td>
-                            <td>$1,264.00</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-success m-0">Passed</span></td>
-                            <td>$198.35</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-success m-0">Passed</span></td>
-                            <td>Free</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-success m-0">Passed</span></td>
-                            <td>$86.40</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i
+                class="fa fa-times"></i></span>
+                <div class="px-3 my-3">
+                    <a class="cart-item-product" href="#">
+                        <div class="cart-item-product-thumb"><img src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                            alt="Product" /></div>
+                        <div class="cart-item-product-info">
+                            <h4 class="cart-item-product-title">React JS</h4>
+                            <div class="text-lg text-body font-weight-medium pb-1">Free</div>
+                            <div class="text-lg text-body font-weight-medium pb-1">200 Student enrolled</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i
+                class="fa fa-times"></i></span>
+                <div class="px-3 my-3">
+                    <a class="cart-item-product" href="#">
+                        <div class="cart-item-product-thumb"><img src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                            alt="Product" /></div>
+                        <div class="cart-item-product-info">
+                            <h4 class="cart-item-product-title">React JS</h4>
+                            <div class="text-lg text-body font-weight-medium pb-1">$188.50</div>
+                            <div class="text-lg text-body font-weight-medium pb-1">20 Student enrolled</div>
+                        </div>
+                    </a>
+                </div>
             </div>
             <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
