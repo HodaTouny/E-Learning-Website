@@ -8,6 +8,7 @@ import CourseDetails from './CourseDetails/coursedetails';
 import CourseDetail from './Courses/CourseDetail';
 import Login from './Login/login';
 import Register from './Register/register';
+import About from './About/About';
 
 function App() {
     return (
