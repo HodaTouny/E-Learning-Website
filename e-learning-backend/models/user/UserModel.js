@@ -1,27 +1,34 @@
 const mongoose = require('mongoose');
 const AutoIncrement = require('mongoose-sequence')(mongoose);
 
-class User {
-  constructor() {
-    const userSchema = new mongoose.Schema({
-      userID: { type: Number },
-      name: { type: String, required: true },
-      email: { type: String, required: true, unique: true },
-      password: { type: String, required: true },
-      role: { type: String, enum: ['Admin', 'Teacher', 'Student'], required: true }
-    }, 
-    { discriminatorKey: 'role' }); // for inheritance
+const commonUserSchema = new mongoose.Schema({
+    userID: { type: Number },
+    name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    image: { type: String },
+    role: { type: String, enum: ['Admin', 'Teacher', 'Student'], required: true },
+    refreshToken: { type: String, default: null },
+    createdAt: { type: Date, default: Date.now },
+}, { discriminatorKey: 'role' });
 
-    // Auto Increment for userID
-    userSchema.plugin(AutoIncrement, { inc_field: 'userID' });
+commonUserSchema.plugin(AutoIncrement, { inc_field: 'userID' });
 
-    // Create User model
-    this.User = mongoose.model('User', userSchema);
-  }
+const User = mongoose.model('User', commonUserSchema);
 
-  getModel() {
-    return this.User;
-  }
-}
+const studentSchema = new mongoose.Schema({
+    enrolledCourses: [{
+        courseId: { type: Number, ref: 'Course' },
+        isCompleted: { type: Boolean, default: false }
+    }]
+});
 
-module.exports = User;
+const teacherSchema = new mongoose.Schema({
+    createdCourses: [{ courseId: { type: Number, required: true } }],
+});
+
+const Admin = User.discriminator('Admin', new mongoose.Schema({}));
+const Student = User.discriminator('Student', studentSchema);
+const Teacher = User.discriminator('Teacher', teacherSchema);
+
+module.exports = { User, Admin, Student, Teacher };

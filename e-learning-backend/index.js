@@ -17,6 +17,9 @@ const PORT = process.env.PORT || 5000;
 const courseRoutes=require('./routes/courseRoutes')
 app.use(courseRoutes)
 
+const userRoutes=require('./routes/user/routes')
+app.use('/education',userRoutes)
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
