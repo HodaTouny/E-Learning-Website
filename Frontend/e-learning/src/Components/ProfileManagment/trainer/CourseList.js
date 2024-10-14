@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Navbar from '../../Navbar/navbar';
 
 
-function EnrolledCourse() {
+function CourseList() {
     return (
         <>
             <Navbar />
@@ -77,4 +77,4 @@ function EnrolledCourse() {
     );
 }
 
-export default EnrolledCourse;
+export default CourseList;

@@ -192,3 +192,17 @@ body {
     background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.125);
   }
+  .list-group-item.active:not(.disabled)::before {
+    background-color: #ac32e4;
+  }
+
+  .list-group-item::before {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: transparent;
+    content: '';
+  }

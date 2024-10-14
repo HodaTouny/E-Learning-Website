@@ -9,8 +9,8 @@ import UploadCourseForm from './UploadCourseForm/UploadCourseForm';
 import CourseDetail from './Courses/CourseDetail';
 import Login from './Login/login';
 import Register from './Register/register';
-import ProfileSitting from './ProfileManagment/student/ProfileSitting';
-import EnrolledCourse from './ProfileManagment/student/EnrolledCourse';
+import ProfileStudent from './ProfileManagment/student/ProfileSitting';
+import ProfileTrainer from './ProfileManagment/trainer/ProfileSitting';
 
 function App() {
     return (
@@ -22,7 +22,8 @@ function App() {
              <UploadCourseForm/> */}
             {/*  <Login />
             <Register />  */}
-            <ProfileSitting/>
+            {/* <ProfileStudent/> */}
+            <ProfileTrainer/>
            
             <Routes>
                 <Route path="/" element={<Home />} />

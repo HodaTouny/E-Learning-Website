@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import '../../assets/css/profilesitting.css'
 import Navbar from '../../Navbar/navbar';
-import EnrolledCourse from './EnrolledCourse';
+import CourseList from './CourseList';
 import EditProfile from '../EditProfile';
 
 
 function ProfileSitting() {
     const [activeTab, setActiveTab] = useState(null); // State to track which component is active
 
-    const handleEnrolledCoursesClick = () => {
-        setActiveTab("enrolledCourses"); // Show EnrolledCourse component
+    const handleCourseListClick = () => {
+        setActiveTab("courselist"); // Show EnrolledCourse component
     };
 
     const handleEditProfileClick = () => {
@@ -38,10 +38,10 @@ function ProfileSitting() {
                                 <a class="list-group-item" href="#" onClick={handleEditProfileClick}>
                                     <i class="fa fa-user text-muted"></i>Edit Profile
                                     </a>
-                                <a class="list-group-item" href="#" onClick={handleEnrolledCoursesClick}>
+                                <a class="list-group-item" href="#" onClick={handleCourseListClick}>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div><i class="fa fa-tag mr-1 text-muted"></i>
-                                            <div class="d-inline-block font-weight-medium text-uppercase">Enrolled courses</div>
+                                            <div class="d-inline-block font-weight-medium text-uppercase">Course List</div>
                                         </div><span class="badge badge-secondary">4</span>
                                     </div>
                                 </a>
@@ -49,7 +49,7 @@ function ProfileSitting() {
                         </div>
                     </div>
                     <div className="col-lg-8 pb-5">
-                        {activeTab === "enrolledCourses" && <EnrolledCourse />}
+                        {activeTab === "courselist" && <CourseList />}
                         {activeTab === "editProfile" && <EditProfile />}
                     </div>
                 </div>
