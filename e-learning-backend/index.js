@@ -25,8 +25,7 @@ app.use('/education', userRoutes);
 // const emailSubject = 'Test Email from Node.js';
 // const emailText = 'Hello, this is a test email!';
 // const emailHtml = '<h1>Hello</h1><p>This is a test email!</p>';
-
-emailService.sendEmail(recipientEmail, emailSubject, emailText, emailHtml);
+//emailService.sendEmail(recipientEmail, emailSubject, emailText, emailHtml);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
