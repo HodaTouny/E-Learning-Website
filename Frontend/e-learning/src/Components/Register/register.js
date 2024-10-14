@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
 import '../assets/Login/css/style.css';
-
+import { useNavigate } from 'react-router-dom'; 
 import img2 from '../assets/Login/images/image-2.png';
 import img1 from '../assets/Login/images/image-1.png';
 
 function Register() {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
-    const [phonenum, setPhonenum] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [role, setRole] = useState(''); // Default role is empty
+    const [image, setImage] = useState(null); // Image state
 
     const [usernameError, setUsernameError] = useState('');
-    const [phonenumError, setPhonenumError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
     const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const validatePassword = (password) => 
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#])[A-Za-z\d#@$!%*?&]{8,}$/.test(password);
+    
 
-    const validatePassword = (password) =>
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImage(file);
+        }
+    };
 
-    const validatePhone = (phonenum) => /^\d{10}$/.test(phonenum);
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         let valid = true;
 
@@ -36,14 +42,8 @@ function Register() {
             setUsernameError('');
         }
 
-        // Phone number validation
-        if (!validatePhone(phonenum)) {
-            setPhonenumError('Phone number must be 10 digits.');
-            valid = false;
-        } else {
-            setPhonenumError('');
-        }
-
+      
+        
         // Email validation
         if (!validateEmail(email)) {
             setEmailError('Invalid email address.');
@@ -70,9 +70,40 @@ function Register() {
             setConfirmPasswordError('');
         }
 
+        // Role validation
+        if (!role) {
+            valid = false;
+            // Optionally set an error message for role if needed
+        }
+
         if (valid) {
-            // Perform registration logic here
-            console.log('Registration successful!');
+            const formData = new FormData();
+        formData.append('name', username);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('role', role);
+        if (image) {
+            formData.append('image', image);
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/education/register', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Registration successful:', data.message);
+                navigate('/Login');
+            } else {
+                console.error('Registration failed:', data.error);
+                // Handle errors from the backend
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle network errors or other unexpected errors
+        }
         }
     };
 
@@ -94,19 +125,6 @@ function Register() {
                         />
                         {usernameError && <p className="error">{usernameError}</p>}
                     </div>
-
-                    <div className="form-holder">
-                        <span className="lnr lnr-phone-handset"></span>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Phone Number"
-                            value={phonenum}
-                            onChange={(e) => setPhonenum(e.target.value)}
-                        />
-                        {phonenumError && <p className="error">{phonenumError}</p>}
-                    </div>
-
                     <div className="form-holder">
                         <span className="lnr lnr-envelope"></span>
                         <input
@@ -141,6 +159,31 @@ function Register() {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
                         {confirmPasswordError && <p className="error">{confirmPasswordError}</p>}
+                    </div>
+
+                    {/* Role Selection */}
+                    <div className="form-holder">
+                        <span className="lnr lnr-user"></span>
+                        <select
+                            className="form-control"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                        >
+                            <option value="">Select Role</option> {/* Default option */}
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                        </select>
+                    </div>
+
+                    {/* Image Upload */}
+                    <div className="form-holder">
+                        <span className="lnr lnr-picture"></span>
+                        <input
+                            type="file"
+                            className="form-control"
+                            accept="image/png, image/jpeg, image/gif"
+                            onChange={handleImageChange}
+                        />
                     </div>
 
                     <button type="submit">
