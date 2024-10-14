@@ -16,13 +16,13 @@ function App() {
         <>
             <Navbar />
             {/* <PopularCourses /> */}
-             <AllCourses /> 
+             {/* <AllCourses />  */}
             {/* <CourseDetails/>
              <UploadCourseForm/> */}
             {/*  <Login />
             <Register />  */}
             {/* <ProfileStudent/> */}
-            <ProfileTrainer/>
+            {/* <ProfileTrainer/> */}
            
             <Routes>
                 <Route path="/" element={<Home />} />
