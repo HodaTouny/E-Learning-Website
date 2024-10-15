@@ -9,6 +9,7 @@ import CourseDetail from './Courses/CourseDetail';
 import Login from './Login/login';
 import Register from './Register/register';
 import About from './About/About';
+import UploadCourseForm from './ProfileManagment/trainer/UploadCourseForm';
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/CourseDetails" element={<CourseDetails />} />
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
+                <Route path="/add-course-form" element={<UploadCourseForm />} />
 
                 {/* <Route path="/backend-courses" element={<Courses />} /> */}
                 <Route path="/course/:id" element={<CourseDetail />} />

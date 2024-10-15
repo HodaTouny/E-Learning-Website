@@ -3,13 +3,14 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/css/Courses.css';
 
-const CourseDetail = () => {
-  const { id } = useParams();
+const CourseDetail = ({ studentId }) => {
+  const { id } = useParams(); // Course ID from the URL
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [lessonProgress, setLessonProgress] = useState({});
+  const [enrollStatus, setEnrollStatus] = useState(null); // Status of enrollment
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -26,52 +27,63 @@ const CourseDetail = () => {
     fetchCourse();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  const handleEnroll = async () => {
+    try {
+      const token=localStorage.getItem('authToken');
+      const response = await axios.post('http://localhost:5000/enrollcourse', {
+        userId:1,
+        courseId: id,
+      }, {
+        headers:{
+          'Authorization':`Bearer ${token}`
+        }
+      });
+      setEnrollStatus('Successfully enrolled in the course!');
+    } 
+    catch (error) {
+      setEnrollStatus(error.response?.data?.message || 'Enrollment failed. Try again.');
+    }
+  };
 
   const toggleLesson = (index) => {
     setExpandedLesson(expandedLesson === index ? null : index);
   };
 
-  const handleProgress=(index, e)=>{
-    const progress=(e.target.currentTime/e.target.duration)*100;
-    setLessonProgress((prev)=>({...prev, [index]:progress.toFixed(0)}));
+  const handleProgress = (index, e) => {
+    const progress = (e.target.currentTime / e.target.duration) * 100;
+    setLessonProgress((prev) => ({ ...prev, [index]: progress.toFixed(0) }));
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <>
-
-    <section class="banner-area ">
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-lg-10 banner-right" style={{marginTop:"200px"}}>
-                    <h1 class="text-white" style={{textAlign:"right"}}>
-                        Course Details
-                    </h1>
-                   
-                    <div class="link-nav">
-                        <span class="box">
-                            <Link to={"/"}>Home </Link>
-                            <i class="lnr lnr-arrow-right"></i>
-                            <Link to={"/courses"}>Courses </Link>
-                            <i class="lnr lnr-arrow-right"></i>
-                            <Link to={`/course/${course.id}`}>Course Details</Link>
-                        </span>
-                    </div>
-                </div>
+      <section className="banner-area">
+        <div className="container">
+          <div className="row justify-content-center align-items-center">
+            <div className="col-lg-10 banner-right" style={{ marginTop: '200px' }}>
+              <h1 className="text-white" style={{ textAlign: 'right' }}>Course Details</h1>
+              <div className="link-nav">
+                <span className="box">
+                  <Link to="/">Home </Link>
+                  <i className="lnr lnr-arrow-right"></i>
+                  <Link to="/courses">Courses </Link>
+                  <i className="lnr lnr-arrow-right"></i>
+                  <Link to={`/course/${course.id}`}>Course Details</Link>
+                </span>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    
       <section className="course-details-area section-gap">
         <div className="container">
           <div className="row">
             <div className="col-lg-8 course-details-left">
               <div className="main-image">
-                <img src={`http://localhost:5000/${course.image}`}alt={course.name}className="img-fluid"
-                  style={{width:"700px", height:"300px"}}
-                />
+                <img src={`http://localhost:5000/${course.image}`} alt={course.name} className="img-fluid" style={{ width: '700px', height: '300px' }} />
               </div>
               <div className="content-wrapper">
                 <h4 className="title">Description</h4>
@@ -88,7 +100,7 @@ const CourseDetail = () => {
                             onClick={() => toggleLesson(index)}
                             style={{ cursor: 'pointer' }}
                           >
-                            <p>{lesson.title} {lessonProgress[index]? ` - ${lessonProgress[index]}%`:""}</p>
+                            <p>{lesson.title} {lessonProgress[index] ? ` - ${lessonProgress[index]}%` : ''}</p>
                             <p className="btn text-uppercase">View Details</p>
                           </li>
 
@@ -96,7 +108,7 @@ const CourseDetail = () => {
                             <div className="lesson-details">
                               {lesson.video ? (
                                 <video controls src={`http://localhost:5000/${lesson.video}`} className="lesson-video"
-                                  onTimeUpdate={(e)=>handleProgress(index, e)}
+                                  onTimeUpdate={(e) => handleProgress(index, e)}
                                 >
                                   Your browser does not support the video tag
                                 </video>
@@ -127,23 +139,26 @@ const CourseDetail = () => {
                 <li>
                   <p className="justify-content-between d-flex">
                     <p>Trainer’s Name</p>
-                    <span className="or">{course.teachetName}</span>
+                    <span className="or">{course.teacherName}</span>
                   </p>
                 </li>
                 <li>
                   <p className="justify-content-between d-flex">
-                    <span>Course Fee </span>
+                    <span>Course Fee</span>
                     <span>{course.isPremium ? course.price : '0'}$</span>
                   </p>
                 </li>
                 <li>
                   <p className="justify-content-between d-flex">
-                    <p>Category </p>
+                    <p>Category</p>
                     <span>{course.category}</span>
                   </p>
                 </li>
               </ul>
-              <p href="#" className="btn text-uppercase enroll">Enroll the course</p>
+              <button onClick={handleEnroll} className="btn text-uppercase enroll">
+                Enroll the course
+              </button>
+              {enrollStatus && <p>{enrollStatus}</p>}
             </div>
           </div>
         </div>

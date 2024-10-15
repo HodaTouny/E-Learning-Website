@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-
 import '../assets/css/linearicons.css';
 import '../assets/css/font-awesome.min.css';
 import '../assets/css/bootstrap.css';
@@ -37,15 +35,12 @@ const ContactUs = () => {
                                 method="post">
                                 <div class="form-group col-md-12">
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'" />
+                                        onfocus="this.placeholder = ''" onBlur="this.placeholder = 'Name'" />
                                 </div>
-                                {/* <div class="form-group col-md-12">
-                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Phone Number"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number'" />
-                                </div> */}
+                                
                                 <div class="form-group col-md-12">
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'" />
+                                        onfocus="this.placeholder = ''" onBlur="this.placeholder = 'Email Address'" />
                                 </div>
                                 <div class="col-lg-12 text-center">
                                     <button class="btn text-uppercase">Submit</button>
