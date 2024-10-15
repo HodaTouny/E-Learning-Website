@@ -29,8 +29,8 @@ const CourseDetail = ({ studentId }) => {
 
   const handleEnroll = async () => {
     try {
-      const token=localStorage.getItem('auth-token');
-      const response = await axios.post('http://localhost:5000/enrollcourse', {
+      const token=localStorage.getItem('accessToken');
+      const response = await axios.post('http://localhost:5000/education/enrollcourse', {
         studentId:JSON.parse(localStorage.getItem('user')).userID,
         courseId: id,
       }, {
