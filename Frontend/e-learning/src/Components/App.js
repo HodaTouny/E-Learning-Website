@@ -9,6 +9,8 @@ import CourseDetail from './Courses/CourseDetail';
 import Login from './Login/login';
 import Register from './Register/register';
 import About from './About/About';
+import ProfileStudent from './ProfileManagment/student/ProfileSitting';
+import ProfileTrainer from './ProfileManagment/trainer/ProfileSitting';
 
 function App() {
     return (
@@ -20,9 +22,9 @@ function App() {
              <UploadCourseForm/> */}
             {/*  <Login />
             <Register />  */}
-            {/* <ProfileStudent/> */}
-            {/* <ProfileTrainer/> */}
-           
+            {/* <ProfileStudent/> 
+            <ProfileTrainer/>
+            */}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about-us" element={<About />} />
