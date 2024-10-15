@@ -53,7 +53,7 @@ const UploadCourseForm = () => {
     formData.append('name', courseData.name);
     formData.append('description', courseData.description);
     formData.append('category', courseData.category);
-    formData.append('isPremium', courseData.isPremium.toString());
+    formData.append('isPremium', courseData.isPremium? true:false);
     formData.append('price', courseData.isPremium ? courseData.price : 0);
     formData.append('image', courseData.image);
     

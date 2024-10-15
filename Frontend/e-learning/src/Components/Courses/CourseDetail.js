@@ -4,13 +4,13 @@ import axios from 'axios';
 import '../assets/css/Courses.css';
 
 const CourseDetail = ({ studentId }) => {
-  const { id } = useParams(); // Course ID from the URL
+  const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [lessonProgress, setLessonProgress] = useState({});
-  const [enrollStatus, setEnrollStatus] = useState(null); // Status of enrollment
+  const [enrollStatus, setEnrollStatus] = useState(null);
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -29,15 +29,19 @@ const CourseDetail = ({ studentId }) => {
 
   const handleEnroll = async () => {
     try {
-      const token=localStorage.getItem('authToken');
+      const token=localStorage.getItem('auth-token');
       const response = await axios.post('http://localhost:5000/enrollcourse', {
-        userId:1,
+        studentId:JSON.parse(localStorage.getItem('user')).userID,
         courseId: id,
       }, {
         headers:{
           'Authorization':`Bearer ${token}`
         }
       });
+      console.log(response);
+      console.log('userId:', JSON.parse(localStorage.getItem('user')).userID);
+console.log('courseId:', id);
+
       setEnrollStatus('Successfully enrolled in the course!');
     } 
     catch (error) {

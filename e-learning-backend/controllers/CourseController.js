@@ -19,7 +19,10 @@ const createCourse = async (req, res) => {
     try {
         console.log(req.body);
         const { name, description, category, isPremium, price, teacherID, lessons } = req.body;
-        const isPremVal = isPremium === 'true' ? price : 0;
+        const isPremVal = isPremium === 'true' ||isPremium===true;
+
+        const finalPrice=isPremVal?price:0;
+
         const imgPath = req.files.image ? req.files.image[0].path.replace(/\\/g, '/') : '';
         const videoPath = req.files.video ? req.files.video[0].path.replace(/\\/g, '/') : '';
 
@@ -33,7 +36,8 @@ const createCourse = async (req, res) => {
             name, 
             description, 
             category, 
-            isPremium: isPremVal, 
+            isPremium: isPremVal,
+            price:finalPrice,
             image: imgPath,
             video:videoPath,
             teacherID,
