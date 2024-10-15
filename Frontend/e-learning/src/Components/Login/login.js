@@ -1,35 +1,92 @@
+import React, { useState } from 'react';
 import '../assets/Login/css/style.css';
-
 import img2 from '../assets/Login/images/image-2.png';
+import { useNavigate } from 'react-router-dom';
 import img1 from '../assets/Login/images/image-1.png';
 
 
 function Login() {
+
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        // Reset errors
+        setEmailError('');
+        setPasswordError('');
+
+    
+        try {
+            const response = await fetch('http://localhost:5000/education/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                console.log('Login successful:', data);
+                
+                // Save tokens and user info to local storage
+                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('refreshToken', data.refreshToken);
+                localStorage.setItem('user', JSON.stringify(data.user)); // Store user object as string
+    
+                navigate('/')
+                
+            } else {
+                console.error('Login failed:', data.message);
+                // Set error messages based on the response
+                if (data.message === "User not found") {
+                    setEmailError(data.message);
+                } else if (data.message === "Wrong password") {
+                    setPasswordError(data.message);
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            // Handle network errors
+        }
+    };
+    
+
     return (
         <>
-            <div class="wrapper">
-                <div class="inner">
-                    <img src={img1} alt="" class="image-1" />
-                    <form action="">
+            <div className="wrapper">
+                <div className="inner">
+                    <img src={img1} alt="" className="image-1" />
+                    <form onSubmit={handleSubmit}>
                         <h3>Login</h3>
-                        <div class="form-holder">
-                            <span class="lnr lnr-user"></span>
-                            <input type="text" class="form-control" placeholder="Username" />
+                        <div className="form-holder">
+                            <span className="lnr lnr-user"></span>
+                            <input type="text" className="form-control" placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)} />
+                            {emailError && <p className="error">{emailError}</p>}
                         </div>
 
-
-                        <div class="form-holder">
-                            <span class="lnr lnr-lock"></span>
-                            <input type="password" class="form-control" placeholder="Password" />
+                        <div className="form-holder">
+                            <span className="lnr lnr-lock"></span>
+                            <input type="password" className="form-control" placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)} />
+                            {passwordError && <p className="error">{passwordError}</p>}
                         </div>
 
-                        <button>
+                        <button type='submit'>
                             <span>Login</span>
                         </button>
                     </form>
-                    <img src={img2} alt="" class="image-2" />
+                    <img src={img2} alt="" className="image-2" />
                 </div>
-
             </div>
         </>
     );

@@ -4,14 +4,14 @@ const About=()=>{
 
     return (
         <>
-        <section class="banner-area">
-    <div class="container">
-      <div class="row justify-content-center align-items-center">
-        <div class="col-lg-10 banner-right" style={{marginTop:"200px"}}>
-          <h1 class="text-white" style={{textAlign:"right"}}>
+        <section className="banner-area">
+    <div className="container">
+      <div className="row justify-content-center align-items-center">
+        <div className="col-lg-10 banner-right" style={{marginTop:"200px"}}>
+          <h1 className="text-white" style={{textAlign:"right"}}>
             About Us
           </h1>
-          <p class="mx-auto text-white  mt-20 mb-40">
+          <p className="mx-auto text-white  mt-20 mb-40">
             In the history of modern astronomy, there is probably no one greater leap forward than the building.
           </p>
           <div class="link-nav">
@@ -165,9 +165,9 @@ const About=()=>{
             <div class="owl-controls">
                 <div class="owl-nav">
                     <div class="owl-prev" >
-                        <img src="img/prev.png"/>
+                        <img src="img/prev.png" alt=""/>
                         </div><div class="owl-next">
-                            <img src="img/next.png"/>
+                            <img src="img/next.png" alt=""/>
                             </div>
                             </div>
                             <div class="owl-dots" style={{display: "none"}}></div></div></div>
