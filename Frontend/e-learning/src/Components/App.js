@@ -9,12 +9,9 @@ import CourseDetail from './Courses/CourseDetail';
 import Login from './Login/login';
 import Register from './Register/register';
 import About from './About/About';
-<<<<<<< HEAD
 import ProfileStudent from './ProfileManagment/student/ProfileSitting';
 import ProfileTrainer from './ProfileManagment/trainer/ProfileSitting';
-=======
 import UploadCourseForm from './ProfileManagment/trainer/UploadCourseForm';
->>>>>>> cb3b6fd8a4dc46984e1709fdf3522fd38e57c3a7
 
 function App() {
     return (
