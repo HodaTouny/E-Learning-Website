@@ -16,9 +16,12 @@ class PaymentController {
         const otp = crypto.randomInt(100000, 999999).toString();
         this.paymentDAO.savePayment(userId, otp, billDetails);
 
-        const subject = 'Premium Course Payment Confirmation';
+        const subject = 'EduGuide Premium Course Payment';
         const text = `Your bill: ${billDetails}. OTP: ${otp}`;
-        const html = `<p>Your bill: ${billDetails}</p><p>OTP: <strong>${otp}</strong></p>`;
+        const html = `
+            <h4>Your bill Details:</h4><p> ${billDetails}</p>
+            <p>OTP To Confirm Payment: <strong>${otp}</strong></p>
+        `;
 
         try {
             await this.emailService.sendEmail(email, subject, text, html);
