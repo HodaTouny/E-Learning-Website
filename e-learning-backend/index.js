@@ -19,13 +19,8 @@ app.use(courseRoutes);
 const userRoutes = require('./routes/user/routes');
 app.use('/education', userRoutes);
 
-// const emailService = new EmailService();  // Instantiate EmailService
-
-// const recipientEmail = 'hodasammir@gmail.com'; 
-// const emailSubject = 'Test Email from Node.js';
-// const emailText = 'Hello, this is a test email!';
-// const emailHtml = '<h1>Hello</h1><p>This is a test email!</p>';
-//emailService.sendEmail(recipientEmail, emailSubject, emailText, emailHtml);
+const paymentRoutes = require('./routes/payment/routes');
+app.use('/payment',paymentRoutes)
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
