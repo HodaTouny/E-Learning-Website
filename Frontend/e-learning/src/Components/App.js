@@ -23,9 +23,7 @@ function App() {
              <UploadCourseForm/> */}
             {/*  <Login />
             <Register />  */}
-            {/* <ProfileStudent/> 
-            <ProfileTrainer/>
-            */}
+           
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about-us" element={<About />} />
@@ -34,6 +32,7 @@ function App() {
                 <Route path="/Login" element={<Login />} />
                 <Route path="/Register" element={<Register />} />
                 <Route path="/add-course-form" element={<UploadCourseForm />} />
+                <Route path="/profile" element={ <ProfileTrainer/>} />
 
                 {/* <Route path="/backend-courses" element={<Courses />} /> */}
                 <Route path="/course/:id" element={<CourseDetail />} />

@@ -7,8 +7,6 @@ function CourseList() {
     return (
         <>
             <Navbar />
-            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
             <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i
                 class="fa fa-times"></i></span>
                 <div class="px-3 my-3">
@@ -53,9 +51,6 @@ function CourseList() {
                     </a>
                 </div>
             </div>
-            <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
-            <script type="text/javascript"></script>
         </>
     );
 }
