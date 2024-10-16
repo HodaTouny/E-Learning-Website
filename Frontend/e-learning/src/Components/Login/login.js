@@ -35,16 +35,14 @@ function Login() {
             if (response.ok) {
                 console.log('Login successful:', data);
                 
-                // Save tokens and user info to local storage
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                localStorage.setItem('user', JSON.stringify(data.user)); // Store user object as string
+                localStorage.setItem('user', JSON.stringify(data.user)); 
     
                 navigate('/')
                 
             } else {
                 console.error('Login failed:', data.message);
-                // Set error messages based on the response
                 if (data.message === "User not found") {
                     setEmailError(data.message);
                 } else if (data.message === "Wrong password") {
@@ -53,7 +51,6 @@ function Login() {
             }
         } catch (error) {
             console.error('Error:', error);
-            // Handle network errors
         }
     };
     
