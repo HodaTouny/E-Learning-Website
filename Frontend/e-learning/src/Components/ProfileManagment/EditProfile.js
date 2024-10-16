@@ -6,7 +6,6 @@ function EditProfile() {
     return (
         <>
             <Navbar />
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet" />
             <form class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -45,9 +44,6 @@ function EditProfile() {
                         data-toast-message="Your profile updated successfuly.">Update Profile</button>
                 </div>
             </form>
-            <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/js/bootstrap.bundle.min.js"></script>
-            <script type="text/javascript"></script>
         </>
     );
 }

@@ -116,6 +116,11 @@ const Navbar = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/profile">
+                                    profile
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link className="nav-link" to="add-course-form" smooth={true} duration={500} offset={-70}>
                                     Add Course
                                 </Link>
