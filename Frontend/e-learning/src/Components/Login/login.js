@@ -3,25 +3,22 @@ import '../assets/Login/css/style.css';
 import img2 from '../assets/Login/images/image-2.png';
 import { useNavigate } from 'react-router-dom';
 import img1 from '../assets/Login/images/image-1.png';
-
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
-
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Reset errors
         setEmailError('');
         setPasswordError('');
 
-    
         try {
             const response = await fetch('http://localhost:5000/education/login', {
                 method: 'POST',
@@ -30,17 +27,15 @@ function Login() {
                 },
                 body: JSON.stringify({ email, password }),
             });
-    
+
             const data = await response.json();
             if (response.ok) {
                 console.log('Login successful:', data);
-                
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                localStorage.setItem('user', JSON.stringify(data.user)); 
-    
-                navigate('/')
-                
+                localStorage.setItem('user', JSON.stringify(data.user));
+                startTokenRefresh();
+                navigate('/');
             } else {
                 console.error('Login failed:', data.message);
                 if (data.message === "User not found") {
@@ -53,7 +48,48 @@ function Login() {
             console.error('Error:', error);
         }
     };
-    
+
+    const refreshAccessToken = async () => {
+        const refreshToken = localStorage.getItem('refreshToken');
+
+        if (!refreshToken) {
+            console.error('No refresh token found');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/education/refresh', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ refreshToken }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('accessToken', data.accessToken);
+            } else {
+                console.error('Failed to refresh token');
+                // Handle token refresh failure (e.g., logout)
+            }
+        } catch (error) {
+            console.error('Error refreshing access token:', error);
+        }
+    };
+
+    const startTokenRefresh = () => {
+        setInterval(async () => {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) return;
+            const decoded = jwtDecode(accessToken);
+            const exp = decoded.exp * 1000;
+            const now = Date.now();
+            if (exp - now < 5 * 60 * 1000) {
+                await refreshAccessToken();
+            }
+        }, 60 * 1000); 
+    };
 
     return (
         <>

@@ -10,25 +10,25 @@ class StudentDAO extends ClientDAO {
 
     async enrollCourse(courseId, studentId) {
         try {
+            // Check if the student exists
             const student = await Student.findOne({ userID: studentId });
             if (!student) throw new Error('Student not found');
 
-            const alreadyEnrolled = student.enrolledCourses.some(enrollment => enrollment.courseId === courseId);
+            const alreadyEnrolled = student.enrolledCourses.some(enrollment => enrollment.courseId === Number(courseId));
             if (alreadyEnrolled) throw new Error('Student is already enrolled in this course');
-
+    
             student.enrolledCourses.push({ courseId });
-
-            const course = await this.courseModel.findOne({ courseID: courseId });
-            if (!course) throw new Error('Course not found');
+                const course = await this.courseModel.findOne({ courseID: courseId });
+            if (!course) throw new Error('Course not found');    
             course.enrolledStudentsCount += 1;
-            console.log("course.enrolledStudentsCount", course.enrolledStudentsCount);
-            await course.save();
+            await course.save();    
             return await student.save();
         } catch (error) {
             console.error('Enrollment error:', error);
             throw error;
         }
     }
+    
 }
 
 module.exports = StudentDAO;
