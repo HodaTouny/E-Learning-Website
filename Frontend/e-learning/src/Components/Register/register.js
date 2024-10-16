@@ -11,7 +11,6 @@ function Register() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [role, setRole] = useState(''); // Default role is empty
-    const [image, setImage] = useState(null); // Image state
 
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -22,13 +21,6 @@ function Register() {
     const validatePassword = (password) => 
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#])[A-Za-z\d#@$!%*?&]{8,}$/.test(password);
     
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setImage(file);
-        }
-    };
 
     const handleSubmit = async(e) => {
         e.preventDefault();
@@ -82,9 +74,7 @@ function Register() {
         formData.append('email', email);
         formData.append('password', password);
         formData.append('role', role);
-        if (image) {
-            formData.append('image', image);
-        }
+        formData.append('image', null);
 
         try {
             const response = await fetch('http://localhost:5000/education/register', {
@@ -174,18 +164,6 @@ function Register() {
                             <option value="Teacher">Teacher</option>
                         </select>
                     </div>
-
-                    {/* Image Upload */}
-                    <div className="form-holder">
-                        <span className="lnr lnr-picture"></span>
-                        <input
-                            type="file"
-                            className="form-control"
-                            accept="image/png, image/jpeg, image/gif"
-                            onChange={handleImageChange}
-                        />
-                    </div>
-
                     <button type="submit">
                         <span>Register</span>
                     </button>
