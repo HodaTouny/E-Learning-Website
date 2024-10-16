@@ -7,7 +7,7 @@ import UploadCourseForm from './UploadCourseForm';
 
 
 function ProfileSitting() {
-    const [activeTab, setActiveTab] = useState(null); // State to track which component is active
+    const [activeTab, setActiveTab] = useState("editProfile"); // State to track which component is active
 
     const handleCourseListClick = () => {
         setActiveTab("courselist"); // Show EnrolledCourse component
