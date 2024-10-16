@@ -1,230 +1,82 @@
-import '../assets/css/linearicons.css';
-import '../assets/css/font-awesome.min.css';
-import '../assets/css/bootstrap.css';
-import '../assets/css/magnific-popup.css';
-import '../assets/css/owl.carousel.css';
-import '../assets/css/nice-select.css';
-import '../assets/css/hexagons.min.css';
-import '../assets/css/main.css';
-import '../assets/layout/css/styles.css';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import '../assets/css/Courses.css';
 
-import pic1 from '../assets/img/popular-course/p1.jpg';
+function PopularCourses() {
+    const [courses, setCourses] = useState([]);
 
-function PopularCourses({ courses }) {
-    let selectedCourses = courses.slice(0, 4)
-    console.log(selectedCourses)
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/courses/sortByStudents'); // Replace with your API route
+                setCourses(response.data);
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+            }
+        };
+
+        fetchCourses();
+    }, []);
+
+    let selectedCourses = courses.slice(0, 4);
 
     return (
-        <section class="popular-course-area section-gap">
-            <div class="container-fluid">
-                <div class="row justify-content-center section-title">
-                    <div class="col-lg-12">
+        <section className="popular-course-area section-gap">
+            <div className="container-fluid">
+                <div className="row justify-content-center section-title">
+                    <div className="col-lg-12">
                         <h2>
                             Popular Courses <br />
                             Available Right Now
                         </h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Embark on an exciting educational journey with our most popular courses! Discover valuable skills and insights to enhance your knowledge and career potential
                         </p>
                     </div>
                 </div>
                 <section>
-                    <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center">
-
+                    <div className="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         {selectedCourses.map((course, index) => (
-                            <div class="col mb-5">
-                                <div class="card h-100">
-                                    <div class="single-popular-course">
-                                        <div class="thumb">
-                                            <img class="f-img img-fluid mx-auto" src={pic1} alt="" />
+                            <div className="col mb-5" key={index}>
+                                <div className="card h-100">
+                                    <div className="single-popular-course">
+                                        <div className="thumb">
+                                            <Link to={`/course/${course.courseID}`} target="_blank" rel="noopener noreferrer">
+                                                <img
+                                                    className="f-img img-fluid mx-auto"
+                                                    src={`http://localhost:5000/${course.image}`}
+                                                    alt={course.name}
+                                                />
+                                            </Link>
                                         </div>
-                                        <div class="details">
-                                            <div class="d-flex justify-content-between mb-20">
-                                                <p class="name">programming language</p>
-                                                <p class="value">$150</p>
+                                        <div className="details">
+                                            <div className="d-flex justify-content-between mb-20">
+                                                <p className="name">{course.category}</p>
+                                                <p className="value">
+                                                    {course.isPremium ? `$${course.price}` : 'Free'}
+                                                </p>
                                             </div>
-                                            <a href="#">
-                                                <h4>{course.title}</h4>
-                                            </a>
-                                            <div class="bottom d-flex mt-15">
-                                                <ul class="list">
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#"><i class="fa fa-star"></i></a>
-                                                    </li>
+                                            <Link to={`/course/${course.courseID}`} target="_blank" rel="noopener noreferrer">
+                                                <h4>{course.name}</h4>
+                                            </Link>
+                                            <div className="bottom d-flex mt-15">
+                                                <ul className="list">
+                                                    <li><a href="#"><i className="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i className="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i className="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i className="fa fa-star"></i></a></li>
+                                                    <li><a href="#"><i className="fa fa-star"></i></a></li>
                                                 </ul>
-                                                <p class="ml-20">25 Reviews</p>
+                                                <p className="ml-20">
+                                                    {course.enrolledStudentsCount} Students
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         ))}
-
-                        {/* <div class="col mb-5">
-                            <div class="card h-100">
-                                <div class="single-popular-course">
-                                    <div class="thumb">
-                                        <img class="f-img img-fluid mx-auto" src={pic1} alt="" />
-                                    </div>
-                                    <div class="details">
-                                        <div class="d-flex justify-content-between mb-20">
-                                            <p class="name">programming language</p>
-                                            <p class="value">$150</p>
-                                        </div>
-                                        <a href="#">
-                                            <h4>Learn Angular JS Course for Legendary Persons</h4>
-                                        </a>
-                                        <div class="bottom d-flex mt-15">
-                                            <ul class="list">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                            </ul>
-                                            <p class="ml-20">25 Reviews</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <div class="single-popular-course">
-                                    <div class="thumb">
-                                        <img class="f-img img-fluid mx-auto" src={pic1} alt="" />
-                                    </div>
-                                    <div class="details">
-                                        <div class="d-flex justify-content-between mb-20">
-                                            <p class="name">programming language</p>
-                                            <p class="value">$150</p>
-                                        </div>
-                                        <a href="#">
-                                            <h4>Learn Angular JS Course for Legendary Persons</h4>
-                                        </a>
-                                        <div class="bottom d-flex mt-15">
-                                            <ul class="list">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                            </ul>
-                                            <p class="ml-20">25 Reviews</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <div class="single-popular-course">
-                                    <div class="thumb">
-                                        <img class="f-img img-fluid mx-auto" src={pic1} alt="" />
-                                    </div>
-                                    <div class="details">
-                                        <div class="d-flex justify-content-between mb-20">
-                                            <p class="name">programming language</p>
-                                            <p class="value">$150</p>
-                                        </div>
-                                        <a href="#">
-                                            <h4>Learn Angular JS Course for Legendary Persons</h4>
-                                        </a>
-                                        <div class="bottom d-flex mt-15">
-                                            <ul class="list">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                            </ul>
-                                            <p class="ml-20">25 Reviews</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col mb-5">
-                            <div class="card h-100">
-                                <div class="single-popular-course">
-                                    <div class="thumb">
-                                        <img class="f-img img-fluid mx-auto" src={pic1} alt="" />
-                                    </div>
-                                    <div class="details">
-                                        <div class="d-flex justify-content-between mb-20">
-                                            <p class="name">programming language</p>
-                                            <p class="value">$150</p>
-                                        </div>
-                                        <a href="#">
-                                            <h4>Learn Angular JS Course for Legendary Persons</h4>
-                                        </a>
-                                        <div class="bottom d-flex mt-15">
-                                            <ul class="list">
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                                <li>
-                                                    <a href="#"><i class="fa fa-star"></i></a>
-                                                </li>
-                                            </ul>
-                                            <p class="ml-20">25 Reviews</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
                 </section>
             </div>

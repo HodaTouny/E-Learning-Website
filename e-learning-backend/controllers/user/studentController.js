@@ -8,12 +8,14 @@ class StudentController extends ClientController {
 
     async enrollCourse(req, res) {
         const { courseId, studentId } = req.body;
+
         if (!courseId || !studentId) {
             return res.status(400).json({ message: 'courseId and studentId are required.' });
         }
 
         try {
             const result = await this.studentDAO.enrollCourse(courseId, studentId);
+            
             return res.status(200).json({ message: 'Enrolled successfully', result });
         } 
         catch (error) {
