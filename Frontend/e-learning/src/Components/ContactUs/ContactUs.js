@@ -8,11 +8,13 @@ import '../assets/css/hexagons.min.css';
 import '../assets/css/main.css';
 import '../assets/css/contactUs.css';
 import { useState } from 'react';
+import SuccessAlert from '../SuccessAlert/SuccessAlert';
 
 const ContactUs = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const validateEmail = (email) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,6 +24,7 @@ const ContactUs = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setSuccessMessage('');
     
         if (!validateEmail(email)) {
             setError('Please enter a valid email address.');
@@ -45,14 +48,14 @@ const ContactUs = () => {
             console.log(data);
     
             if (response.status === 201) {
-                console.log('Your message has been sent successfully!');
+                setSuccessMessage('Your message has been sent successfully!');
                 setName('');
                 setEmail('');
             } else {
-                console.log('Failed to send message. Please try again later.');
+                setError('Failed to send message. Please try again later.');
             }
         } catch (error) {
-            console.error('Error:', error);
+            setError('Error: ' + error.message);
         }
     };
     
@@ -73,6 +76,9 @@ const ContactUs = () => {
                     </div>
                     <div className="offset-lg-3 col-lg-4 col-md-6">
                         <div className="course-form-section">
+                            {successMessage && <SuccessAlert message={successMessage} type="success" />}
+                            {error && <SuccessAlert message={error} type="danger" />}
+
                             <form className="course-form-area contact-page-form course-form text-right" id="myForm" onSubmit={handleSubmit}>
                                 <div className="form-group col-md-12">
                                     <input
@@ -100,8 +106,8 @@ const ContactUs = () => {
                                         onFocus={(e) => e.target.placeholder = ''}
                                         onBlur={(e) => e.target.placeholder = 'Email Address'}
                                     />
-                                    {error && <small className="text-danger">{error}</small>}
                                 </div>
+
                                 <div className="col-lg-12 text-center">
                                     <button type="submit" className="btn text-uppercase">Submit</button>
                                 </div>
