@@ -48,7 +48,8 @@ function ProfileSitting() {
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div><i class="fa fa-book mr-1 text-muted"></i>
                                             <div class="d-inline-block font-weight-medium text-uppercase">Courses</div>
-                                        </div><span class="badge badge-secondary">4</span>
+                                        </div>
+                                        <span class="badge badge-secondary">4</span>
                                     </div>
                                 </a>
                             </nav>
