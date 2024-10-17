@@ -2,26 +2,20 @@ import '../assets/css/profilesitting.css'
 import Navbar from '../Navbar/navbar';
 
 
-function EditProfile() {
+function EditProfile(user) {
     return (
         <>
             <form class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-fn">User Name</label>
-                        <input class="form-control" type="text" id="account-fn" value="Daniel" required />
+                        <input class="form-control" type="text" id="account-fn" value={user.User.name} required />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="account-email">E-mail Address</label>
-                        <input class="form-control" type="email" id="account-email" value="daniel.adams@example.com" disabled />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="account-phone">Phone Number</label>
-                        <input class="form-control" type="text" id="account-phone" value="+7 (805) 348 95 72" required />
+                        <input class="form-control" type="email" id="account-email" value={user.User.email} disabled />
                     </div>
                 </div>
                 <div class="col-md-6">
