@@ -38,7 +38,7 @@ const About=()=>{
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-lg-5 col-md-6 about-left">
-                            <img className="img-fluid" src={img} alt="About Us" />
+                            {/* <img className="img-fluid" src={img} alt="About Us" /> */}
                         </div>
                         <div className="offset-lg-1 col-lg-5 col-md-12 about-right">
                             <h1>
@@ -83,10 +83,10 @@ const About=()=>{
                         <div className="offset-lg-1 col-md-6 video-left">
                             <div className="single-video">
                                 <div className="video-part">
-                                    <video ref={videoRef} width="100%" height="315" controls>
+                                    {/* <video ref={videoRef} width="100%" height="315" controls>
                                         <source src={video} type="video/mp4" />
                                         Your browser does not support the video tag.
-                                    </video>
+                                    </video> */}
                                 </div>
                                 
                             </div>

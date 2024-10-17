@@ -10,7 +10,7 @@ function ProfileSitting() {
 
     useEffect(() => {
         const storedUserData = localStorage.getItem('user');
-        const storedToken = localStorage.getItem('refreshToken');
+        const storedToken = localStorage.getItem('accessToken');
         if (storedUserData) {
             setUserData(JSON.parse(storedUserData));
             setToken(storedToken);

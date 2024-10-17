@@ -27,12 +27,17 @@ function EditProfile({ userData, token }) {
     }, [userData]);
 
     const handleUpdateProfile = async () => {
+        if (newPassword && newPassword !== confirmPassword) {
+            setErrorMessage('Passwords do not match');
+            return;
+        }
+
         const updatedData = {
-            userId: userData.id,
+            userId: userData.userID,
             changedData: {
                 name: userName,
                 phone: phone,
-                password: newPassword === confirmPassword ? newPassword : undefined
+                password: newPassword || undefined,
             }
         };
 
@@ -41,23 +46,21 @@ function EditProfile({ userData, token }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization':`Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(updatedData)
             });
 
-            if (response.ok){
+            if (response.ok) {
                 const result = await response.json();
                 setSuccessMessage('Profile updated successfully!');
                 setErrorMessage('');
-                localStorage.setItem('userProfile', JSON.stringify(result));
-            }
-            else {
+                localStorage.setItem('user', JSON.stringify(result));
+            } else {
                 const errorData = await response.json();
                 setErrorMessage(errorData.message || 'Failed to update profile');
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error updating profile:', error);
             setErrorMessage('An error occurred. Please try again.');
         }
