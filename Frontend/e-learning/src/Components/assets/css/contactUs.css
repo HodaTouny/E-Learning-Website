@@ -1,8 +1,55 @@
-.row .part {
-    margin: 290px 0 0 0;
-    align-self: flex-start;
+.registration-area {
+    padding: 60px 0; 
 }
 
-.align-items-end {
-    align-items: center !important;
+.section-title {
+    margin-bottom: 30px; 
+}
+
+.form-group {
+    margin-bottom: 20px; 
+}
+
+.btn {
+    background-color: #007bff;
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+}
+
+.col-lg-5.part {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+
+.offset-lg-3 {
+    display: flex; 
+    justify-content: center; 
+}
+
+.course-form-area {
+    max-width: 500px; 
+    width: 100%; 
+}
+
+@media (max-width: 768px) {
+    .registration-area {
+        padding: 30px 0; 
+    }
+
+    .row .part {
+        margin: 60px 0; 
+    }
 }

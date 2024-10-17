@@ -7,43 +7,103 @@ import '../assets/css/nice-select.css';
 import '../assets/css/hexagons.min.css';
 import '../assets/css/main.css';
 import '../assets/css/contactUs.css';
+import { useState } from 'react';
 
 const ContactUs = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
 
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+    
+        if (!validateEmail(email)) {
+            setError('Please enter a valid email address.');
+            return;
+        }
+    
+        try {
+            const response = await fetch('http://localhost:5000/connect', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email }),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to send message. Please try again later.');
+            }
+    
+            const data = await response.json();
+            console.log(data);
+    
+            if (response.status === 201) {
+                console.log('Your message has been sent successfully!');
+                setName('');
+                setEmail('');
+            } else {
+                console.log('Failed to send message. Please try again later.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    
     return (
-        <section class="registration-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-5 part">
-                        <div class="section-title text-left text-white">
-                            <h2 class="text-white">
-                                Contact Us <br />
-                                To Stay In Touch
+        <section className="registration-area">
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-5 part">
+                        <div className="section-title text-left text-white">
+                            <h2 className="text-white">
+                                Connect with Us! <br />
+                                Join Our Learning Community
                             </h2>
                             <p>
-                                If you are looking at blank cassettes on the web, you may be
-                                very confused at the difference in price. You may see some for
-                                as low as $.17 each.
+                                Are you curious about blank cassettes? You might notice a wide range of prices, with some as low as 17 cents each. Let’s delve into the world of knowledge together and explore the possibilities!
                             </p>
                         </div>
                     </div>
-                    <div class="offset-lg-3 col-lg-4 col-md-6">
-                        <div class="course-form-section">
-                            <h3 class="text-white">Contact Us</h3>
-                            <p class="text-white">It is high time for learning</p>
-                            <form class="course-form-area contact-page-form course-form text-right" id="myForm" action="mail.html"
-                                method="post">
-                                <div class="form-group col-md-12">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name"
-                                        onfocus="this.placeholder = ''" onBlur="this.placeholder = 'Name'" />
+                    <div className="offset-lg-3 col-lg-4 col-md-6">
+                        <div className="course-form-section">
+                            <form className="course-form-area contact-page-form course-form text-right" id="myForm" onSubmit={handleSubmit}>
+                                <div className="form-group col-md-12">
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="name"
+                                        name="name"
+                                        placeholder="Name"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        onFocus={(e) => e.target.placeholder = ''}
+                                        onBlur={(e) => e.target.placeholder = 'Name'}
+                                    />
                                 </div>
-                                
-                                <div class="form-group col-md-12">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email Address"
-                                        onfocus="this.placeholder = ''" onBlur="this.placeholder = 'Email Address'" />
+
+                                <div className="form-group col-md-12">
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        id="email"
+                                        name="email"
+                                        placeholder="Email Address"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        onFocus={(e) => e.target.placeholder = ''}
+                                        onBlur={(e) => e.target.placeholder = 'Email Address'}
+                                    />
+                                    {error && <small className="text-danger">{error}</small>}
                                 </div>
-                                <div class="col-lg-12 text-center">
-                                    <button class="btn text-uppercase">Submit</button>
+                                <div className="col-lg-12 text-center">
+                                    <button type="submit" className="btn text-uppercase">Submit</button>
                                 </div>
                             </form>
                         </div>

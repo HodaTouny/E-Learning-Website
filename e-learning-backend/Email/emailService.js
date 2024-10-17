@@ -8,10 +8,11 @@ class EmailService {
             port: 465,
             service: 'gmail',
             auth: {
-                user: "hodasammiir@gmail.com",
-                pass: "pmtt ksjd gvgn vikj"
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
             }
         });
+        this.sendEmail = this.sendEmail.bind(this);
     }
 
     async sendEmail(to, subject, text, html) {
@@ -32,4 +33,4 @@ class EmailService {
     }
 }
 
-module.exports = EmailService;  // Make sure to export the class
+module.exports = EmailService; 
