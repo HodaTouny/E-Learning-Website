@@ -47,7 +47,6 @@ class UserController {
     async refreshToken(req, res) {
         const { refreshToken } = req.body;
         
-        // Validate refresh token
         if (!refreshToken) {
             return res.sendStatus(401); // Unauthorized
         }

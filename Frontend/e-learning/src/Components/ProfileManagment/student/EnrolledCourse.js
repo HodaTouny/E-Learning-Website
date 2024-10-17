@@ -1,15 +1,13 @@
-import '../../assets/css/profilesitting.css'
+import '../../assets/css/profilesitting.css';
 import { Link } from 'react-router-dom';
-import Navbar from '../../Navbar/navbar';
 
-
-function EnrolledCourse() {
+function EnrolledCourse({ courses }) {
     return (
         <>
-            <div class="d-flex justify-content-end pb-3">
-                <div class="form-inline">
-                    <label class="text-muted mr-3" for="order-sort">Sort courses</label>
-                    <select class="form-control" id="order-sort">
+            <div className="d-flex justify-content-end pb-3">
+                <div className="form-inline">
+                    <label className="text-muted mr-3" htmlFor="order-sort">Sort courses</label>
+                    <select className="form-control" id="order-sort">
                         <option>Course Name</option>
                         <option>Trainer’s Name</option>
                         <option>Status</option>
@@ -17,8 +15,8 @@ function EnrolledCourse() {
                     </select>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
+            <div className="table-responsive">
+                <table className="table table-hover mb-0">
                     <thead>
                         <tr>
                             <th>Course Name</th>
@@ -28,42 +26,28 @@ function EnrolledCourse() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-info m-0">Started</span></td>
-                            <td><span>$760.50</span></td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-info m-0">Started</span></td>
-                            <td>$315.20</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-info m-0">Started</span></td>
-                            <td>$1,264.00</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-success m-0">Passed</span></td>
-                            <td>$198.35</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-success m-0">Passed</span></td>
-                            <td>Free</td>
-                        </tr>
-                        <tr>
-                            <td><Link class="navi-link" to="/CourseDetails" data-toggle="modal">React JS</Link></td>
-                            <td>George Mathews</td>
-                            <td><span class="badge badge-success m-0">Passed</span></td>
-                            <td>$86.40</td>
-                        </tr>
+                        {courses && courses.length > 0 ? (
+                            courses.map((course, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <Link className="navi-link" to={`/CourseDetails/${course.courseId}`}>
+                                            Course {course.courseId}
+                                        </Link>
+                                    </td>
+                                    <td>Trainer Name Here</td>
+                                    <td>
+                                        <span className={`badge ${course.isCompleted ? 'badge-success' : 'badge-info'} m-0`}>
+                                            {course.isCompleted ? 'Passed' : 'Started'}
+                                        </span>
+                                    </td>
+                                    <td>{course.fee || 'Free'}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className="text-center">No enrolled courses found</td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

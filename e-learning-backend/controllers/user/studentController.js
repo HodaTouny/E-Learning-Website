@@ -9,20 +9,16 @@ class StudentController extends ClientController {
     async enrollCourse(req, res) {
         const { courseId, studentId } = req.body;
     
-        // Check for missing fields
         if (!courseId || !studentId) {
             return res.status(400).json({ message: 'courseId and studentId are required.' });
         }
     
         try {
-            // Call the DAO function to enroll the course
             const result = await this.studentDAO.enrollCourse(courseId, studentId);
             
-            // If successful, send a success response
             return res.status(200).json({ message: 'Enrolled successfully', result });
         } 
         catch (error) {
-            // Handle different error scenarios
             if (error.message === 'Student not found') {
                 return res.status(404).json({ message: error.message });
             } 

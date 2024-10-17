@@ -1,53 +1,69 @@
-import React, { useState } from 'react';
-import '../../assets/css/profilesitting.css'
-import Navbar from '../../Navbar/navbar';
+import React, { useState, useEffect } from 'react';
+import '../../assets/css/profilesitting.css';
 import EnrolledCourse from './EnrolledCourse';
 import EditProfile from '../EditProfile';
 
-
 function ProfileSitting() {
-    const [activeTab, setActiveTab] = useState(null); // State to track which component is active
+    const [activeTab, setActiveTab] = useState(null);
+    const [userData, setUserData] = useState(null);
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('user');
+        const storedToken = localStorage.getItem('refreshToken');
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+            setToken(storedToken);
+        }
+    }, []);
 
     const handleEnrolledCoursesClick = () => {
-        setActiveTab("enrolledCourses"); // Show EnrolledCourse component
+        setActiveTab('enrolledCourses');
     };
 
     const handleEditProfileClick = () => {
-        setActiveTab("editProfile"); // Show EditProfile component
+        setActiveTab('editProfile');
     };
+
     return (
         <>
-            <div class="container mb-4 main-container">
-                <div class="row">
-                    <div class="col-lg-4 pb-5">
-                        <div class="author-card pb-3">
-                            <div class="author-card-profile">
-                                <div class="author-card-avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                    alt="Daniel Adams" />
+            <div className="container mb-4 main-container">
+                <div className="row">
+                    <div className="col-lg-4 pb-5">
+                        <div className="author-card pb-3">
+                            <div className="author-card-profile">
+                                <div className="author-card-avatar">
+                                    <img 
+                                        src={userData?.image ? userData.image : "https://bootdey.com/img/Content/avatar/avatar1.png"} 
+                                        alt={userData?.name || "User"} 
+                                    />
                                 </div>
-                                <div class="author-card-details">
-                                    <h5 class="author-card-name text-lg">Daniel Adams</h5>
+                                <div className="author-card-details">
+                                    <h5 className="author-card-name text-lg">{userData?.name || "Guest User"}</h5>
+                                    <span className="author-card-email">{userData?.email}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="wizard">
-                            <nav class="list-group list-group-flush">
-                                <a class="list-group-item" href="#" onClick={handleEditProfileClick}>
-                                    <i class="fa fa-user text-muted"></i>Edit Profile
-                                    </a>
-                                <a class="list-group-item" href="#" onClick={handleEnrolledCoursesClick}>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div><i class="fa fa-list mr-1 text-muted"></i>
-                                            <div class="d-inline-block font-weight-medium text-uppercase">Enrolled courses</div>
-                                        </div><span class="badge badge-secondary">4</span>
+                        <div className="wizard">
+                            <nav className="list-group list-group-flush">
+                                <a className="list-group-item" href="#" onClick={handleEditProfileClick}>
+                                    <i className="fa fa-user text-muted"></i> Edit Profile
+                                </a>
+                                <a className="list-group-item" href="#" onClick={handleEnrolledCoursesClick}>
+                                    <div className="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i className="fa fa-list mr-1 text-muted"></i>
+                                            <div className="d-inline-block font-weight-medium text-uppercase">Enrolled Courses</div>
+                                        </div>
+                                        <span className="badge badge-secondary">{userData?.enrolledCourses?.length || 0}</span>
                                     </div>
                                 </a>
                             </nav>
                         </div>
                     </div>
                     <div className="col-lg-8 pb-5">
-                        {activeTab === "enrolledCourses" && <EnrolledCourse />}
-                        {activeTab === "editProfile" && <EditProfile />}
+                        {activeTab === 'enrolledCourses' && <EnrolledCourse courses={userData?.enrolledCourses} />}
+                        {activeTab === 'editProfile' && <EditProfile userData={userData} token={token} />}
                     </div>
                 </div>
             </div>

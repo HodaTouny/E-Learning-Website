@@ -1,47 +1,145 @@
-import '../assets/css/profilesitting.css'
-import Navbar from '../Navbar/navbar';
+import React, { useState, useEffect } from 'react';
+import '../assets/css/profilesitting.css';
 
+function EditProfile({ userData, token }) {
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-function EditProfile() {
+    useEffect(() => {
+        if (userData) {
+            setUserName(userData.name || '');
+            setEmail(userData.email || '');
+            setPhone(userData.phone || '');
+        } else {
+            const storedUserData = localStorage.getItem('user');
+            if (storedUserData) {
+                const parsedData = JSON.parse(storedUserData);
+                setUserName(parsedData.name || '');
+                setEmail(parsedData.email || '');
+                setPhone(parsedData.phone || '');
+            }
+        }
+    }, [userData]);
+
+    const handleUpdateProfile = async () => {
+        const updatedData = {
+            userId: userData.id,
+            changedData: {
+                name: userName,
+                phone: phone,
+                password: newPassword === confirmPassword ? newPassword : undefined
+            }
+        };
+
+        try {
+            const response = await fetch('http://localhost:5000/education/editdata', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':`Bearer ${token}`
+                },
+                body: JSON.stringify(updatedData)
+            });
+
+            if (response.ok){
+                const result = await response.json();
+                setSuccessMessage('Profile updated successfully!');
+                setErrorMessage('');
+                localStorage.setItem('userProfile', JSON.stringify(result));
+            }
+            else {
+                const errorData = await response.json();
+                setErrorMessage(errorData.message || 'Failed to update profile');
+            }
+        }
+        catch (error) {
+            console.error('Error updating profile:', error);
+            setErrorMessage('An error occurred. Please try again.');
+        }
+    };
+
     return (
         <>
-            <form class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="account-fn">User Name</label>
-                        <input class="form-control" type="text" id="account-fn" value="Daniel" required />
+            <form className="row">
+                <div className="col-md-12">
+                    <div className="form-group">
+                        <label htmlFor="account-fn">User Name</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            id="account-fn"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                            required
+                        />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="account-email">E-mail Address</label>
-                        <input class="form-control" type="email" id="account-email" value="daniel.adams@example.com" disabled />
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="account-email">E-mail Address</label>
+                        <input
+                            className="form-control"
+                            type="email"
+                            id="account-email"
+                            value={email}
+                            disabled
+                        />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="account-phone">Phone Number</label>
-                        <input class="form-control" type="text" id="account-phone" value="+7 (805) 348 95 72" required />
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="account-phone">Phone Number</label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            id="account-phone"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            required
+                        />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="account-pass">New Password</label>
-                        <input class="form-control" type="password" id="account-pass" />
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="account-pass">New Password</label>
+                        <input
+                            className="form-control"
+                            type="password"
+                            id="account-pass"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                        />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="account-confirm-pass">Confirm Password</label>
-                        <input class="form-control" type="password" id="account-confirm-pass" />
+                <div className="col-md-6">
+                    <div className="form-group">
+                        <label htmlFor="account-confirm-pass">Confirm Password</label>
+                        <input
+                            className="form-control"
+                            type="password"
+                            id="account-confirm-pass"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
                     </div>
                 </div>
-                <div class="col-12">
-                    <hr class="mt-2 mb-3" />
-                    <button class="btn btn-style-1 btn-primary" type="button" data-toast data-toast-position="topRight"
-                        data-toast-type="success" data-toast-icon="fe-icon-check-circle" data-toast-title="Success!"
-                        data-toast-message="Your profile updated successfuly.">Update Profile</button>
+                <div className="col-12">
+                    <hr className="mt-2 mb-3" />
+                    <button
+                        className="btn btn-style-1 btn-primary"
+                        type="button"
+                        onClick={handleUpdateProfile}
+                    >
+                        Update Profile
+                    </button>
                 </div>
+                {successMessage && <div className="alert alert-success">{successMessage}</div>}
+                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
             </form>
         </>
     );

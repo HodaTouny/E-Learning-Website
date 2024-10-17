@@ -81,6 +81,6 @@ label {
 
 .f-img {
   width: 243.5px;
-  height: 243.5px;
+  height: 243.5px !important;
   object-fit: cover;
 }

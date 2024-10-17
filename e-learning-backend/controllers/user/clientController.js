@@ -31,6 +31,10 @@ class ClientController extends UserController {
     async editPersonalData(req, res) {
         const { userId, changedData } = req.body;
         try {
+            if (changedData.password) {
+                changedData.password = await bcrypt.hash(changedData.password, 10);
+            }
+
             const user = await this.clientDAO.editPersonalData(userId, changedData);
             res.status(200).json(user);
         } catch (error) {

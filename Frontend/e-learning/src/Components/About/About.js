@@ -1,17 +1,25 @@
 import { Link } from "react-router-dom";
+import '../assets/css/linearicons.css';
+import '../assets/css/font-awesome.min.css';
+import '../assets/css/bootstrap.css';
+import '../assets/css/magnific-popup.css';
+import '../assets/css/owl.carousel.css';
+import '../assets/css/nice-select.css';
+import '../assets/css/hexagons.min.css';
+import '../assets/css/main.css';
 
 const About=()=>{
 
     return (
         <>
-        <section className="banner-area">
-    <div className="container">
-      <div className="row justify-content-center align-items-center">
-        <div className="col-lg-10 banner-right" style={{marginTop:"200px"}}>
-          <h1 className="text-white" style={{textAlign:"right"}}>
+        <section class="banner-area">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-lg-10 banner-right" style={{marginTop:"200px"}}>
+          <h1 class="text-white" style={{textAlign:"right"}}>
             About Us
           </h1>
-          <p className="mx-auto text-white  mt-20 mb-40">
+          <p class="mx-auto text-white  mt-20 mb-40">
             In the history of modern astronomy, there is probably no one greater leap forward than the building.
           </p>
           <div class="link-nav">
