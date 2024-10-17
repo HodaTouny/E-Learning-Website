@@ -148,9 +148,7 @@ function Home() {
             <section id="ContactUs">
                 <ContactUs />
             </section>
-            <section id="Footer" >
-                <Footer />
-            </section>
+            
         </>
     );
 }
