@@ -16,7 +16,6 @@ import Navbar from '../Navbar/navbar';
 function CourseDetails() {
     return (
         <>
-            <Navbar />
             <section class="course-details-area section-gap">
                 <div class="container">
                     <div class="row">

@@ -49,4 +49,6 @@ router.delete('/deleteCourse/:courseID', course.deleteCourse)
 
 router.put('/updateCourse/:courseID', course.updateCourse)
 
+router.get('/courses/sortByStudents', course.getCoursesSortedByStudents)
+
 module.exports=router

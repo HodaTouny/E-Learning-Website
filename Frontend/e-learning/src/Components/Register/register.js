@@ -10,7 +10,7 @@ function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [role, setRole] = useState(''); // Default role is empty
+    const [role, setRole] = useState('');
 
     const [usernameError, setUsernameError] = useState('');
     const [emailError, setEmailError] = useState('');
@@ -20,9 +20,8 @@ function Register() {
     const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const validatePassword = (password) => 
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[#])[A-Za-z\d#@$!%*?&]{8,}$/.test(password);
-    
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         let valid = true;
 
@@ -34,8 +33,6 @@ function Register() {
             setUsernameError('');
         }
 
-      
-        
         // Email validation
         if (!validateEmail(email)) {
             setEmailError('Invalid email address.');
@@ -46,9 +43,7 @@ function Register() {
 
         // Password validation
         if (!validatePassword(password)) {
-            setPasswordError(
-                'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
-            );
+            setPasswordError('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.');
             valid = false;
         } else {
             setPasswordError('');
@@ -65,35 +60,35 @@ function Register() {
         // Role validation
         if (!role) {
             valid = false;
-            // Optionally set an error message for role if needed
         }
 
         if (valid) {
-            const formData = new FormData();
-        formData.append('name', username);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('role', role);
-        formData.append('image', null);
+            const formData = {
+                name: username,
+                email: email,
+                password: password,
+                role: role
+            };
 
-        try {
-            const response = await fetch('http://localhost:5000/education/register', {
-                method: 'POST',
-                body: formData,
-            });
+            try {
+                const response = await fetch('http://localhost:5000/education/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
 
-            const data = await response.json();
-            if (response.ok) {
-                console.log('Registration successful:', data.message);
-                navigate('/Login');
-            } else {
-                console.error('Registration failed:', data.error);
-                // Handle errors from the backend
+                const data = await response.json();
+                if (response.ok) {
+                    console.log('Registration successful:', data.message);
+                    navigate('/Login');
+                } else {
+                    console.error('Registration failed:', data.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
             }
-        } catch (error) {
-            console.error('Error:', error);
-            // Handle network errors or other unexpected errors
-        }
         }
     };
 
@@ -104,6 +99,7 @@ function Register() {
                 <form onSubmit={handleSubmit}>
                     <h3>New Account?</h3>
 
+                    {/* Username */}
                     <div className="form-holder">
                         <span className="lnr lnr-user"></span>
                         <input
@@ -115,6 +111,8 @@ function Register() {
                         />
                         {usernameError && <p className="error">{usernameError}</p>}
                     </div>
+
+                    {/* Email */}
                     <div className="form-holder">
                         <span className="lnr lnr-envelope"></span>
                         <input
@@ -127,6 +125,7 @@ function Register() {
                         {emailError && <p className="error">{emailError}</p>}
                     </div>
 
+                    {/* Password */}
                     <div className="form-holder">
                         <span className="lnr lnr-lock"></span>
                         <input
@@ -139,6 +138,7 @@ function Register() {
                         {passwordError && <p className="error">{passwordError}</p>}
                     </div>
 
+                    {/* Confirm Password */}
                     <div className="form-holder">
                         <span className="lnr lnr-lock"></span>
                         <input
@@ -159,11 +159,12 @@ function Register() {
                             value={role}
                             onChange={(e) => setRole(e.target.value)}
                         >
-                            <option value="">Select Role</option> {/* Default option */}
+                            <option value="">Select Role</option>
                             <option value="Student">Student</option>
                             <option value="Teacher">Teacher</option>
                         </select>
                     </div>
+
                     <button type="submit">
                         <span>Register</span>
                     </button>

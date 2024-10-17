@@ -10,7 +10,7 @@ class ClientController extends UserController {
 
     async register(req, res) {
         const { name, password, email, role } = req.body;
-        const image = req.file ? req.file.path : null;
+        const image = req.file ? req.file.path : 'user_uploads/defaultProfile.png';
 
         try {
             const userExists = await this.clientDAO.findUserByEmail(email);

@@ -78,3 +78,9 @@ label {
 .right-contents h6 {
   font-weight: normal;
 }
+
+.f-img {
+  width: 243.5px;
+  height: 243.5px;
+  object-fit: cover;
+}

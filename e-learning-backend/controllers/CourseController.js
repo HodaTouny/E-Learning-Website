@@ -96,4 +96,15 @@ const getCourseById=async(req, res)=>{
         res.status(500).send('server error');
     }
 };
-module.exports={createCourse, getCourses, deleteCourse, updateCourse, getCourseById}
+
+const getCoursesSortedByStudents=async(req, res)=>{
+    try{
+        const courses=await Course.find().sort({enrolledStudentsCount:-1})
+        console.log(courses);
+        res.status(200).json(courses);
+    }
+    catch(err){
+        res.status(500).json({error:err.message})
+    }
+}
+module.exports={createCourse, getCourses, deleteCourse, updateCourse, getCourseById, getCoursesSortedByStudents}

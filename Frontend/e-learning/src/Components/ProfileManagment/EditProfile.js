@@ -5,7 +5,6 @@ import Navbar from '../Navbar/navbar';
 function EditProfile() {
     return (
         <>
-            <Navbar />
             <form class="row">
                 <div class="col-md-12">
                     <div class="form-group">

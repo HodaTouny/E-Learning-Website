@@ -109,8 +109,6 @@ const AllCourses = () => {
 
     return (
         <>
-            <Navbar />
-
             <section className="author-archive m-5 pt-5">
                 <div className="container pt-5">
                     <h1>Filter Courses</h1>

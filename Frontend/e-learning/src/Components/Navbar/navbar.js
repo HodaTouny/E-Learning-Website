@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link as ScrollLink } from 'react-scroll'; // Import from react-scroll
+import React, { useEffect, useState, useContext } from 'react';
+import { Link as ScrollLink } from 'react-scroll';
 import { Link, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../userContext';
 
 import '../assets/css/linearicons.css';
 import '../assets/css/font-awesome.min.css';
@@ -14,56 +17,115 @@ import '../assets/css/main.css';
 import logo from '../assets/img/logo.png';
 
 const Navbar = () => {
+    const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
-    const [collapsed, setCollapsed] = useState(true); // For toggling collapse
+    const [collapsed, setCollapsed] = useState(true);
     const location = useLocation();
-    
-    // Handle scrolling effect to make the navbar sticky
+
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {  // You can adjust this threshold (50px) based on your needs
-                setScrolled(true);
-            } else {
-                setScrolled(false);
-            }
+            setScrolled(window.scrollY > 50);
         };
 
         window.addEventListener('scroll', handleScroll);
-
-        // Clean up the event listener when the component unmounts
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
-    // Handle toggling the navbar when clicking the button
     const handleNavbarToggle = () => {
-        setCollapsed(!collapsed); // Toggle the collapsed state
+        setCollapsed(prev => !prev);
     };
 
+    const handleLogout = async () => {
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const refreshToken = localStorage.getItem('refreshToken'); 
+            await axios.post('http://localhost:5000/education/logout', {
+                refreshToken: refreshToken 
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}` 
+                }
+            });
+    
+            localStorage.clear();
+            setUser(null);
+            alert("Logout successful"); 
+            navigate('/');
+        } catch (error) {
+            console.error("Logout failed", error);
+            alert("Logout failed. Please try again.");
+        }
+    };
+    
     const isHomePage = location.pathname === '/';
-    // Add a special class to 'default-header' if the location is not the homepage
-    const isAllCoursesPage = location.pathname === '/courses'; // Adjust the path as needed
-    const isCourseDetailsPage = location.pathname === '/CourseDetails'; // Adjust the path as needed
-    const headerClass = isAllCoursesPage | isCourseDetailsPage ? 'default-header visibleStyle' : 'default-header'; // Add 'other-page' class for other routes
+    const isLoginPage = location.pathname === '/Login'; // Check if on login page
+    const isRegisterPage = location.pathname === '/Register'; // Check if on register page
+    const isAllCoursesPage = location.pathname === '/courses';
+    const isCourseDetailsPage = location.pathname === '/CourseDetails';
+    const headerClass = isAllCoursesPage || isCourseDetailsPage ? 'default-header visibleStyle' : 'default-header';
+
+    const renderNavLinks = () => {
+        if (isLoginPage) {
+            // Show only Register link on Login page
+            return (
+                <li className="nav-item">
+                    <Link className="nav-link" to="/Register">Register</Link>
+                </li>
+            );
+        }
+
+        if (isRegisterPage) {
+            // Show only Login link on Register page
+            return (
+                <li className="nav-item">
+                    <Link className="nav-link" to="/Login">Login</Link>
+                </li>
+            );
+        }
+
+        if (!user) {
+            return (
+                <>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/Login">Login</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/Register">Register</Link>
+                    </li>
+                </>
+            );
+        } 
+
+        return (
+            <>
+                <li className="nav-item">
+                    <Link className="nav-link" to={user.role === 'Teacher' ? '/teacher-profile' : '/profile-student'}>
+                        Profile
+                    </Link>
+                </li>
+                {user.role === 'Teacher' && (
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/add-course-form">Add Course</Link>
+                    </li>
+                )}
+                <li className="nav-item">
+                    <Link className="nav-link" onClick={handleLogout}>Logout</Link>
+                </li>
+            </>
+        );
+    };
 
     return (
         <header className={headerClass}>
-            <nav
-                className={`navbar navbar-expand-lg ${collapsed ? 'navbar-light' : 'navbar-dark'} ${scrolled ? 'header-scrolled sticky' : ''
-                    }`} // Apply 'header-scrolled' and 'sticky' class on scroll
-            >
+            <nav className={`navbar navbar-expand-lg ${collapsed ? 'navbar-light' : 'navbar-dark'} ${scrolled ? 'header-scrolled sticky' : ''}`}>
                 <div className="container p-3">
-                    <a className="navbar-brand" href="#Home">
+                    <Link className="navbar-brand" to="/">
                         <img src={logo} alt="Logo" />
-                    </a>
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        onClick={handleNavbarToggle} // Toggle on click
-                        aria-expanded={!collapsed} // Dynamically change aria-expanded
-                        aria-label="Toggle navigation"
-                    >
+                    </Link>
+                    <button className="navbar-toggler" type="button" onClick={handleNavbarToggle} aria-expanded={!collapsed} aria-label="Toggle navigation">
                         <span className="lnr lnr-menu"></span>
                     </button>
 
@@ -71,68 +133,25 @@ const Navbar = () => {
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 {isHomePage ? (
-                                    <ScrollLink
-                                        className="nav-link"
-                                        to="Home" // The section ID to scroll to
-                                        spy={true}
-                                        smooth={true}
-                                        duration={300}
-                                        offset={-70} // Adjust offset for sticky navbar height
-                                    >
+                                    <ScrollLink className="nav-link" to="Home" spy={true} smooth={true} duration={300} offset={-70}>
                                         Home
                                     </ScrollLink>
                                 ) : (
-                                    <Link className="nav-link" to="/"> {/* Link to Home route */}
-                                        Home
-                                    </Link>
+                                    <Link className="nav-link" to="/">Home</Link>
                                 )}
                             </li>
-
                             <li className="nav-item">
-                                <Link className="nav-link" to="/about-us">
-                                    About
-                                </Link>
-                            </li>
-
-
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/courses">
-                                    All Courses
-                                </Link>
+                                <Link className="nav-link" to="/about-us">About</Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/courses">All Courses</Link>
+                            </li>
+                            <li className="nav-item" style={{cursor: 'pointer'}}>
                                 <ScrollLink className="nav-link" to="ContactUs" smooth={true} duration={500} offset={-70}>
-                                    Contact Us
+                                    Contact
                                 </ScrollLink>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/Login">
-                                    Login
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/Register">
-                                    Register
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/profile">
-                                    profile
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="add-course-form" smooth={true} duration={500} offset={-70}>
-                                    Add Course
-                                </Link>
-                            </li>
-
-                             {/* <li className="nav-item">
-                                <Link className="nav-link" to="backend-courses" smooth={true} duration={500} offset={-70}>
-                                    Backend Courses
-                                </Link>
-                            </li> */}
-
-
+                            {renderNavLinks()}
                         </ul>
                     </div>
                 </div>
