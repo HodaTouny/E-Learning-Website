@@ -17,7 +17,6 @@ function ProfileSitting() {
     };
     return (
         <>
-            <Navbar />
             <div class="container mb-4 main-container">
                 <div class="row">
                     <div class="col-lg-4 pb-5">

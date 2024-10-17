@@ -76,11 +76,9 @@ class UserController {
     
     async logout(req, res) {
         const { refreshToken } = req.body;
-
         if (!refreshToken) {
             return res.sendStatus(401);
         }
-
         try {
             const user = await this.userDAO.findUserByRefreshToken(refreshToken);
             if (!user) {

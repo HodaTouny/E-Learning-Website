@@ -4,6 +4,8 @@ import img2 from '../assets/Login/images/image-2.png';
 import { useNavigate } from 'react-router-dom';
 import img1 from '../assets/Login/images/image-1.png';
 import { jwtDecode } from 'jwt-decode';
+import { UserContext } from '../userContext';
+import { useContext } from 'react';
 
 function Login() {
     const navigate = useNavigate();
@@ -11,6 +13,8 @@ function Login() {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const {setUser } = useContext(UserContext);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -34,6 +38,7 @@ function Login() {
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
                 localStorage.setItem('user', JSON.stringify(data.user));
+                setUser(data.user);
                 startTokenRefresh();
                 navigate('/');
             } else {

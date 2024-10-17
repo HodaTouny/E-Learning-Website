@@ -6,7 +6,6 @@ import Navbar from '../../Navbar/navbar';
 function EnrolledCourse() {
     return (
         <>
-            <Navbar />
             <div class="d-flex justify-content-end pb-3">
                 <div class="form-inline">
                     <label class="text-muted mr-3" for="order-sort">Sort courses</label>
