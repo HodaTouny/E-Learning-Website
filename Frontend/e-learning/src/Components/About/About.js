@@ -1,183 +1,127 @@
 import { Link } from "react-router-dom";
+import img from '../assets/img/about.png';
+import video from '../assets/img/video.mp4';
+import { useEffect, useRef } from "react";
 
-const About=()=>{
+const About = () => {
+    const videoRef = useRef(null); // Create a ref for the video element
+
+    useEffect(() => {
+        const videoElement = videoRef.current;
+
+        // Create an Intersection Observer
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    videoElement.play(); // Play video when in view
+                } else {
+                    videoElement.pause(); // Pause video when out of view
+                }
+            },
+            { threshold: 0.5 } // Trigger when 50% of the video is in view
+        );
+
+        // Start observing the video element
+        if (videoElement) {
+            observer.observe(videoElement);
+        }
+
+        // Cleanup function to unobserve the video element
+        return () => {
+            if (videoElement) {
+                observer.unobserve(videoElement);
+            }
+        };
+    }, []);
+
+    console.log("Video source:", video); // Debugging: Check the video path
 
     return (
         <>
-        <section className="banner-area">
-    <div className="container">
-      <div className="row justify-content-center align-items-center">
-        <div className="col-lg-10 banner-right" style={{marginTop:"200px"}}>
-          <h1 className="text-white" style={{textAlign:"right"}}>
-            About Us
-          </h1>
-          <p className="mx-auto text-white  mt-20 mb-40">
-            In the history of modern astronomy, there is probably no one greater leap forward than the building.
-          </p>
-          <div class="link-nav">
-            <span class="box">
-                <Link to={"/"}>Home </Link>
-              <i class="lnr lnr-arrow-right"></i>
-                <Link to={"/about-us"}>About </Link>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  
-
-
-<section class="about-area section-gap">
-    <div class="container">
-      <div class="row align-items-center justify-content-center">
-        <div class="col-lg-5 col-md-6 about-left">
-          <img class="img-fluid" src="img/about-img.png" alt=""/>
-        </div>
-        <div class="offset-lg-1 col-lg-5 col-md-12 about-right">
-          <h1>
-            Over all <br/>
-            2500 Courses <br/>
-            from 20 Platforms
-          </h1>
-          <div>
-            <p>
-              There is a moment in the life of any aspiring astronomer that it is time to buy that first telescope.
-              It’s exciting to think about setting up your own viewing station. In the life of any aspiring astronomer
-              that it is time to buy that first telescope. It’s exciting to think about setting up your own viewing
-              station.
-            </p>
-            <p>
-              It’s exciting to think about setting up your own viewing station. In the life of any aspiring astronomer
-              that it is time to buy that first telescope exciting is time to buy that first.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-
-  <section class="video-area section-gap-bottom">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-5">
-          <div class="section-title text-white">
-            <h2 class="text-white">
-              Watch Our Trainers <br/>
-              in Live Action
-            </h2>
-            <p>
-              In the history of modern astronomy, there is probably no one greater leap forward than the building and
-              launch of the space telescope known as the Hubble.
-            </p>
-          </div>
-        </div>
-        <div class="offset-lg-1 col-md-6 video-left">
-          <div class="owl-carousel video-carousel owl-theme owl-loaded">
-            
-
-            
-          <div class="owl-stage-outer"><div class="owl-stage" style={{transform: "translate3d(-2280px, 0px, 0px)", transition: "0.25s", width: "3420px"}}><div class="owl-item cloned" style={{width: "540px", marginRight: "30px"}}><div class="single-video">
-              <div class="video-part">
-                <img class="img-fluid" src="img/video-img.jpg" alt=""/>
-                <div class="overlay"></div>
-                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">
-                  <img class="play-icon" src="img/play-btn.png" alt=""/>
-                </a>
-              </div>
-              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>
-              <p class="text-white mb-20">
-                In the history of modern astronomy, there is probably no one greater leap forward than the building and
-                launch of the space telescope known as the Hubble.
-              </p>
-            </div></div><div class="owl-item cloned" style={{width: "540px", marginRight: "30px"}}><div class="single-video">
-              <div class="video-part">
-                <img class="img-fluid" src="img/video-img.jpg" alt=""/>
-                <div class="overlay"></div>
-                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">
-                  <img class="play-icon" src="img/play-btn.png" alt=""/>
-                </a>
-              </div>
-              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>
-              <p class="text-white mb-20">
-                In the history of modern astronomy, there is probably no one greater leap forward than the building and
-                launch of the space telescope known as the Hubble.
-              </p>
-            </div></div><div class="owl-item" style={{width: "540px",marginRight: "30px"}}><div class="single-video">
-              <div class="video-part">
-                <img class="img-fluid" src="img/video-img.jpg" alt=""/>
-                <div class="overlay"></div>
-                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">
-                  <img class="play-icon" src="img/play-btn.png" alt=""/>
-                </a>
-              </div>
-              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>
-              <p class="text-white mb-20">
-                In the history of modern astronomy, there is probably no one greater leap forward than the building and
-                launch of the space telescope known as the Hubble.
-              </p>
-            </div></div><div class="owl-item" style={{width: "540px", marginRight: "30px"}}><div class="single-video">
-              <div class="video-part">
-                <img class="img-fluid" src="img/video-img.jpg" alt=""/>
-                <div class="overlay"></div>
-                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">
-                  <img class="play-icon" src="img/play-btn.png" alt=""/>
-                </a>
-              </div>
-              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>
-              <p class="text-white mb-20">
-                In the history of modern astronomy, there is probably no one greater leap forward than the building and
-                launch of the space telescope known as the Hubble.
-              </p>
-            </div></div><div class="owl-item cloned active" style={{width:" 540px", marginRight: "30px"}}><div class="single-video">
-              <div class="video-part">
-                <img class="img-fluid" src="img/video-img.jpg" alt=""/>
-                <div class="overlay"></div>
-                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">
-                  <img class="play-icon" src="img/play-btn.png" alt=""/>
-                </a>
-              </div>
-              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>
-              <p class="text-white mb-20">
-                In the history of modern astronomy, there is probably no one greater leap forward than the building and
-                launch of the space telescope known as the Hubble.
-              </p>
-            </div></div><div class="owl-item cloned" style={{width: "540px", marginRight: "30px"}}><div class="single-video">
-              <div class="video-part">
-                <img class="img-fluid" src="img/video-img.jpg" alt=""/>
-                <div class="overlay"></div>
-                <a class="popup-youtube play-btn" href="https://www.youtube.com/watch?v=VufDd-QL1c0">
-                  <img class="play-icon" src="img/play-btn.png" alt=""/>
-                </a>
-              </div>
-              <h4 class="text-white mb-20 mt-30">Learn Angular js Course for Legendary Persons</h4>
-              <p class="text-white mb-20">
-                In the history of modern astronomy, there is probably no one greater leap forward than the building and
-                launch of the space telescope known as the Hubble.
-              </p>
-            </div>
-            </div>
-            </div>
-            </div>
-            <div class="owl-controls">
-                <div class="owl-nav">
-                    <div class="owl-prev" >
-                        <img src="img/prev.png" alt=""/>
-                        </div><div class="owl-next">
-                            <img src="img/next.png" alt=""/>
+            <section className="banner-area">
+                <div className="container">
+                    <div className="row justify-content-center align-items-center">
+                        <div className="col-lg-10 banner-right" style={{ marginTop: "200px" }}>
+                            <h1 className="text-white" style={{ textAlign: "right" }}>
+                                About Us
+                            </h1>
+                            <p className="mx-auto text-white mt-20 mb-40">
+                                Welcome to our e-learning platform, where knowledge meets innovation.
+                            </p>
+                            <div className="link-nav">
+                                <span className="box">
+                                    <Link to="/">Home </Link>
+                                    <i className="lnr lnr-arrow-right"></i>
+                                    <Link to="/about-us">About </Link>
+                                </span>
                             </div>
-                            </div>
-                            <div class="owl-dots" style={{display: "none"}}></div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-  </>
-    )
+            <section className="about-area section-gap">
+                <div className="container">
+                    <div className="row align-items-center justify-content-center">
+                        <div className="col-lg-5 col-md-6 about-left">
+                            <img className="img-fluid" src={img} alt="About Us" />
+                        </div>
+                        <div className="offset-lg-1 col-lg-5 col-md-12 about-right">
+                            <h1>
+                                Explore <br />
+                                500+ Courses <br />
+                                from 20+ Platforms
+                            </h1>
+                            <div>
+                                <p>
+                                    Our e-learning platform empowers educators to upload their courses, creating a diverse range of learning opportunities. 
+                                    Whether you're a teacher looking to share your expertise or a student eager to learn, we connect you seamlessly.
+                                </p>
+                                <p>
+                                    Students can browse, purchase, and access high-quality courses tailored to their interests and goals. 
+                                    Join us to unlock a world of knowledge and skills at your own pace, while contributing to a community that values 
+                                    quality education for all.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="video-area section-gap-bottom">
+                <div className="container">
+                    <div className="row align-items-center">
+                        <div className="col-lg-5">
+                            <div className="section-title text-white">
+                                <h2 className="text-white">
+                                    Welcome To <br />
+                                    Eclipse
+                                </h2>
+                                <p>
+                                    Discover engaging learning experiences with our expert instructors through these 
+                                    curated videos that showcase our courses.
+                                </p>
+                                <p className="text-white mt-20">
+                                    Join us on a journey to unlock your potential with engaging courses and expert instructors.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="offset-lg-1 col-md-6 video-left">
+                            <div className="single-video">
+                                <div className="video-part">
+                                    <video ref={videoRef} width="100%" height="315" controls>
+                                        <source src={video} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </>
+    );
 }
 
 export default About;
