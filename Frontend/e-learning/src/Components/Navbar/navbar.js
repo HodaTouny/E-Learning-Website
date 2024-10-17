@@ -106,11 +106,6 @@ const Navbar = () => {
                         Profile
                     </Link>
                 </li>
-                {user.role === 'Teacher' && (
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/add-course-form">Add Course</Link>
-                    </li>
-                )}
                 <li className="nav-item">
                     <Link className="nav-link" onClick={handleLogout}>Logout</Link>
                 </li>
