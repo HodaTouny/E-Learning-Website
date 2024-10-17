@@ -13,7 +13,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const {setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
 
 
     const handleSubmit = async (e) => {
@@ -93,7 +93,7 @@ function Login() {
             if (exp - now < 5 * 60 * 1000) {
                 await refreshAccessToken();
             }
-        }, 60 * 1000); 
+        }, 60 * 1000);
     };
 
     return (
