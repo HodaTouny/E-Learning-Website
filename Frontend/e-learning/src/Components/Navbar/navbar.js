@@ -41,7 +41,14 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
-            const refreshToken = localStorage.getItem('refreshToken'); 
+            const refreshToken = localStorage.getItem('refreshToken');
+            
+            // Check if tokens exist before proceeding
+            if (!accessToken || !refreshToken) {
+                alert("You are not logged in.");
+                return;
+            }
+
             await axios.post('http://localhost:5000/education/logout', {
                 refreshToken: refreshToken 
             }, {
@@ -59,36 +66,62 @@ const Navbar = () => {
             alert("Logout failed. Please try again.");
         }
     };
-    
+
     const isHomePage = location.pathname === '/';
-    const isLoginPage = location.pathname === '/Login'; // Check if on login page
-    const isRegisterPage = location.pathname === '/Register'; // Check if on register page
+    const isLoginPage = location.pathname === '/Login';
+    const isRegisterPage = location.pathname === '/Register';
     const isAllCoursesPage = location.pathname === '/courses';
     const isCourseDetailsPage = location.pathname === '/CourseDetails';
     const headerClass = isAllCoursesPage || isCourseDetailsPage ? 'default-header visibleStyle' : 'default-header';
 
+    const isActive = (path) => location.pathname === path ? 'active' : '';
+
     const renderNavLinks = () => {
+        const commonLinks = (
+            <>
+                <li className="nav-item">
+                    <Link className={`nav-link ${isActive('/')}`} to="/">Home</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className={`nav-link ${isActive('/about-us')}`} to="/about-us">About</Link>
+                </li>
+                <li className="nav-item">
+                    <Link className={`nav-link ${isActive('/courses')}`} to="/courses">All Courses</Link>
+                </li>
+                <li className="nav-item" style={{ cursor: 'pointer' }}>
+                    <ScrollLink className={`nav-link ${isActive('/ContactUs')}`} to="ContactUs" smooth={true} duration={500} offset={-70}>
+                        Contact
+                    </ScrollLink>
+                </li>
+            </>
+        );
+    
         if (isLoginPage) {
-            // Show only Register link on Login page
             return (
-                <li className="nav-item">
-                    <Link className="nav-link" to="/Register">Register</Link>
-                </li>
+                <>
+                    {commonLinks}
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/Register">Register</Link>
+                    </li>
+                </>
             );
         }
-
+    
         if (isRegisterPage) {
-            // Show only Login link on Register page
             return (
-                <li className="nav-item">
-                    <Link className="nav-link" to="/Login">Login</Link>
-                </li>
+                <>
+                    {commonLinks}
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/Login">Login</Link>
+                    </li>
+                </>
             );
         }
-
+    
         if (!user) {
             return (
                 <>
+                    {commonLinks}
                     <li className="nav-item">
                         <Link className="nav-link" to="/Login">Login</Link>
                     </li>
@@ -97,10 +130,29 @@ const Navbar = () => {
                     </li>
                 </>
             );
-        } 
-
+        }
+    
+        // Admin-specific links: only include Home and Dashboard for Admins
+        if (user.role === 'Admin') {
+            return (
+                <>
+                    <li className="nav-item">
+                        <Link className={`nav-link ${isActive('/')}`} to="/">Home</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" onClick={handleLogout}>Logout</Link>
+                    </li>
+                </>
+            );
+        }
+    
+        // Regular user links
         return (
             <>
+                {commonLinks}
                 <li className="nav-item">
                     <Link className="nav-link" to={user.role === 'Teacher' ? '/teacher-profile' : '/profile-student'}>
                         Profile
@@ -112,6 +164,7 @@ const Navbar = () => {
             </>
         );
     };
+    
 
     return (
         <header className={headerClass}>
@@ -126,26 +179,6 @@ const Navbar = () => {
 
                     <div className={`collapse navbar-collapse justify-content-end align-items-center ${collapsed ? '' : 'show'}`}>
                         <ul className="navbar-nav">
-                            <li className="nav-item">
-                                {isHomePage ? (
-                                    <ScrollLink className="nav-link" to="Home" spy={true} smooth={true} duration={300} offset={-70}>
-                                        Home
-                                    </ScrollLink>
-                                ) : (
-                                    <Link className="nav-link" to="/">Home</Link>
-                                )}
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/about-us">About</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/courses">All Courses</Link>
-                            </li>
-                            <li className="nav-item" style={{cursor: 'pointer'}}>
-                                <ScrollLink className="nav-link" to="ContactUs" smooth={true} duration={500} offset={-70}>
-                                    Contact
-                                </ScrollLink>
-                            </li>
                             {renderNavLinks()}
                         </ul>
                     </div>
