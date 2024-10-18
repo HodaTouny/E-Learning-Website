@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../assets/css/profilesitting.css';
 import EnrolledCourse from './EnrolledCourse';
 import EditProfile from '../EditProfile';
+import img from '../../assets/img/teachprofile.png'
 
 function ProfileSitting() {
     const [activeTab, setActiveTab] = useState(null);
@@ -35,7 +36,7 @@ function ProfileSitting() {
                             <div className="author-card-profile">
                                 <div className="author-card-avatar">
                                     <img 
-                                        src={userData?.image ? userData.image : "https://bootdey.com/img/Content/avatar/avatar1.png"} 
+                                        src={userData?.image ? userData.image : {img}} 
                                         alt={userData?.name || "User"} 
                                     />
                                 </div>

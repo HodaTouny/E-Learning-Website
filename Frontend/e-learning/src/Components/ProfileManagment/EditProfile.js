@@ -69,7 +69,7 @@ function EditProfile({ userData, token }) {
     return (
         <>
             <form className="row">
-                <div className="col-md-12">
+                <div className="col-md-6">
                     <div className="form-group">
                         <label htmlFor="account-fn">User Name</label>
                         <input
@@ -91,19 +91,6 @@ function EditProfile({ userData, token }) {
                             id="account-email"
                             value={email}
                             disabled
-                        />
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className="form-group">
-                        <label htmlFor="account-phone">Phone Number</label>
-                        <input
-                            className="form-control"
-                            type="text"
-                            id="account-phone"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                            required
                         />
                     </div>
                 </div>
