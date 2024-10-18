@@ -5,15 +5,15 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../Navbar/navbar';
 
 
-function CourseList() {
+function CourseList(userid) {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
         const fetchCourses = async () => {
             try {
                 const response = await axios.get('http://localhost:5000/getCourses');
-                setCourses(response.data);
-                // setLoading(false);
+                const filteredCourses = response.data.filter(course => course.teacherID === userid.User);
+                setCourses(filteredCourses);
             } catch (error) {
                 // setError('Error fetching courses');
                 // setLoading(false);
@@ -26,7 +26,7 @@ function CourseList() {
     return (
         <>
             <Navbar />
-            {courses.map((course) => (
+            { courses.map((course) => (
                 <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i
                     class="fa fa-times"></i></span>
                     <div class="px-3 my-3">
@@ -38,7 +38,7 @@ function CourseList() {
                                     <h4 class="cart-item-product-title">{course.name}</h4>
                                 </Link>
                                 <div class="text-lg text-body font-weight-medium pb-1">${course.price}</div>
-                                <div class="text-lg text-body font-weight-medium pb-1">50 Student enrolled</div>
+                                <div class="text-lg text-body font-weight-medium pb-1">{course.enrolledStudentsCount} Enrolled Student</div>
                             </div>
                         </a>
                     </div>

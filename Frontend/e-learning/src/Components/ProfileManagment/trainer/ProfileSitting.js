@@ -54,14 +54,14 @@ function ProfileSitting() {
                                         <div><i class="fa fa-book mr-1 text-muted"></i>
                                             <div class="d-inline-block font-weight-medium text-uppercase">Courses</div>
                                         </div>
-                                        <span class="badge badge-secondary">4</span>
+                                        <span class="badge badge-secondary">{user?.createdcourses?.length || 0}</span>
                                     </div>
                                 </a>
                             </nav>
                         </div>
                     </div>
                     <div className="col-lg-8 pb-5">
-                        {activeTab === "courselist" && <CourseList />}
+                        {activeTab === "courselist" && <CourseList User={user.userID} />}
                         {activeTab === "editProfile" && <EditProfile User={user} />}
                         {activeTab === "uploadcourse" && <UploadCourseForm />}
                     </div>
