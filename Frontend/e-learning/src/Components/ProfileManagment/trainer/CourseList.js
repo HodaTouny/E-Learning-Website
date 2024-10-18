@@ -23,13 +23,22 @@ function CourseList(userid) {
         fetchCourses();
     }, []);
 
+    const deleteHandler = async (courseID) => {
+        try {
+            await axios.delete(`http://localhost:5000/deleteCourse/${courseID}`);
+            setCourses(courses.filter(course => course.courseID !== courseID)); // Update state after deleting
+        } catch (error) {
+            console.error('Failed to delete the course');
+        }
+    };
+
     return (
         <>
             <Navbar />
             {courses.map((course) => (
                 <div class="cart-item d-md-flex justify-content-between">
                     <span class="remove-item">
-                        <i class="fa fa-times"></i>
+                        <i class="fa fa-times" onClick={() => deleteHandler(course.courseID)} ></i>
                     </span>
                     <div class="px-3 my-3">
                         <a class="cart-item-product" href="#">
