@@ -23,17 +23,22 @@ const CourseDetail = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const token = localStorage.getItem('accessToken');
-        const userId = JSON.parse(localStorage.getItem('user')).userID;
+        // Fetch course details
         const courseResponse = await axios.get(`http://localhost:5000/getCourse/${id}`);
         setCourse(courseResponse.data);
-
-        // Check if user is enrolled in the course
-        if (user && user.enrolledCourses) {
-          const enrolled = user.enrolledCourses.some(
-            (enrolledCourse) => enrolledCourse.courseId === parseInt(id)
-          );
-          setIsEnrolled(enrolled);
+  
+        // Check if the user is logged in
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const userId = JSON.parse(storedUser).userID;
+          
+          // If the user is logged in, check if they are enrolled
+          if (user && user.enrolledCourses) {
+            const enrolled = user.enrolledCourses.some(
+              (enrolledCourse) => enrolledCourse.courseId === parseInt(id)
+            );
+            setIsEnrolled(enrolled);
+          }
         }
       } catch (error) {
         setError('Error fetching course details');
@@ -41,9 +46,10 @@ const CourseDetail = () => {
         setLoading(false);
       }
     };
-
+  
     fetchCourse();
   }, [id, user]);
+  
 
   const handleEnroll = async () => {
     try {

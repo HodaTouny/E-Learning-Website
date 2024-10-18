@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/allCourses.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
 import { FaSearch } from 'react-icons/fa';
 
 const AllCourses = () => {
     const [courses, setCourses] = useState([]);
     const [showAll, setShowAll] = useState(false);
-    const [searchTerm, setSearchTerm] = useState(''); 
+    const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -37,6 +38,10 @@ const AllCourses = () => {
 
     const handleShowMore = () => {
         setShowAll(!showAll); // Toggle showing all courses
+    };
+
+    const handleCourseClick = (courseID) => {
+        navigate(`/course/${courseID}`);
     };
 
     return (
@@ -93,17 +98,20 @@ const AllCourses = () => {
                             <li key={course.courseID} className="post" data-category={course.category}>
                                 <article>
                                     <figure>
-                                        <Link to={`/course/${course.courseID}`} target="_blank" rel="noopener noreferrer">
-                                            <img src={`http://localhost:5000/${course.image}`} alt={course.name} className="course-image" />
-                                        </Link>
+                                        <img 
+                                            src={`http://localhost:5000/${course.image}`} 
+                                            alt={course.name} 
+                                            className="course-image" 
+                                            onClick={() => handleCourseClick(course.courseID)} // Click handler updated
+                                        />
                                         <figcaption>
                                             <ol className="post-categories">
                                                 <li>{course.category}</li>
                                             </ol>
                                             <h2 className="post-title">
-                                                <Link to={`/course/${course.courseID}`} target="_blank" rel="noopener noreferrer">
+                                                <span onClick={() => handleCourseClick(course.courseID)} style={{ cursor: 'pointer' }}>
                                                     {course.name}
-                                                </Link>
+                                                </span>
                                             </h2>
                                             <p>{course.description}</p>
                                             {course.price && <p>Price: ${course.price}</p>}
