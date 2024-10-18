@@ -8,8 +8,17 @@ import img from '../../assets/img/teachprofile.png'
 
 
 function ProfileSitting() {
-    const {user} = useContext(UserContext);
+    const [userData, setUserData] = useState(null);
+    const [token, setToken] = useState(null);
     const [activeTab, setActiveTab] = useState("editProfile"); // State to track which component is active
+    useEffect(() => {
+        const storedUserData = localStorage.getItem('user');
+        const storedToken = localStorage.getItem('accessToken');
+        if (storedUserData) {
+            setUserData(JSON.parse(storedUserData));
+            setToken(storedToken);
+        }
+    }, []);
 
     const handleCourseListClick = () => {
         setActiveTab("courselist"); // Show EnrolledCourse component
@@ -22,7 +31,7 @@ function ProfileSitting() {
     const handleUploadCourseClick = () => {
         setActiveTab("uploadcourse"); // Show EditProfile component
     };
-    if (!user) {
+    if (!userData) {
         return <div>Loading...</div>;
     }
     return (
@@ -37,7 +46,8 @@ function ProfileSitting() {
                                     <img src={img} alt="{user.name}" />
                                 </div>
                                 <div class="author-card-details">
-                                    <h5 class="author-card-name text-lg">{user.name}</h5>
+                                    <h5 class="author-card-name text-lg">{userData.name}</h5>
+                                    <span className="author-card-email">{userData.email}</span>
                                 </div>
                             </div>
                         </div>
@@ -54,15 +64,15 @@ function ProfileSitting() {
                                         <div><i class="fa fa-book mr-1 text-muted"></i>
                                             <div class="d-inline-block font-weight-medium text-uppercase">Courses</div>
                                         </div>
-                                        <span class="badge badge-secondary">{user?.createdcourses?.length || 0}</span>
+                                        <span class="badge badge-secondary">{userData.createdcoursesS || 0}</span>
                                     </div>
                                 </a>
                             </nav>
                         </div>
                     </div>
                     <div className="col-lg-8 pb-5">
-                        {activeTab === "courselist" && <CourseList User={user.userID} />}
-                        {activeTab === "editProfile" && <EditProfile User={user} />}
+                        {activeTab === "courselist" && <CourseList User={userData.userID} />}
+                        {activeTab === "editProfile" && <EditProfile userData={userData} token={token} />}
                         {activeTab === "uploadcourse" && <UploadCourseForm />}
                     </div>
                 </div>

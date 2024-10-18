@@ -5,7 +5,7 @@ import EditProfile from '../EditProfile';
 import img from '../../assets/img/defaultProfile.png'
 
 function ProfileSitting() {
-    const [activeTab, setActiveTab] = useState(null);
+    const [activeTab, setActiveTab] = useState('editProfile');
     const [userData, setUserData] = useState(null);
     const [token, setToken] = useState(null);
 
