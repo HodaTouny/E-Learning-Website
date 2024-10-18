@@ -123,6 +123,7 @@ function EditProfile({ userData, token }) {
                     <button
                         className="btn btn-style-1 btn-primary"
                         type="button"
+                        style={{ backgroundColor: '#7c32ff' }}
                         onClick={handleUpdateProfile}
                     >
                         Update Profile
