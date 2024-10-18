@@ -25,6 +25,9 @@ app.use('/payment',paymentRoutes)
 const contactRoutes = require('./routes/contact/routes');
 app.use(contactRoutes);
 
+const dashboardRoutes = require('./routes/dashboard/routes');
+app.use('/admin',dashboardRoutes);
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

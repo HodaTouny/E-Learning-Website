@@ -28,7 +28,7 @@ function ProfileSitting() {
 
     return (
         <>
-            <div className="container mb-4 main-container">
+            <div className="container mb-4 main-container" style={{ marginTop: '110px' }}>
                 <div className="row">
                     <div className="col-lg-4 pb-5">
                         <div className="author-card pb-3">

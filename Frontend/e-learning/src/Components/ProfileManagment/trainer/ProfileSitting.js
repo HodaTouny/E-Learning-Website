@@ -27,7 +27,7 @@ function ProfileSitting() {
     }
     return (
         <>
-         <section className="author-archive m-5 pt-5">
+         <section className="author-archive m-5 pt-5" style={{ marginTop: '110px' }}>
          <div class="container pt-5 main-container">
                 <div class="row">
                     <div class="col-lg-4 pb-5">
