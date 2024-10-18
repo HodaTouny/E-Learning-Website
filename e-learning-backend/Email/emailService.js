@@ -16,21 +16,23 @@ class EmailService {
     }
 
     async sendEmail(to, subject, text, html) {
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: to,
-            subject: subject,
-            text: text,
-            html: html
-        };
+    console.log('Sending email to:', to);
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: to,
+        subject: subject,
+        text: text,
+        html: html
+    };
 
-        try {
-            const info = await this.transporter.sendMail(mailOptions);
-            console.log('Email sent: ' + info.response);
-        } catch (error) {
-            console.error('Error sending email:', error);
-        }
+    try {
+        const info = await this.transporter.sendMail(mailOptions);
+        console.log('Email sent: ' + info.response);
+    } catch (error) {
+        console.error('Error sending email:', error);
     }
+}
+
 }
 
 module.exports = EmailService; 

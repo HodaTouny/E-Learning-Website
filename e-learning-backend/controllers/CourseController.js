@@ -18,7 +18,7 @@ const upload = multer({ storage });
 const createCourse = async (req, res) => {
     try {
         console.log(req.body);
-        const { name, description, category, isPremium, price, teacherID, lessons } = req.body;
+        const { name, description, category, isPremium, price, teacherID, teacherName, lessons } = req.body;
         const isPremVal = isPremium === 'true' ||isPremium===true;
 
         const finalPrice=isPremVal?price:0;
@@ -41,6 +41,7 @@ const createCourse = async (req, res) => {
             image: imgPath,
             video:videoPath,
             teacherID,
+            teacherName,
             lessons:lessonsArray
         });
         await newCourse.save();
