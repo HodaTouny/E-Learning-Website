@@ -26,9 +26,11 @@ function CourseList(userid) {
     return (
         <>
             <Navbar />
-            { courses.map((course) => (
-                <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i
-                    class="fa fa-times"></i></span>
+            {courses.map((course) => (
+                <div class="cart-item d-md-flex justify-content-between">
+                    <span class="remove-item">
+                        <i class="fa fa-times"></i>
+                    </span>
                     <div class="px-3 my-3">
                         <a class="cart-item-product" href="#">
                             <div class="cart-item-product-thumb"><img src={`http://localhost:5000/${course.image}`}
