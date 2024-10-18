@@ -28,6 +28,7 @@ class CourseModel {
         image: { type: String },
         lessons: [lessonSchema],
         teacherID: { type: Number, ref: 'User' },
+        teacherName: { type: String },
         createdDate: { type: Date, default: Date.now },
         enrolledStudents: { type: [String], default: [] },
         enrolledStudentsCount: { type: Number, default: 0 },

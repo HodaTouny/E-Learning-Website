@@ -4,7 +4,7 @@ import axios from 'axios';
 import '../assets/css/Courses.css';
 import Alert from '../SuccessAlert/SuccessAlert';
 
-const CourseDetail = ({ studentId }) => {
+const CourseDetail = () => {
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,9 @@ const CourseDetail = ({ studentId }) => {
   const [lessonProgress, setLessonProgress] = useState({});
   const [enrollStatus, setEnrollStatus] = useState(null);
   const [alertType, setAlertType] = useState('success');
-  
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -32,7 +34,7 @@ const CourseDetail = ({ studentId }) => {
   const handleEnroll = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await axios.post(
+      await axios.post(
         'http://localhost:5000/education/enrollcourse',
         {
           studentId: JSON.parse(localStorage.getItem('user')).userID,
@@ -40,15 +42,61 @@ const CourseDetail = ({ studentId }) => {
         },
         {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            'Authorization': `Bearer ${token}`,
+          },
         }
       );
 
-      setEnrollStatus('Successfully enrolled in the course!');
-      setAlertType('success');
+      if (course.isPremium) {
+        const user = JSON.parse(localStorage.getItem('user'));
+        const email = user.email;
+        const billDetails = `Course: ${course.name}, Price: ${course.price}$`;
+
+        const response = await axios.post('http://localhost:5000/payment/initiate', {
+          userId: user.userID,
+          email,
+          billDetails,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        setEnrollStatus(response.data.message || 'OTP sent to your email.');
+        setOtpSent(true);
+        setAlertType('success');
+      } else {
+        setEnrollStatus('Successfully enrolled in the course!');
+        setAlertType('success');
+      }
     } catch (error) {
-      setEnrollStatus(error.response?.data?.message || 'Enrollment failed. Try again.');
+      setEnrollStatus(error.response?.data?.message || 'Enrollment failed. Try again');
+      setAlertType('error');
+    }
+  };
+
+  const handleOtpVerification = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.post('http://localhost:5000/payment/verify', {
+        userId: JSON.parse(localStorage.getItem('user')).userID,
+        otp,
+      },
+      {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+
+      setEnrollStatus(response.data.message || 'Payment verified successfully.');
+      setAlertType('success');
+      setOtpSent(false);
+      setOtp('');
+    } 
+    catch (error) {
+      setEnrollStatus(error.response?.data?.message || 'OTP verification failed. Try again');
       setAlertType('error');
     }
   };
@@ -175,7 +223,14 @@ const CourseDetail = ({ studentId }) => {
                 Enroll the course
               </button>
 
-              <Alert message={enrollStatus} type={alertType} />
+              {otpSent && (
+                <div>
+                  <input className="form-control" type="text" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
+                  <button onClick={handleOtpVerification} className="btn text-uppercase enroll">Verify OTP</button>
+                </div>
+              )}
+
+              {enrollStatus && <Alert message={enrollStatus} type={alertType} />}
             </div>
           </div>
         </div>

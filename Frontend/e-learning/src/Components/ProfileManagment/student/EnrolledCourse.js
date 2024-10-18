@@ -30,17 +30,17 @@ function EnrolledCourse({ courses }) {
                             courses.map((course, index) => (
                                 <tr key={index}>
                                     <td>
-                                        <Link className="navi-link" to={`/CourseDetails/${course.courseId}`}>
+                                        <Link className="navi-link" to={`/course/${course.courseId}`}>
                                             Course {course.courseId}
                                         </Link>
                                     </td>
-                                    <td>Trainer Name Here</td>
+                                    <td>{course.teacherName}</td>
                                     <td>
                                         <span className={`badge ${course.isCompleted ? 'badge-success' : 'badge-info'} m-0`}>
                                             {course.isCompleted ? 'Passed' : 'Started'}
                                         </span>
                                     </td>
-                                    <td>{course.fee || 'Free'}</td>
+                                    <td>{course.isPremium ? course.price : 'Free'}</td>
                                 </tr>
                             ))
                         ) : (

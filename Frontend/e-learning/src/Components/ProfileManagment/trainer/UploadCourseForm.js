@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../../assets/css/Courses.css';
+import SuccessAlert from '../../SuccessAlert/SuccessAlert';
 
 const UploadCourseForm = () => {
   const [courseData, setCourseData] = useState({
@@ -12,6 +13,8 @@ const UploadCourseForm = () => {
     image: null,
     lessons: [{ title: '', video: null }]
   });
+
+  const [alertMessage, setAlertMessage] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -49,10 +52,26 @@ const UploadCourseForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    const user=localStorage.getItem('user');
+    let teacherID='';
+    let teacherName="";
+
+    if (user) {
+        const parsedUser = JSON.parse(user);
+        teacherID = parsedUser.userID;
+        teacherName = parsedUser.name;
+    }
+    else {
+        console.error('No user found in localStorage');
+        return;
+    }
+
     const formData = new FormData();
     formData.append('name', courseData.name);
     formData.append('description', courseData.description);
     formData.append('category', courseData.category);
+    formData.append('teacherID', teacherID);
+    formData.append('teacherName', teacherName);
     formData.append('isPremium', courseData.isPremium? true:false);
     formData.append('price', courseData.isPremium ? courseData.price : 0);
     formData.append('image', courseData.image);
@@ -71,17 +90,21 @@ const UploadCourseForm = () => {
         },
       });
       console.log(response.data);
+      setAlertMessage({ message: 'Course uploaded successfully!', type: 'success' });
     } catch (error) {
       console.error('Error uploading course', error);
+      setAlertMessage({ message: 'Error uploading course', type: 'error' });
     }
   };
 
   return (
     <div className="upload-form-container">
+      {alertMessage && <SuccessAlert message={alertMessage.message} type={alertMessage.type} />}
+
       <form onSubmit={handleSubmit} className="upload-course-form">
         <h2 className="form-title">Upload New Course</h2>
 
-{/* course info */}
+        {/* course info */}
         <div className="form-group">
           <label>Course Name:</label>
           <input type="text" name="name" value={courseData.name} onChange={handleChange} required className="input-field" />
@@ -117,8 +140,8 @@ const UploadCourseForm = () => {
           <label>Course Image:</label>
           <input type="file" name="image" onChange={handleFileChange} className="file-input" />
         </div>
-{/* lessons info */}
 
+        {/* lessons info */}
         {courseData.lessons.map((lesson, index) => (
           <div key={index} className="lesson-group">
             <h3>Lesson {index + 1}</h3>
