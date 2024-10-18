@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { Link } from "react-router-dom";
 import '../../assets/css/profilesitting.css'
 import CourseList from './CourseList';
 import EditProfile from '../EditProfile';
 import UploadCourseForm from './UploadCourseForm';
-import { UserContext } from '../../userContext';
 import img from '../../assets/img/teachprofile.png'
 
 
@@ -36,8 +36,28 @@ function ProfileSitting() {
     }
     return (
         <>
-         <section className="author-archive m-5 pt-5" style={{ marginTop: '110px' }}>
-         <div class="container pt-5 main-container">
+            <section class="banner-area">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-lg-10 banner-right" style={{ marginTop: "200px" }}>
+                            <h1 class="text-white" style={{ textAlign: "right" }}>
+                                My Profile
+                            </h1>
+                            <p class="mx-auto text-white  mt-20 mb-40">
+                                In the history of modern astronomy, there is probably no one greater leap forward than the building.
+                            </p>
+                            <div class="link-nav">
+                                <span class="box">
+                                    <Link to={"/"}>Home </Link>
+                                    <i class="lnr lnr-arrow-right"></i>
+                                    <Link to={"/teacher-profile"}>Profile </Link>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div className="container mb-4 main-container">
                 <div class="row">
                     <div class="col-lg-4 pb-5">
                         <div class="author-card pb-3">
@@ -77,7 +97,6 @@ function ProfileSitting() {
                     </div>
                 </div>
             </div>
-         </section>
         </>
     );
 }
