@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import '../../assets/css/Courses.css';
 import SuccessAlert from '../../SuccessAlert/SuccessAlert';
+import { UserContext } from '../../userContext'; 
 
 const UploadCourseForm = () => {
+  const {setUser } = useContext(UserContext);
   const [courseData, setCourseData] = useState({
     name: '',
     description: '',
@@ -18,20 +20,20 @@ const UploadCourseForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setCourseData({
-      ...courseData,
+    setCourseData(prevData => ({
+      ...prevData,
       [name]: type === 'checkbox' ? checked : value,
-    });
+    }));
   };
 
   const handleFileChange = (e, index) => {
     const { name } = e.target;
     if (name === 'image') {
-      setCourseData({ ...courseData, image: e.target.files[0] });
+      setCourseData(prevData => ({ ...prevData, image: e.target.files[0] }));
     } else if (name === 'video') {
       const newLessons = [...courseData.lessons];
       newLessons[index].video = e.target.files[0];
-      setCourseData({ ...courseData, lessons: newLessons });
+      setCourseData(prevData => ({ ...prevData, lessons: newLessons }));
     }
   };
 
@@ -39,63 +41,84 @@ const UploadCourseForm = () => {
     const { name, value } = e.target;
     const newLessons = [...courseData.lessons];
     newLessons[index][name] = value;
-    setCourseData({ ...courseData, lessons: newLessons });
+    setCourseData(prevData => ({ ...prevData, lessons: newLessons }));
   };
 
   const addLesson = () => {
-    setCourseData({
-      ...courseData,
-      lessons: [...courseData.lessons, { title: '', video: null }]
-    });
+    setCourseData(prevData => ({
+      ...prevData,
+      lessons: [...prevData.lessons, { title: '', video: null }]
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    const user=localStorage.getItem('user');
-    let teacherID='';
-    let teacherName="";
 
-    if (user) {
-        const parsedUser = JSON.parse(user);
+    const localUser = localStorage.getItem('user');
+    let teacherID = '';
+    let teacherName = "";
+
+    if (localUser) {
+        const parsedUser = JSON.parse(localUser);
         teacherID = parsedUser.userID;
         teacherName = parsedUser.name;
-    }
-    else {
+
+        // Ensure createdCourses is an array
+        const createdCourses = Array.isArray(parsedUser.createdCourses) ? parsedUser.createdCourses : [];
+        
+        const formData = new FormData();
+        formData.append('name', courseData.name);
+        formData.append('description', courseData.description);
+        formData.append('category', courseData.category);
+        formData.append('teacherID', teacherID);
+        formData.append('teacherName', teacherName);
+        formData.append('isPremium', courseData.isPremium);
+        formData.append('price', courseData.isPremium ? courseData.price : 0);
+        formData.append('image', courseData.image);
+        
+        courseData.lessons.forEach((lesson, index) => {
+            formData.append(`lessons[${index}][title]`, lesson.title);
+            if (lesson.video) {
+                formData.append(`lessonVideos`, lesson.video);
+            }
+        });
+
+        try {
+            const response = await axios.post('http://localhost:5000/addCourse', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            const token = localStorage.getItem('accessToken');
+            if (token) {
+                await axios.post('http://localhost:5000/education/addcourse', {
+                    courseId: response.data.courseID,
+                    teacherID: response.data.teacherID,
+                }, {
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+            }
+
+            // Update the user's created courses using context
+              const updatedUser = {
+                ...parsedUser,  // Use the parsed user object
+                createdCourses: [...createdCourses, { courseId: response.data.courseID }], // Add new course as an object
+              };
+              setUser(updatedUser); // Update the user context with the new courses
+
+
+            setAlertMessage({ message: 'Course uploaded successfully!', type: 'success' });
+        } catch (error) {
+            console.error('Error uploading course', error);
+            setAlertMessage({ message: 'Error uploading course', type: 'error' });
+        }
+    } else {
         console.error('No user found in localStorage');
-        return;
     }
-
-    const formData = new FormData();
-    formData.append('name', courseData.name);
-    formData.append('description', courseData.description);
-    formData.append('category', courseData.category);
-    formData.append('teacherID', teacherID);
-    formData.append('teacherName', teacherName);
-    formData.append('isPremium', courseData.isPremium? true:false);
-    formData.append('price', courseData.isPremium ? courseData.price : 0);
-    formData.append('image', courseData.image);
-    
-    courseData.lessons.forEach((lesson, index) => {
-        formData.append(`lessons[${index}][title]`, lesson.title);
-      if(lesson.video){
-        formData.append(`lessonVideos`, lesson.video);
-      }
-    });
-
-    try {
-      const response = await axios.post('http://localhost:5000/addCourse', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(response.data);
-      setAlertMessage({ message: 'Course uploaded successfully!', type: 'success' });
-    } catch (error) {
-      console.error('Error uploading course', error);
-      setAlertMessage({ message: 'Error uploading course', type: 'error' });
-    }
-  };
+};
 
   return (
     <div className="upload-form-container">
@@ -104,7 +127,7 @@ const UploadCourseForm = () => {
       <form onSubmit={handleSubmit} className="upload-course-form">
         <h2 className="form-title">Upload New Course</h2>
 
-        {/* course info */}
+        {/* Course Info */}
         <div className="form-group">
           <label>Course Name:</label>
           <input type="text" name="name" value={courseData.name} onChange={handleChange} required className="input-field" />
@@ -124,6 +147,7 @@ const UploadCourseForm = () => {
             <option value="UI/UX Design">UI/UX Design</option>
           </select>
         </div>
+
         <div className="form-group premium-checkbox">
           <label>Premium Course:</label>
           <input type="checkbox" name="isPremium" checked={courseData.isPremium} onChange={handleChange} />
@@ -141,7 +165,7 @@ const UploadCourseForm = () => {
           <input type="file" name="image" onChange={handleFileChange} className="file-input" />
         </div>
 
-        {/* lessons info */}
+        {/* Lessons Info */}
         {courseData.lessons.map((lesson, index) => (
           <div key={index} className="lesson-group">
             <h3>Lesson {index + 1}</h3>

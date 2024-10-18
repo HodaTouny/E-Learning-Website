@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/css/Courses.css';
+import { UserContext } from '../userContext'; 
 import Alert from '../SuccessAlert/SuccessAlert';
 
 const CourseDetail = () => {
+  const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
+  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,12 +18,23 @@ const CourseDetail = () => {
   const [alertType, setAlertType] = useState('success');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
+  const [isEnrolled, setIsEnrolled] = useState(false); // Track enrollment status
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/getCourse/${id}`);
-        setCourse(response.data);
+        const token = localStorage.getItem('accessToken');
+        const userId = JSON.parse(localStorage.getItem('user')).userID;
+        const courseResponse = await axios.get(`http://localhost:5000/getCourse/${id}`);
+        setCourse(courseResponse.data);
+
+        // Check if user is enrolled in the course
+        if (user && user.enrolledCourses) {
+          const enrolled = user.enrolledCourses.some(
+            (enrolledCourse) => enrolledCourse.courseId === parseInt(id)
+          );
+          setIsEnrolled(enrolled);
+        }
       } catch (error) {
         setError('Error fetching course details');
       } finally {
@@ -29,74 +43,98 @@ const CourseDetail = () => {
     };
 
     fetchCourse();
-  }, [id]);
+  }, [id, user]);
 
   const handleEnroll = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      await axios.post(
-        'http://localhost:5000/education/enrollcourse',
-        {
-          studentId: JSON.parse(localStorage.getItem('user')).userID,
-          courseId: id,
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        }
-      );
+      const user = JSON.parse(localStorage.getItem('user'));
 
       if (course.isPremium) {
-        const user = JSON.parse(localStorage.getItem('user'));
         const email = user.email;
         const billDetails = `Course: ${course.name}, Price: ${course.price}$`;
 
-        const response = await axios.post('http://localhost:5000/payment/initiate', {
-          userId: user.userID,
-          email,
-          billDetails,
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        // Initiate payment and send OTP
+        const response = await axios.post(
+          'http://localhost:5000/payment/initiate',
+          { userId: user.userID, email, billDetails },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
         setEnrollStatus(response.data.message || 'OTP sent to your email.');
-        setOtpSent(true);
+        setOtpSent(true); // Indicate OTP has been sent
         setAlertType('success');
+
       } else {
+        // For non-premium courses, enroll immediately
+        await axios.post(
+          'http://localhost:5000/education/enrollcourse',
+          { studentId: user.userID, courseId: course.courseID },
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
         setEnrollStatus('Successfully enrolled in the course!');
         setAlertType('success');
+        setIsEnrolled(true); // Mark as enrolled
+
+        // Update user context after enrollment
+        setUser((prevUser) => ({
+          ...prevUser,
+          enrolledCourses: [
+            ...prevUser.enrolledCourses,
+            { courseId: course.courseID, courseName: course.name },
+          ],
+        }));
       }
     } catch (error) {
-      setEnrollStatus(error.response?.data?.message || 'Enrollment failed. Try again');
+      setEnrollStatus(error.response?.data?.message || 'Enrollment failed. Try again.');
       setAlertType('error');
     }
   };
 
+  // Add this function to handle OTP verification and enrollment
   const handleOtpVerification = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await axios.post('http://localhost:5000/payment/verify', {
-        userId: JSON.parse(localStorage.getItem('user')).userID,
-        otp,
-      },
-      {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        }
+      const user = JSON.parse(localStorage.getItem('user'));
+
+      const response = await axios.post(
+        'http://localhost:5000/payment/verify',
+        { userId: user.userID, otp },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setEnrollStatus(response.data.message || 'Payment verified successfully.');
       setAlertType('success');
-      setOtpSent(false);
-      setOtp('');
-    } 
-    catch (error) {
-      setEnrollStatus(error.response?.data?.message || 'OTP verification failed. Try again');
+      setOtpSent(false); // Hide OTP input
+      setOtp(''); // Clear OTP input
+
+      // Now enroll the user in the course
+      await axios.post(
+        'http://localhost:5000/education/enrollcourse',
+        { studentId: user.userID, courseId: course.courseID },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setIsEnrolled(true); // Mark as enrolled after successful payment
+      // Update user context after enrollment
+      setUser((prevUser) => ({
+        ...prevUser,
+        enrolledCourses: [
+          ...prevUser.enrolledCourses,
+          { courseId: course.courseID, courseName: course.name },
+        ],
+      }));
+
+      // Optionally, you can also add balance to the teacher after successful enrollment
+      await axios.post(
+        'http://localhost:5000/education/addbalance',
+        { teacherID: course.teacherID, amount: course.price * 0.8 },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+    } catch (error) {
+      setEnrollStatus(error.response?.data?.message || 'OTP verification failed. Try again.');
       setAlertType('error');
     }
   };
@@ -158,14 +196,18 @@ const CourseDetail = () => {
                         <div key={index}>
                           <li
                             className="justify-content-between d-flex"
-                            onClick={() => toggleLesson(index)}
-                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              if (isEnrolled) {
+                                toggleLesson(index);
+                              }
+                            }}
+                            style={{ cursor: isEnrolled ? 'pointer' : 'not-allowed' }} // Change cursor based on enrollment
                           >
                             <p>{lesson.title} {lessonProgress[index] ? ` - ${lessonProgress[index]}%` : ''}</p>
-                            <p className="btn text-uppercase">View Details</p>
+                            <p className="btn text-uppercase" disabled={!isEnrolled}>View Details</p>
                           </li>
 
-                          {expandedLesson === index && (
+                          {isEnrolled && expandedLesson === index && ( // Only render details if enrolled
                             <div className="lesson-details">
                               {lesson.video ? (
                                 <video
@@ -197,40 +239,62 @@ const CourseDetail = () => {
                 <li>
                   <p className="justify-content-between d-flex">
                     <p>Course Name</p>
-                    <span className="or">{course.name}</span>
+                    <span className="or">:</span>
+                    <p>{course.name}</p>
                   </p>
                 </li>
                 <li>
                   <p className="justify-content-between d-flex">
-                    <p>Trainer’s Name</p>
-                    <span className="or">{course.teacherName}</span>
+                    <p>Teacher</p>
+                    <span className="or">:</span>
+                    <p>{course.teacherName}</p>
                   </p>
                 </li>
                 <li>
                   <p className="justify-content-between d-flex">
-                    <span>Course Fee</span>
-                    <span>{course.isPremium ? course.price : '0'}$</span>
+                    <p>Duration</p>
+                    <span className="or">:</span>
+                    <p>{course.duration} Hours</p>
                   </p>
                 </li>
                 <li>
                   <p className="justify-content-between d-flex">
-                    <p>Category</p>
-                    <span>{course.category}</span>
+                    <p>Price</p>
+                    <span className="or">:</span>
+                    <p>{course.isPremium ? `${course.price}$` : 'Free'}</p>
+                  </p>
+                </li>
+                <li>
+                  <p className="justify-content-between d-flex">
+                    <p>Level</p>
+                    <span className="or">:</span>
+                    <p>{course.level}</p>
                   </p>
                 </li>
               </ul>
-              <button onClick={handleEnroll} className="btn text-uppercase enroll">
-                Enroll the course
-              </button>
+              <div className="row justify-content-center">
+                <button
+                  className="btn btn-primary text-uppercase"
+                  onClick={isEnrolled ? null : handleEnroll} // Only allow enrollment if not already enrolled
+                >
+                  {isEnrolled ? 'Enrolled' : 'Enroll Now'}
+                </button>
+              </div>
 
               {otpSent && (
-                <div>
-                  <input className="form-control" type="text" placeholder="Enter OTP" value={otp} onChange={(e) => setOtp(e.target.value)} />
-                  <button onClick={handleOtpVerification} className="btn text-uppercase enroll">Verify OTP</button>
+                <div className="otp-verification">
+                  <h4>Enter OTP sent to your email:</h4>
+                  <input
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="Enter OTP"
+                  />
+                  <button onClick={handleOtpVerification}>Verify OTP</button>
                 </div>
               )}
 
-              {enrollStatus && <Alert message={enrollStatus} type={alertType} />}
+              {enrollStatus && <Alert type={alertType} message={enrollStatus} />}
             </div>
           </div>
         </div>

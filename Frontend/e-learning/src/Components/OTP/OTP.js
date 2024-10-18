@@ -30,7 +30,7 @@ function OTP() {
             inputRefs.current[index + 1].focus();
         }
 
-        verifyOTP(); // Call verification on every input change
+        verifyOTP();
     };
 
     // Handle paste event
@@ -67,7 +67,7 @@ function OTP() {
 
     return (
         <section>
-            <div className="container">
+            <div className="container mt-5">
                 <h1 className="title">Enter OTP</h1>
                 <form id="otp-form" onSubmit={(e) => e.preventDefault()}>
                     {otp.map((_, index) => (
