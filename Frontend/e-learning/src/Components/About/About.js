@@ -69,7 +69,7 @@ const About=()=>{
                             <h1>
                                 Explore <br />
                                 500+ Courses <br />
-                                from 20+ Platforms
+                                from 20+ Our Teacher
                             </h1>
                             <div>
                                 <p>
