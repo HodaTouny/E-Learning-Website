@@ -1,4 +1,3 @@
-/* course detail pages */
 .upload-form-container {
   display: flex;
   justify-content: center;
@@ -68,7 +67,6 @@ label {
   background-color: #0056b3;
 }
 
-/**************************** course detail page ****************************/
 
 .lesson-video {
   width: 100%;

@@ -37,8 +37,6 @@ input[type="radio"] {
 }
 
 
-/* FILTERS
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .filters {
     text-align: center;
     margin-bottom: 2rem;
@@ -69,8 +67,6 @@ input[type="radio"] {
 }
 
 
-/* FILTERED ELEMENTS (POSTS)
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
 .posts {
     display: grid;
     grid-gap: 1.5rem;
@@ -123,21 +119,15 @@ input[type="radio"] {
 }
 
 
-/* FILTERING RULES
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
 [value="All"]:checked~.posts [data-category] {
     display: block;
-    /* Show all posts */
 }
 
 [value="CSS"]:checked~.posts .post:not([data-category~="CSS"]),
 [value="JavaScript"]:checked~.posts .post:not([data-category~="JavaScript"]) {
     display: none;
-    /* Hide posts that do not match the selected category */
 }
 
-/* MQ
-–––––––––––––––––––––––––––––––––––––––––––––––––– */
 @media screen and (max-width: 950px) {
     .posts {
         grid-template-columns: repeat(3, 1fr);
