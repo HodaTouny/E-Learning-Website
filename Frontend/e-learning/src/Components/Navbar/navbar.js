@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link as ScrollLink } from 'react-scroll';
+import { Link as ScrollLink, scroller } from 'react-scroll';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -70,13 +70,34 @@ const Navbar = () => {
     const isLoginPage = location.pathname === '/Login';
     const isRegisterPage = location.pathname === '/Register';
     const isAllCoursesPage = location.pathname === '/courses';
-    const isCourseDetailsPage = location.pathname === '/CourseDetails';
-    const isProfilePage = location.pathname === '/profile-student' || location.pathname === '/teacher-profile';
     const isDashboardPage = location.pathname === '/dashboard';
-    const isAllTeachersPage = location.pathname === '/allteachers';
-    const headerClass = (isAllCoursesPage || isDashboardPage || isAllTeachersPage ) ? 'default-header dark-navbar' : 'default-header';
+    const headerClass = (isAllCoursesPage || isDashboardPage) ? 'default-header dark-navbar' : 'default-header';
 
     const isActive = (path) => location.pathname === path ? 'active' : '';
+
+    const handleConnectClick = () => {
+        if (isHomePage) {
+            scroller.scrollTo('ContactUs', {
+                smooth: true,
+                duration: 500,
+                offset: -70,
+            });
+        } else {
+            navigate('/', { state: { scrollToContact: true } });
+        }
+    };
+
+    useEffect(() => {
+        if (location.pathname === '/' && location.state?.scrollToContact) {
+            setTimeout(() => {
+                scroller.scrollTo('ContactUs', {
+                    smooth: true,
+                    duration: 500,
+                    offset: -70,
+                });
+            }, 100); 
+        }
+    }, [location]);
 
     const renderNavLinks = () => {
         const commonLinks = (
@@ -90,10 +111,11 @@ const Navbar = () => {
                 <li className="nav-item">
                     <Link className={`nav-link ${isActive('/courses')}`} to="/courses">All Courses</Link>
                 </li>
-                <li className="nav-item" style={{ cursor: 'pointer' }}>
-                    <ScrollLink className={`nav-link ${isActive('/ContactUs')}`} to="ContactUs" smooth={true} duration={500} offset={-70}>
-                        Contact
-                    </ScrollLink>
+                <li className="nav-item" style={{ cursor: 'pointer' }} onClick={handleConnectClick}>
+                    <Link className="nav-link">
+                        Connect
+                    </Link>
+                
                 </li>
             </>
         );
