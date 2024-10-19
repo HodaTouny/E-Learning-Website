@@ -23,7 +23,7 @@ class CourseModel {
         isPremium: { type: Boolean, default: false },
         price: {
           type: Number,
-          required: function () { return this.isPremium; }, // price required if isPremium is true
+          required: function () { return this.isPremium; }, 
         },
         image: { type: String },
         lessons: [lessonSchema],
