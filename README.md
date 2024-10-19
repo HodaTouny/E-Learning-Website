@@ -1,7 +1,7 @@
 # E-Learning-Website
 
 ## Overview
-The *Eclipse E-Learning Platform* is a comprehensive, web-based learning platform designed to provide structured computer science education. The platform offers both free and premium interactive courses to enhance the learning experience for students, educators, and administrators. It includes a wide array of features such as course management, enrollment tracking, payment processing, and user role management, making it a complete solution for modern education needs.
+The *E-Learning Platform* is a comprehensive, web-based learning platform designed to provide structured computer science education. The platform offers both free and premium interactive courses to enhance the learning experience for students, educators, and administrators. It includes a wide array of features such as course management, enrollment tracking, payment processing, and user role management, making it a complete solution for modern education needs.
 
 ---
 
@@ -43,9 +43,13 @@ The *Eclipse E-Learning Platform* is a comprehensive, web-based learning platfor
 ---
 ## Diagrams
 
+### Use Case diagram
 ![image](https://github.com/user-attachments/assets/b7c8a92c-82e5-43d3-9044-72ce661bc77e)
 
+### ERD
 ![image](https://github.com/user-attachments/assets/54df3d1f-f406-4580-84ce-294eef1f43fa)
+
+### Class diagram
 
 ![image](https://github.com/user-attachments/assets/c842ba9b-50c5-4c02-8e17-713040136d21)
 ---
