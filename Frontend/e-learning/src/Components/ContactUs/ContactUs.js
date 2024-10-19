@@ -48,11 +48,11 @@ const ContactUs = () => {
             console.log(data);
     
             if (response.status === 201) {
-                setSuccessMessage('Your message has been sent successfully!');
+                setSuccessMessage('Your Subscription has been successfully sent!');
                 setName('');
                 setEmail('');
             } else {
-                setError('Failed to send message. Please try again later.');
+                setError('Faild to Subscribe. Please try again later.');
             }
         } catch (error) {
             setError('Error: ' + error.message);
@@ -109,7 +109,7 @@ const ContactUs = () => {
                                 </div>
 
                                 <div className="col-lg-12 text-center">
-                                    <button type="submit" className="btn text-uppercase">Submit</button>
+                                    <button type="submit" className="btn text-uppercase">Connect</button>
                                 </div>
                             </form>
                         </div>

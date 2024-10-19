@@ -2,13 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import '../assets/css/OTP.css'; 
 
 function OTP() {
-    const inputRefs = useRef([]); // Refs to manage input focus programmatically
-    const [otp, setOtp] = useState(new Array(5).fill('')); // State to store OTP values
+    const inputRefs = useRef([]); 
+    const [otp, setOtp] = useState(new Array(5).fill(''));
 
-    // Check if all inputs are filled
     const isAllInputFilled = () => otp.every((val) => val !== '');
 
-    // Handle OTP verification
     const verifyOTP = () => {
         if (isAllInputFilled()) {
             const otpString = otp.join('');
@@ -16,16 +14,13 @@ function OTP() {
         }
     };
 
-    // Handle input change
     const handleChange = (e, index) => {
         const value = e.target.value;
-        if (value.length > 1) return; // Prevent more than 1 character
-
+        if (value.length > 1) return; 
         const newOtp = [...otp];
         newOtp[index] = value;
         setOtp(newOtp);
 
-        // Focus the next input if available
         if (value && inputRefs.current[index + 1]) {
             inputRefs.current[index + 1].focus();
         }
@@ -33,7 +28,6 @@ function OTP() {
         verifyOTP();
     };
 
-    // Handle paste event
     const handlePaste = (e, index) => {
         e.preventDefault();
         const pasteData = e.clipboardData.getData('text').slice(0, otp.length - index);
@@ -50,7 +44,6 @@ function OTP() {
         verifyOTP();
     };
 
-    // Handle backspace and navigation with arrow keys
     const handleKeyDown = (e, index) => {
         if (e.key === 'Backspace') {
             const newOtp = [...otp];

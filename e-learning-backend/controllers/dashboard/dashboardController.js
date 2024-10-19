@@ -1,5 +1,8 @@
-// controllers/dashboard/dashboardController.js
 const DashboardDAO = require('../../DAOs/dashboard/dashboardDAO');
+
+/* 
+Controller To Get User, Course and Contact Stats
+*/
 
 class DashboardController {
     constructor() {

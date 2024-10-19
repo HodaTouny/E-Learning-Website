@@ -1,6 +1,11 @@
 const UserController = require("./userController");
 const bcrypt = require("bcrypt");
 
+
+/*
+Controller Contain Client [Student, Teacher] Extra Operations
+*/
+
 class ClientController extends UserController {
     constructor() {
         super();

@@ -16,7 +16,6 @@ class EmailService {
     }
 
     async sendEmail(to, subject, text, html) {
-    console.log('Sending email to:', to);
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: to,

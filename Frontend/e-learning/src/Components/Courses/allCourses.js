@@ -32,7 +32,7 @@ const AllCourses = () => {
     const filteredCourses = courses.filter((course) => {
         return (
             (selectedCategory === 'All' || course.category.includes(selectedCategory)) &&
-            course.name.toLowerCase().includes(searchTerm.toLowerCase()) // Filter by name
+            course.name.toLowerCase().includes(searchTerm.toLowerCase()) 
         );
     });
 

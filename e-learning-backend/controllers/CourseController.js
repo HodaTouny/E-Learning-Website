@@ -4,6 +4,10 @@ const multer = require('multer');
 
 const Course=new Courses().getModel();
 
+/*
+Controller To Manage All Course Operations
+*/
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, '/uploads');

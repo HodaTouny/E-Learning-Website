@@ -32,6 +32,9 @@ class TeacherDAO extends ClientDAO {
         return await teacher.save();
     }
     
+    async getAllTeachers() {
+        return await Teacher.find();
+    }
     
 }
 
