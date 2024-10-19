@@ -63,7 +63,7 @@ function ProfileSitting() {
                         <div class="author-card pb-3">
                             <div class="author-card-profile">
                                 <div class="author-card-avatar">
-                                    <img src={img} alt="{user.name}" />
+                                    <img src={img} alt={userData.name} />
                                 </div>
                                 <div class="author-card-details">
                                     <h5 class="author-card-name text-lg">{userData.name}</h5>
@@ -85,7 +85,7 @@ function ProfileSitting() {
                                         <div><i class="fa fa-book mr-1 text-muted"></i>
                                             <div class="d-inline-block font-weight-medium text-uppercase">Courses</div>
                                         </div>
-                                        <span class="badge badge-secondary">{userData?.createdCourses?.length || 0}</span>
+                                        <span class="badge badge-secondary">{userData.createdCourses.length || 0}</span>
                                     </div>
                                 </a>
                             </nav>

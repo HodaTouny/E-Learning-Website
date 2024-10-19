@@ -27,7 +27,9 @@ function ProfileSitting() {
     const handleEditProfileClick = () => {
         setActiveTab('editProfile');
     };
-
+    if (!userData) {
+        return <div>Loading...</div>;
+    }
     return (
         <>
             <section class="banner-area">
@@ -59,12 +61,12 @@ function ProfileSitting() {
                                 <div className="author-card-avatar">
                                     <img
                                         src={img}
-                                        alt={userData?.name || "User"}
+                                        alt={userData.name}
                                     />
                                 </div>
                                 <div className="author-card-details">
-                                    <h5 className="author-card-name text-lg">{userData?.name || "Guest User"}</h5>
-                                    <span className="author-card-email">{userData?.email}</span>
+                                    <h5 className="author-card-name text-lg">{userData.name}</h5>
+                                    <span className="author-card-email">{userData.email}</span>
                                 </div>
                             </div>
                         </div>
@@ -79,7 +81,7 @@ function ProfileSitting() {
                                             <i className="fa fa-list mr-1 text-muted"></i>
                                             <div className="d-inline-block font-weight-medium text-uppercase">Enrolled Courses</div>
                                         </div>
-                                        <span className="badge badge-secondary">{userData?.enrolledCourses?.length || 0}</span>
+                                        <span className="badge badge-secondary">{userData.enrolledCourses.length}</span>
                                     </div>
                                 </a>
                             </nav>
