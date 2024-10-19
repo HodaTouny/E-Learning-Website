@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa';
 
 import '../assets/css/linearicons.css';
 import '../assets/css/font-awesome.min.css';
@@ -15,54 +16,31 @@ const Footer = () => {
 
     return (
         <footer className="footer-area section-gap">
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-3 col-md-3 single-footer-widget">
-                        <h4>Top Products</h4>
-                        <ul>
-                            <li><a href="#">Managed Website</a></li>
-                            <li><a href="#">Manage Reputation</a></li>
-                            <li><a href="#">Power Tools</a></li>
-                            <li><a href="#">Marketing Service</a></li>
-                        </ul>
-                    </div>
-                    <div className="col-lg-3 col-md-3 single-footer-widget">
-                        <h4>Quick Links</h4>
-                        <ul>
-                            <li><a href="#">Jobs</a></li>
-                            <li><a href="#">Brand Assets</a></li>
-                            <li><a href="#">Investor Relations</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                    <div className="col-lg-3 col-md-3 single-footer-widget">
-                        <h4>Features</h4>
-                        <ul>
-                            <li><a href="#">Jobs</a></li>
-                            <li><a href="#">Brand Assets</a></li>
-                            <li><a href="#">Investor Relations</a></li>
-                            <li><a href="#">Terms of Service</a></li>
-                        </ul>
-                    </div>
-                    <div className="col-lg-3 col-md-3 single-footer-widget">
-                        <h4>Resources</h4>
-                        <ul>
-                            <li><a href="#">Guides</a></li>
-                            <li><a href="#">Research</a></li>
-                            <li><a href="#">Experts</a></li>
-                            <li><a href="#">Agencies</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div className="footer-bottom row align-items-center text-align-center">
-                    <p className="footer-text m-0 col-lg-8 col-md-12 text-align-center">
-                        Copyright &copy; All rights reserved | This template is made with <i className="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+        <div className="container">
+            <div className="row">
+                <div className="col-lg-12 text-center">
+                    <h2 style={{ color: '#FFF', marginBottom: '20px' }}>Get in Touch</h2>
+                    <p style={{ color: '#FFF', fontSize: '18px', maxWidth: '800px', margin: '0 auto' }}>
+                        We'd love to hear from you! Whether you have a question, feedback, or just want to connect, feel free to reach out. 
+                        Follow us on social media or drop us an email. Stay updated and be closer to our e-learning community!
                     </p>
-
                 </div>
             </div>
-        </footer>
+            <div className="row">
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', fontSize: '40px', marginTop: '30px' }}>
+                    <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer">
+                        <FaLinkedin style={{ color: '#FFF' }} />
+                    </a>
+                    <a href="https://github.com/HodaTouny/E-Learning-Website" target="_blank" rel="noopener noreferrer">
+                        <FaGithub style={{ color: '#FFF' }} />
+                    </a>
+                    <a href="mailto:your-email@gmail.com">
+                        <FaEnvelope style={{ color: '#FFF' }} />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
     );
 };
 
