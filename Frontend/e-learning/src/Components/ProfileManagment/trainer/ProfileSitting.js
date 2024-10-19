@@ -4,7 +4,7 @@ import '../../assets/css/profilesitting.css'
 import CourseList from './CourseList';
 import EditProfile from '../EditProfile';
 import UploadCourseForm from './UploadCourseForm';
-import img from '../../assets/img/teachprofile.png'
+import img from '../../assets/img/profileteacher.png';
 
 
 function ProfileSitting() {
