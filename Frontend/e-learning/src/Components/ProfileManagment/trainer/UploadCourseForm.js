@@ -63,7 +63,7 @@ const UploadCourseForm = () => {
         teacherID = parsedUser.userID;
         teacherName = parsedUser.name;
 
-        // Ensure createdCourses is an array
+      
         const createdCourses = Array.isArray(parsedUser.createdCourses) ? parsedUser.createdCourses : [];
         
         const formData = new FormData();
@@ -102,12 +102,12 @@ const UploadCourseForm = () => {
                 });
             }
 
-            // Update the user's created courses using context
+           
               const updatedUser = {
-                ...parsedUser,  // Use the parsed user object
+                ...parsedUser,  
                 createdCourses: [...createdCourses, { courseId: response.data.courseID }], // Add new course as an object
               };
-              setUser(updatedUser); // Update the user context with the new courses
+              setUser(updatedUser); 
 
 
             setAlertMessage({ message: 'Course uploaded successfully!', type: 'success' });

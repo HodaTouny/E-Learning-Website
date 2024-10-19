@@ -18,21 +18,18 @@ const CourseDetail = () => {
   const [alertType, setAlertType] = useState('success');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-  const [isEnrolled, setIsEnrolled] = useState(false); // Track enrollment status
+  const [isEnrolled, setIsEnrolled] = useState(false); 
 
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        // Fetch course details
         const courseResponse = await axios.get(`http://localhost:5000/getCourse/${id}`);
         setCourse(courseResponse.data);
   
-        // Check if the user is logged in
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
           const userId = JSON.parse(storedUser).userID;
           
-          // If the user is logged in, check if they are enrolled
           if (user && user.enrolledCourses) {
             const enrolled = user.enrolledCourses.some(
               (enrolledCourse) => enrolledCourse.courseId === parseInt(id)
@@ -60,7 +57,6 @@ const CourseDetail = () => {
         const email = user.email;
         const billDetails = `Course: ${course.name}, Price: ${course.price}$`;
 
-        // Initiate payment and send OTP
         const response = await axios.post(
           'http://localhost:5000/payment/initiate',
           { userId: user.userID, email, billDetails },
@@ -68,11 +64,10 @@ const CourseDetail = () => {
         );
 
         setEnrollStatus(response.data.message || 'OTP sent to your email.');
-        setOtpSent(true); // Indicate OTP has been sent
+        setOtpSent(true);
         setAlertType('success');
 
       } else {
-        // For non-premium courses, enroll immediately
         await axios.post(
           'http://localhost:5000/education/enrollcourse',
           { studentId: user.userID, courseId: course.courseID },
@@ -81,9 +76,7 @@ const CourseDetail = () => {
 
         setEnrollStatus('Successfully enrolled in the course!');
         setAlertType('success');
-        setIsEnrolled(true); // Mark as enrolled
-
-        // Update user context after enrollment
+        setIsEnrolled(true); 
         setUser((prevUser) => ({
           ...prevUser,
           enrolledCourses: [
@@ -98,7 +91,6 @@ const CourseDetail = () => {
     }
   };
 
-  // Add this function to handle OTP verification and enrollment
   const handleOtpVerification = async () => {
     try {
       const token = localStorage.getItem('accessToken');
@@ -112,18 +104,16 @@ const CourseDetail = () => {
 
       setEnrollStatus(response.data.message || 'Payment verified successfully.');
       setAlertType('success');
-      setOtpSent(false); // Hide OTP input
-      setOtp(''); // Clear OTP input
+      setOtpSent(false); 
+      setOtp(''); 
 
-      // Now enroll the user in the course
       await axios.post(
         'http://localhost:5000/education/enrollcourse',
         { studentId: user.userID, courseId: course.courseID },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setIsEnrolled(true); // Mark as enrolled after successful payment
-      // Update user context after enrollment
+      setIsEnrolled(true);
       setUser((prevUser) => ({
         ...prevUser,
         enrolledCourses: [
@@ -132,7 +122,6 @@ const CourseDetail = () => {
         ],
       }));
 
-      // Optionally, you can also add balance to the teacher after successful enrollment
       await axios.post(
         'http://localhost:5000/education/addbalance',
         { teacherID: course.teacherID, amount: course.price * 0.8 },
@@ -207,13 +196,13 @@ const CourseDetail = () => {
                                 toggleLesson(index);
                               }
                             }}
-                            style={{ cursor: isEnrolled ? 'pointer' : 'not-allowed' }} // Change cursor based on enrollment
+                            style={{ cursor: isEnrolled ? 'pointer' : 'not-allowed' }} 
                           >
                             <p>{lesson.title} {lessonProgress[index] ? ` - ${lessonProgress[index]}%` : ''}</p>
                             <p className="btn text-uppercase" disabled={!isEnrolled}>View Details</p>
                           </li>
 
-                          {isEnrolled && expandedLesson === index && ( // Only render details if enrolled
+                          {isEnrolled && expandedLesson === index && ( 
                             <div className="lesson-details">
                               {lesson.video ? (
                                 <video
@@ -281,7 +270,7 @@ const CourseDetail = () => {
               <div className="row justify-content-center">
                 <button
                   className="btn btn-primary text-uppercase"
-                  onClick={isEnrolled ? null : handleEnroll} // Only allow enrollment if not already enrolled
+                  onClick={isEnrolled ? null : handleEnroll} 
                 >
                   {isEnrolled ? 'Enrolled' : 'Enroll Now'}
                 </button>

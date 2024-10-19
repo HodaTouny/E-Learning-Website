@@ -14,19 +14,16 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch user stats
                 const userResponse = await fetch('http://localhost:5000/admin/user-stats');
                 if (!userResponse.ok) throw new Error('Network response was not ok');
                 const userData = await userResponse.json();
                 setUserStats(userData);
 
-                // Fetch course stats
                 const courseResponse = await fetch('http://localhost:5000/admin/course-stats');
                 if (!courseResponse.ok) throw new Error('Network response was not ok');
                 const courseData = await courseResponse.json();
                 setCourseStats(courseData);
 
-                // Fetch contact stats
                 const contactResponse = await fetch('http://localhost:5000/admin/contact-stats');
                 if (!contactResponse.ok) throw new Error('Network response was not ok');
                 const contactData = await contactResponse.json();

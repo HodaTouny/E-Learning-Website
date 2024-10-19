@@ -19,7 +19,6 @@ const TeachersList = () => {
                 });
                 const data = await response.json();
 
-                // Ensure that data is an array
                 if (Array.isArray(data)) {
                     setTeachers(data);
                 } else {

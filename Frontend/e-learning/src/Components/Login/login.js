@@ -51,7 +51,7 @@ function Login() {
     const refreshAccessToken = async () => {
         const refreshToken = localStorage.getItem('refreshToken');
         if (!refreshToken) {
-            return; // Exit if no refresh token is found
+            return; 
         }
 
         try {
@@ -78,14 +78,13 @@ function Login() {
             if (!accessToken) return;
 
             const decoded = jwtDecode(accessToken);
-            const exp = decoded.exp * 1000; // Convert to milliseconds
+            const exp = decoded.exp * 1000; 
             const now = Date.now();
 
-            // Check if token is about to expire (within 5 minutes)
             if (exp - now < 5 * 60 * 1000) {
                 await refreshAccessToken();
             }
-        }, 60 * 1000); // Refresh check every minute
+        }, 60 * 1000); 
     };
 
     return (

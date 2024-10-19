@@ -43,7 +43,6 @@ const Navbar = () => {
             const accessToken = localStorage.getItem('accessToken');
             const refreshToken = localStorage.getItem('refreshToken');
             
-            // Check if tokens exist before proceeding
             if (!accessToken || !refreshToken) {
                 alert("You are not logged in.");
                 return;
@@ -75,7 +74,6 @@ const Navbar = () => {
     const isProfilePage = location.pathname === '/profile-student' || location.pathname === '/teacher-profile';
     const isDashboardPage = location.pathname === '/dashboard';
     const isAllTeachersPage = location.pathname === '/allteachers';
-    // Set header class based on the current page
     const headerClass = (isAllCoursesPage || isDashboardPage || isAllTeachersPage ) ? 'default-header dark-navbar' : 'default-header';
 
     const isActive = (path) => location.pathname === path ? 'active' : '';
@@ -136,7 +134,6 @@ const Navbar = () => {
             );
         }
     
-        // Admin-specific links: only include Home and Dashboard for Admins
         if (user.role === 'Admin') {
             return (
                 <>
@@ -156,7 +153,6 @@ const Navbar = () => {
             );
         }
     
-        // Regular user links
         return (
             <>
                 {commonLinks}

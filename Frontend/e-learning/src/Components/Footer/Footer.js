@@ -54,24 +54,6 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    {/* <div className="col-lg-4 col-md-6 single-footer-widget">
-                        <h4>Newsletter</h4>
-                        <p>You can trust us. we only send promo offers,</p>
-                        <div className="form-wrap" id="mc_embed_signup">
-                            <form target="_blank"
-                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" className="form-inline">
-                                <input className="form-control" name="EMAIL" placeholder="Your Email Address" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = 'Your Email Address '" required="" type="email" />
-                                <button className="click-btn btn btn-default text-uppercase">subscribe</button>
-                                <div className='removed'>
-                                    <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text" />
-                                </div>
-
-                                <div className="info"></div>
-                            </form>
-                        </div>
-                    </div> */}
                 </div>
                 <div className="footer-bottom row align-items-center text-align-center">
                     <p className="footer-text m-0 col-lg-8 col-md-12 text-align-center">

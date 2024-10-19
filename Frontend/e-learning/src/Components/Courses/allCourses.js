@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/allCourses.css';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom'; // Use useNavigate instead of useHistory
+import { Link, useNavigate } from 'react-router-dom'; 
 import { FaSearch } from 'react-icons/fa';
 
 const AllCourses = () => {
@@ -28,7 +28,6 @@ const AllCourses = () => {
         setSelectedCategory(event.target.value);
     };
 
-    // Filter courses by category
     const filteredCourses = courses.filter((course) => {
         return (
             (selectedCategory === 'All' || course.category.includes(selectedCategory)) &&
@@ -37,7 +36,7 @@ const AllCourses = () => {
     });
 
     const handleShowMore = () => {
-        setShowAll(!showAll); // Toggle showing all courses
+        setShowAll(!showAll); 
     };
 
     const handleCourseClick = (courseID) => {
@@ -64,7 +63,6 @@ const AllCourses = () => {
                         ))}
                     </div>
 
-                    {/* Search Input */}
                     <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom:'20px' }}>
                         <div style={{ position: 'relative', width: '900px' }}>
                             <input
@@ -102,7 +100,7 @@ const AllCourses = () => {
                                             src={`http://localhost:5000/${course.image}`} 
                                             alt={course.name} 
                                             className="course-image" 
-                                            onClick={() => handleCourseClick(course.courseID)} // Click handler updated
+                                            onClick={() => handleCourseClick(course.courseID)} 
                                         />
                                         <figcaption>
                                             <ol className="post-categories">
@@ -124,7 +122,6 @@ const AllCourses = () => {
                         ))}
                     </ol>
 
-                    {/* Show More Button */}
                     {filteredCourses.length > 12 && (
                         <button
                             onClick={handleShowMore}

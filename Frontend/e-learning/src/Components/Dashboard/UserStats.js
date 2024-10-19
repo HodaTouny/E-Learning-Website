@@ -4,14 +4,12 @@ import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tool
 const UserStats = ({ data }) => {
     const colors = ['#b336e3', '#C0C0C0', '#7443ca'];
 
-    // Prepare role data for PieChart
     const roleData = data.usersByRole.map((role, index) => ({
         name: role._id,
         value: role.count,
         fill: colors[index % colors.length]
     }));
 
-    // Prepare registration data for LineChart
     const registrationData = data.registrationsOverTime.map(item => ({
         name: `${item._id.year}-${item._id.month}`,
         value: item.count
@@ -19,7 +17,6 @@ const UserStats = ({ data }) => {
 
     return (
         <div className="user-stats-container">
-            {/* Users by Role PieChart */}
             <div className="chart-section">
                 <h6 className="text-center">Users by Role</h6>
                 <PieChart width={390} height={400}>
@@ -39,7 +36,6 @@ const UserStats = ({ data }) => {
                 </PieChart>
             </div>
 
-            {/* User Registrations LineChart */}
             <div className="chart-section">
                 <h6 className="text-center">User Registrations Over Time</h6>
                 <LineChart width={390} height={300} data={registrationData}>

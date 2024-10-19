@@ -2,7 +2,7 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const CourseStats = ({ data }) => {
-    // Ensure the data is present and has the correct structure
+    
     if (!data || !data.coursesByCategory) {
         return <div>No course data available.</div>;
     }

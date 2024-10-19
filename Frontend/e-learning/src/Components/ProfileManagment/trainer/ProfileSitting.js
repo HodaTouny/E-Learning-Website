@@ -10,7 +10,7 @@ import img from '../../assets/img/profileteacher.png';
 function ProfileSitting() {
     const [userData, setUserData] = useState(null);
     const [token, setToken] = useState(null);
-    const [activeTab, setActiveTab] = useState("editProfile"); // State to track which component is active
+    const [activeTab, setActiveTab] = useState("editProfile"); 
     useEffect(() => {
         const storedUserData = localStorage.getItem('user');
         const storedToken = localStorage.getItem('accessToken');
@@ -21,15 +21,15 @@ function ProfileSitting() {
     }, []);
 
     const handleCourseListClick = () => {
-        setActiveTab("courselist"); // Show EnrolledCourse component
+        setActiveTab("courselist"); 
     };
 
     const handleEditProfileClick = () => {
-        setActiveTab("editProfile"); // Show EditProfile component
+        setActiveTab("editProfile"); 
     };
 
     const handleUploadCourseClick = () => {
-        setActiveTab("uploadcourse"); // Show EditProfile component
+        setActiveTab("uploadcourse"); 
     };
     if (!userData) {
         return <div>Loading...</div>;

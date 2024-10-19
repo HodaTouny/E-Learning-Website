@@ -15,8 +15,7 @@ function CourseList(userid) {
                 const filteredCourses = response.data.filter(course => course.teacherID === userid.User);
                 setCourses(filteredCourses);
             } catch (error) {
-                // setError('Error fetching courses');
-                // setLoading(false);
+                
             }
         };
 
