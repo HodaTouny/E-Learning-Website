@@ -9,8 +9,7 @@ import '../assets/css/main.css';
 import '../assets/layout/css/styles.css';
 
 import pc1 from '../assets/img/courses/course-details.jpg';
-import c1 from '../assets/img/blog/c1.jpg';
-import Navbar from '../Navbar/navbar';
+
 
 
 function CourseDetails() {

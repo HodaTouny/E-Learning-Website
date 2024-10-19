@@ -67,7 +67,8 @@ function ProfileSitting() {
                                 </div>
                                 <div class="author-card-details">
                                     <h5 class="author-card-name text-lg">{userData.name}</h5>
-                                    <span className="author-card-email">{userData.email}</span>
+                                    <span className="author-card-email">{userData.email}</span><br/>
+                                    <span className="author-card-email">Balance:{userData.balance}</span>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +85,7 @@ function ProfileSitting() {
                                         <div><i class="fa fa-book mr-1 text-muted"></i>
                                             <div class="d-inline-block font-weight-medium text-uppercase">Courses</div>
                                         </div>
-                                        <span class="badge badge-secondary">{userData.createdcoursesS || 0}</span>
+                                        <span class="badge badge-secondary">{userData?.createdCourses?.length || 0}</span>
                                     </div>
                                 </a>
                             </nav>

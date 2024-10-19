@@ -25,6 +25,7 @@ const studentSchema = new mongoose.Schema({
 
 const teacherSchema = new mongoose.Schema({
     createdCourses: [{ courseId: { type: Number, required: true } }],
+    balance: {type:Number, default: 0}
 });
 
 const Admin = User.discriminator('Admin', new mongoose.Schema({}));
