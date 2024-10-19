@@ -14,7 +14,7 @@ import ProfileTrainer from './ProfileManagment/trainer/ProfileSitting';
 import UploadCourseForm from './ProfileManagment/trainer/UploadCourseForm';
 import Footer from './Footer/Footer';
 import Dashboard from './Dashboard/Dashboard';
-
+import TeachersList from './Teachers/TeacherList';
 function App() {
     return (
         <UserProvider>
@@ -32,6 +32,7 @@ function App() {
                     <Route path="/teacher-profile" element={<ProfileTrainer />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/course/:id" element={<CourseDetail />} />
+                    <Route path="/allteachers" element={<TeachersList />} />
                 </Routes>
                 <section id="Footer" >
                     <Footer />

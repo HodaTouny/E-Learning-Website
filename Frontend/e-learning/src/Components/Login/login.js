@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import '../assets/Login/css/style.css';
 import img2 from '../assets/Login/images/image-2.png';
-import { useNavigate } from 'react-router-dom';
 import img1 from '../assets/Login/images/image-1.png';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../userContext';
-import { useContext } from 'react';
 
 function Login() {
     const navigate = useNavigate();
@@ -15,11 +14,8 @@ function Login() {
     const [passwordError, setPasswordError] = useState('');
     const { setUser } = useContext(UserContext);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Reset errors
         setEmailError('');
         setPasswordError('');
 
@@ -34,7 +30,6 @@ function Login() {
 
             const data = await response.json();
             if (response.ok) {
-                console.log('Login successful:', data);
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
                 localStorage.setItem('user', JSON.stringify(data.user));
@@ -42,7 +37,6 @@ function Login() {
                 startTokenRefresh();
                 navigate('/');
             } else {
-                console.error('Login failed:', data.message);
                 if (data.message === "User not found") {
                     setEmailError(data.message);
                 } else if (data.message === "Wrong password") {
@@ -56,10 +50,8 @@ function Login() {
 
     const refreshAccessToken = async () => {
         const refreshToken = localStorage.getItem('refreshToken');
-
         if (!refreshToken) {
-            console.error('No refresh token found');
-            return;
+            return; // Exit if no refresh token is found
         }
 
         try {
@@ -71,12 +63,9 @@ function Login() {
                 body: JSON.stringify({ refreshToken }),
             });
 
+            const data = await response.json();
             if (response.ok) {
-                const data = await response.json();
                 localStorage.setItem('accessToken', data.accessToken);
-            } else {
-                console.error('Failed to refresh token');
-                // Handle token refresh failure (e.g., logout)
             }
         } catch (error) {
             console.error('Error refreshing access token:', error);
@@ -87,13 +76,16 @@ function Login() {
         setInterval(async () => {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) return;
+
             const decoded = jwtDecode(accessToken);
-            const exp = decoded.exp * 1000;
+            const exp = decoded.exp * 1000; // Convert to milliseconds
             const now = Date.now();
+
+            // Check if token is about to expire (within 5 minutes)
             if (exp - now < 5 * 60 * 1000) {
                 await refreshAccessToken();
             }
-        }, 60 * 1000);
+        }, 60 * 1000); // Refresh check every minute
     };
 
     return (
@@ -105,21 +97,29 @@ function Login() {
                         <h3>Login</h3>
                         <div className="form-holder">
                             <span className="lnr lnr-user"></span>
-                            <input type="text" className="form-control" placeholder="Email"
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)} />
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
                             {emailError && <p className="error">{emailError}</p>}
                         </div>
 
                         <div className="form-holder">
                             <span className="lnr lnr-lock"></span>
-                            <input type="password" className="form-control" placeholder="Password"
+                            <input
+                                type="password"
+                                className="form-control"
+                                placeholder="Password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)} />
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
                             {passwordError && <p className="error">{passwordError}</p>}
                         </div>
 
-                        <button type='submit'>
+                        <button type="submit">
                             <span>Login</span>
                         </button>
                     </form>
