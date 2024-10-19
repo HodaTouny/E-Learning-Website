@@ -4616,3 +4616,22 @@ h6 {
 
 /*# sourceMappingURL=main.css.map */
 
+
+
+.default-header {
+  background: transparent; /* Default style for other pages */
+  transition: background 0.3s ease;
+}
+
+.default-header.dark-navbar {
+  background: linear-gradient(135deg, #b336e3, #7c32ff);
+  color: white; 
+}
+
+.navbar-dark .nav-link {
+  color: white; /* Ensure nav links are visible on dark background */
+}
+
+.navbar-dark .nav-link.active {
+  font-weight: bold; /* Optional: Make active links bold */
+}

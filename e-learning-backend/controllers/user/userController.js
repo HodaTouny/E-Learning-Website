@@ -2,6 +2,10 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { UserDAO, ClientDAO, AdminDAO, StudentDAO, TeacherDAO } = require("../../DAOs/user");
 
+/*
+Controller Aim To Manage All Users Common Operations
+*/
+
 class UserController {
     constructor() {
         this.userDAO = new UserDAO();
@@ -30,11 +34,8 @@ class UserController {
                 return res.status(401).json({ message: "Wrong password" });
             }
     
-            // Create tokens
             const accessToken = jwt.sign({ id: user.userID }, process.env.ACCESS_SECRET, { expiresIn: "15m" });
-            const refreshToken = jwt.sign({ id: user.userID }, process.env.REFRESH_SECRET, { expiresIn: "7d" });
-            
-            // Update refresh token in the database
+            const refreshToken = jwt.sign({ id: user.userID }, process.env.REFRESH_SECRET, { expiresIn: "7d" });            
             await this.userDAO.updateUserRefreshToken(user.userID, refreshToken);
             
             return res.json({ accessToken, refreshToken, user });
@@ -48,27 +49,21 @@ class UserController {
         const { refreshToken } = req.body;
         
         if (!refreshToken) {
-            return res.sendStatus(401); // Unauthorized
+            return res.sendStatus(401);
         }
-    
         try {
             const user = await this.userDAO.findUserByRefreshToken(refreshToken);
             if (!user) {
-                return res.sendStatus(403); // Forbidden
+                return res.sendStatus(403);
             }
-    
-            // Verify the refresh token
             jwt.verify(refreshToken, process.env.REFRESH_SECRET, (err, userData) => {
                 if (err) {
-                    return res.sendStatus(403); // Forbidden
-                }
-    
-                // Create a new access token
+                    return res.sendStatus(403);
+                }    
                 const newAccessToken = jwt.sign({ id: user.userID }, process.env.ACCESS_SECRET, { expiresIn: "15m" });
                 return res.json({ accessToken: newAccessToken });
             });
         } catch (error) {
-            console.error("Refresh Token Error: ", error);
             return res.status(500).json({ message: "Internal server error" });
         }
     }
@@ -86,10 +81,11 @@ class UserController {
             await this.userDAO.removeUserRefreshToken(user.userID);
             res.sendStatus(204);
         } catch (error) {
-            console.error("Logout Error: ", error);
             return res.status(500).json({ message: "Internal server error" });
         }
     }
+
+    
 }
 
 module.exports = UserController;

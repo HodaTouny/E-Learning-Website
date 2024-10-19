@@ -48,11 +48,11 @@ const ContactUs = () => {
             console.log(data);
     
             if (response.status === 201) {
-                setSuccessMessage('Your message has been sent successfully!');
+                setSuccessMessage('Your Subscription has been successfully sent!');
                 setName('');
                 setEmail('');
             } else {
-                setError('Failed to send message. Please try again later.');
+                setError('Faild to Subscribe. Please try again later.');
             }
         } catch (error) {
             setError('Error: ' + error.message);
@@ -64,13 +64,13 @@ const ContactUs = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-lg-5 part">
-                        <div className="section-title text-left text-white">
-                            <h2 className="text-white">
-                                Connect with Us! <br />
-                                Join Our Learning Community
+                        <div className="section-title text-left text-white mt-4">
+                        <h2 className="text-white">
+                            <span style={{color:'#7c32ff'}}>Connect with </span>  <br/> Us!
+                            Join Our <br/> Learning Community
                             </h2>
                             <p>
-                                Are you curious about blank cassettes? You might notice a wide range of prices, with some as low as 17 cents each. Let’s delve into the world of knowledge together and explore the possibilities!
+                                Curious about the latest learning technologies? Explore cutting-edge tools and resources with us to enhance your educational journey!
                             </p>
                         </div>
                     </div>
@@ -109,7 +109,7 @@ const ContactUs = () => {
                                 </div>
 
                                 <div className="col-lg-12 text-center">
-                                    <button type="submit" className="btn text-uppercase">Submit</button>
+                                    <button type="submit" className="btn text-uppercase">Connect</button>
                                 </div>
                             </form>
                         </div>

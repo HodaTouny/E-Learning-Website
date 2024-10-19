@@ -72,7 +72,11 @@ const Navbar = () => {
     const isRegisterPage = location.pathname === '/Register';
     const isAllCoursesPage = location.pathname === '/courses';
     const isCourseDetailsPage = location.pathname === '/CourseDetails';
-    const headerClass = isAllCoursesPage || isCourseDetailsPage ? 'default-header visibleStyle' : 'default-header';
+    const isProfilePage = location.pathname === '/profile-student' || location.pathname === '/teacher-profile';
+    const isDashboardPage = location.pathname === '/dashboard';
+    const isAllTeachersPage = location.pathname === '/allteachers';
+    // Set header class based on the current page
+    const headerClass = (isAllCoursesPage || isDashboardPage || isAllTeachersPage ) ? 'default-header dark-navbar' : 'default-header';
 
     const isActive = (path) => location.pathname === path ? 'active' : '';
 
@@ -143,6 +147,9 @@ const Navbar = () => {
                         <Link className="nav-link" to="/dashboard">Dashboard</Link>
                     </li>
                     <li className="nav-item">
+                        <Link className="nav-link" to="/allteachers">All Teachers</Link>
+                    </li>
+                    <li className="nav-item">
                         <Link className="nav-link" onClick={handleLogout}>Logout</Link>
                     </li>
                 </>
@@ -164,7 +171,6 @@ const Navbar = () => {
             </>
         );
     };
-    
 
     return (
         <header className={headerClass}>

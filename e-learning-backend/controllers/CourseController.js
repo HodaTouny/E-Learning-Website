@@ -4,6 +4,10 @@ const multer = require('multer');
 
 const Course=new Courses().getModel();
 
+/*
+Controller To Manage All Course Operations
+*/
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, '/uploads');
@@ -17,7 +21,6 @@ const upload = multer({ storage });
 
 const createCourse = async (req, res) => {
     try {
-        console.log(req.body);
         const { name, description, category, isPremium, price, teacherID, teacherName, lessons } = req.body;
         const isPremVal = isPremium === 'true' ||isPremium===true;
 
@@ -47,7 +50,6 @@ const createCourse = async (req, res) => {
         await newCourse.save();
         res.status(201).json(newCourse);
     } catch (err) {
-        console.error(err);
         res.status(400).json({ error: err.message });
     }
 };
@@ -101,7 +103,6 @@ const getCourseById=async(req, res)=>{
 const getCoursesSortedByStudents=async(req, res)=>{
     try{
         const courses=await Course.find().sort({enrolledStudentsCount:-1})
-        console.log(courses);
         res.status(200).json(courses);
     }
     catch(err){

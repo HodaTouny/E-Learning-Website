@@ -1,10 +1,16 @@
 const ClientController = require("./clientController");
 
+/*
+Controller Contain Teacher Extra Operations 
+*/
+
 class TeacherController extends ClientController {
     constructor() {
         super();
         this.addCourse = this.addCourse.bind(this);
         this.deleteCourse = this.deleteCourse.bind(this);
+        this.addBalance = this.addBalance.bind(this);
+        this.getAllTeachers = this.getAllTeachers.bind(this);
     }
 
     async addCourse(req, res) {
@@ -36,6 +42,31 @@ class TeacherController extends ClientController {
             }
         }
     }
+    async addBalance(req, res) {
+        const { teacherID, amount } = req.body;
+    
+        try {
+            const result = await this.teacherDAO.addBalance(teacherID, amount);
+            res.status(200).json({ message: 'Balance added successfully', result });
+        } catch (error) {
+            if (error.message === 'Teacher not found') {
+                res.status(404).json({ message: error.message });
+            } else {
+                res.status(400).json({ message: 'An error occurred', error: error.message });
+            }
+        }
+    }
+
+    async getAllTeachers(req, res) {
+        try {
+            const teachers = await this.teacherDAO.getAllTeachers();
+            res.status(200).json(teachers);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    
+    
 }
 
 module.exports = TeacherController;

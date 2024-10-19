@@ -1,5 +1,9 @@
 const ContactDAO = require('../../DAOs/contact/contactDAO');
 const EmailService = require('../../Email/emailService');
+
+/* Conroller Aim To Save Subscribed People To The Database 
+   To Send Emails for them with our Updates 
+*/
 class ContactController {
     constructor() {
         this.emailService = new EmailService();

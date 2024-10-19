@@ -5,6 +5,7 @@ import ContactStats from './ContactStats';
 import '../assets/css/bootstrap.css';
 import '../assets/css/dashboard.css';
 
+
 const Dashboard = () => {
     const [userStats, setUserStats] = useState(null);
     const [courseStats, setCourseStats] = useState(null);
@@ -39,7 +40,7 @@ const Dashboard = () => {
     }, []);
 
     if (!userStats || !courseStats || !contactStats) {
-        return <div>Loading...</div>; // You could enhance this with a spinner or loader component
+        return <div>Loading...</div>; 
     }
 
     return (
@@ -60,11 +61,9 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className="row justify-content-center mt-4">
-                    {/* Total Users */}
                     <div className="col-lg-12 col-md-12 col-sm-12 mb-4">
                         <UserStats data={userStats} />
                     </div>
-                    {/* Courses and Subscribers side by side */}
                     <div className="col-lg-6 col-md-6 col-sm-12">
                         <CourseStats data={courseStats} />
                     </div>

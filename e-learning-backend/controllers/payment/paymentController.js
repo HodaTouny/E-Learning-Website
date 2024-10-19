@@ -3,6 +3,12 @@ const PaymentDAO = require('../../DAOs/payment/paymentDAO');
 const EmailService = require('../../Email/emailService');
 const crypto = require('crypto');
 
+
+/*
+ Controller Aim To initiate The Payment Process and Send Email with OTP
+ to confirm the payment process and verify the payment
+*/
+
 class PaymentController {
     constructor() {
         this.paymentDAO = new PaymentDAO();

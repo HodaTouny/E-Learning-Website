@@ -1,6 +1,12 @@
-body {
-    background: #eee;
-  }
+* {
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
   .main-container {
     margin: 0 auto;
   }

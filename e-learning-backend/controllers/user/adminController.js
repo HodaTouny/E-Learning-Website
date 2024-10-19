@@ -1,5 +1,8 @@
 const UserController = require("./userController");
 
+/*
+Controller Contain Admin Extra Operations
+*/
 class AdminController extends UserController {
     constructor() {
         super();
