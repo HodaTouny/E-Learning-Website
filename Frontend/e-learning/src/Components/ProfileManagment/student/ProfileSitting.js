@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import '../../assets/css/profilesitting.css';
 import EnrolledCourse from './EnrolledCourse';
 import EditProfile from '../EditProfile';
-import img from '../../assets/img/defaultProfile.png'
+import img from '../../assets/img/profilestudent.png';
 
 function ProfileSitting() {
     const [activeTab, setActiveTab] = useState('editProfile');
