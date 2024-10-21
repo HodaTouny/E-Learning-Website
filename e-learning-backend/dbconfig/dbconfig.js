@@ -6,17 +6,19 @@ dotenv.config();
 class Database {
     constructor() {
         this.dbUrl = process.env.MONGO_URL;
-        this.dbName = "e-learning";
+        this.dbName = "Elearning-website";
     }
 
     async connect() {
         try {
             await mongoose.connect(this.dbUrl, {
-                dbName: this.dbName,
+                dbName: this.dbName
             });
+        
             console.log('MongoDB connected');
         } catch (error) {
-            console.error('MongoDB connection failed:', error);
+            console.error('MongoDB connection failed:', error.message);
+            console.error(error.stack);
             process.exit(1);
         }
     }
