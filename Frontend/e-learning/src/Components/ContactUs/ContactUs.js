@@ -9,6 +9,7 @@ import '../assets/css/main.css';
 import '../assets/css/contactUs.css';
 import { useState } from 'react';
 import SuccessAlert from '../SuccessAlert/SuccessAlert';
+import axios from 'axios';
 
 const ContactUs = () => {
     const [name, setName] = useState('');
@@ -32,21 +33,11 @@ const ContactUs = () => {
         }
     
         try {
-            const response = await fetch('http://localhost:5000/connect', {
-                method: 'POST',
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/connect`, {name,email}, {
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ name, email }),
-            });
-    
-            if (!response.ok) {
-                throw new Error('Failed to send message. Please try again later.');
-            }
-    
-            const data = await response.json();
-            console.log(data);
-    
+                }
+            });   
             if (response.status === 201) {
                 setSuccessMessage('Your Subscription has been successfully sent!');
                 setName('');

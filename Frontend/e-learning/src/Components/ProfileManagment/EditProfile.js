@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../assets/css/profilesitting.css';
+import axios from 'axios';
 
 function EditProfile({ userData, token }) {
     const [userName, setUserName] = useState('');
@@ -42,13 +43,12 @@ function EditProfile({ userData, token }) {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/education/editdata', {
-                method: 'POST',
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/editdata`, {
+               updatedData},{
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(updatedData)
+                }
             });
 
             if (response.ok) {

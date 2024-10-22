@@ -84,7 +84,7 @@ const UploadCourseForm = () => {
         });
 
         try {
-            const response = await axios.post('http://localhost:5000/addCourse', formData, {
+            const response = await axios.post(`${process.env.API_URL}/addCourse`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -92,7 +92,7 @@ const UploadCourseForm = () => {
 
             const token = localStorage.getItem('accessToken');
             if (token) {
-                await axios.post('http://localhost:5000/education/addcourse', {
+                await axios.post(`${process.env.API_URL}/education/addcourse`, {
                     courseId: response.data.courseID,
                     teacherID: response.data.teacherID,
                 }, {

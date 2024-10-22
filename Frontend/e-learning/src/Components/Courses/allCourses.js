@@ -15,7 +15,7 @@ const AllCourses = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/getCourses');
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/getCourses`);
                 setCourses(response.data);
             } catch (error) {
                 console.error('Error fetching courses', error);
@@ -152,7 +152,7 @@ const AllCourses = () => {
                                 <article>
                                     <figure>
                                         <img 
-                                            src={`http://localhost:5000/${course.image}`} 
+                                            src={`${process.env.REACT_APP_API_URL}/${course.image}`} 
                                             alt={course.name} 
                                             className="course-image" 
                                             onClick={() => handleCourseClick(course.courseID)} 

@@ -38,7 +38,7 @@ class UserController {
             const refreshToken = jwt.sign({ id: user.userID }, process.env.REFRESH_SECRET, { expiresIn: "7d" });            
             await this.userDAO.updateUserRefreshToken(user.userID, refreshToken);
             
-            return res.json({ accessToken, refreshToken, user });
+            return res.status(200).json({ accessToken, refreshToken, user });
         } catch (error) {
             console.error("Login Error: ", error);
             return res.status(500).json({ message: "Internal server error" });

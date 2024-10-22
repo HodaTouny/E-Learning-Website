@@ -23,7 +23,7 @@ const CourseDetail = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const courseResponse = await axios.get(`http://localhost:5000/getCourse/${id}`);
+        const courseResponse = await axios.get(`${process.env.REACT_APP_API_URL}/getCourse/${id}`);
         setCourse(courseResponse.data);
   
         const storedUser = localStorage.getItem('user');
@@ -60,7 +60,7 @@ const CourseDetail = () => {
         const billDetails = `Course: ${course.name}, Price: ${course.price}$`;
 
         const response = await axios.post(
-          'http://localhost:5000/payment/initiate',
+          `${process.env.REACT_APP_API_URL}/payment/initiate`,
           { userId: user.userID, email, billDetails },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -71,7 +71,7 @@ const CourseDetail = () => {
 
       } else {
         await axios.post(
-          'http://localhost:5000/education/enrollcourse',
+          `${process.env.REACT_APP_API_URL}/education/enrollcourse`,
           { studentId: user.userID, courseId: course.courseID },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -99,7 +99,7 @@ const CourseDetail = () => {
       const user = JSON.parse(localStorage.getItem('user'));
 
       const response = await axios.post(
-        'http://localhost:5000/payment/verify',
+        `${process.env.REACT_APP_API_URL}/payment/verify`,
         { userId: user.userID, otp },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -110,7 +110,7 @@ const CourseDetail = () => {
       setOtp(''); 
 
       await axios.post(
-        'http://localhost:5000/education/enrollcourse',
+        `${process.env.REACT_APP_API_URL}/education/enrollcourse`,
         { studentId: user.userID, courseId: course.courseID },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -125,7 +125,7 @@ const CourseDetail = () => {
       }));
 
       await axios.post(
-        'http://localhost:5000/education/addbalance',
+        `${process.env.REACT_APP_API_URL}/education/addbalance`,
         { teacherID: course.teacherID, amount: course.price * 0.8 },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -176,7 +176,7 @@ const CourseDetail = () => {
             <div className="col-lg-8 course-details-left">
               <div className="main-image">
                 <img
-                  src={`http://localhost:5000/${course.image}`}
+                  src={`${process.env.REACT_APP_API_URL}/${course.image}`}
                   alt={course.name}
                   className="img-fluid"
                   style={{ width: '700px', height: '300px' }}
@@ -214,7 +214,7 @@ const CourseDetail = () => {
                               {lesson.video ? (
                                 <video
                                   controls
-                                  src={`http://localhost:5000/${lesson.video}`}
+                                  src={`${process.env.REACT_APP_API_URL}/${lesson.video}`}
                                   className="lesson-video"
                                   onTimeUpdate={(e) => handleProgress(index, e)}
                                 >

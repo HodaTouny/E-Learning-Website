@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TeacherCard from './TeacherCard';
 
 import { FaSearch } from 'react-icons/fa';
+import axios from 'axios';
 
 
 const TeachersList = () => {
@@ -12,13 +13,13 @@ const TeachersList = () => {
     useEffect(() => {
         const fetchTeachers = async () => {
             try {
-                const response = await fetch('http://localhost:5000/education/getteachers', {
+                const response = await axios.get(`${process.env.REACT_APP_API_URL}/education/getteachers`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
-                const data = await response.json();
-
+    
+                const data = response.data;
                 if (Array.isArray(data)) {
                     setTeachers(data);
                 } else {
@@ -28,14 +29,13 @@ const TeachersList = () => {
                 console.error('Error fetching teachers:', error);
             }
         };
-
+    
         fetchTeachers();
-    }, [accessToken]);
+    }, [accessToken]); 
 
     const handleDelete = async (email) => {
         try {
-            await fetch(`http://localhost:5000/education/delete/${email}`, {
-                method: 'DELETE',
+            await axios.delete(`${process.env.REACT_APP_API_URL}/education/delete/${email}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

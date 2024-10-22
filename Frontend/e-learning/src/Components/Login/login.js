@@ -5,6 +5,7 @@ import img1 from '../assets/Login/images/image-1.png';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../userContext';
+import axios from 'axios';
 
 function Login() {
     const navigate = useNavigate();
@@ -18,18 +19,18 @@ function Login() {
         e.preventDefault();
         setEmailError('');
         setPasswordError('');
-
+    
         try {
-            const response = await fetch('http://localhost:5000/education/login', {
-                method: 'POST',
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/login`, 
+            { email, password }, 
+            {
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
+                }
             });
-
-            const data = await response.json();
-            if (response.ok) {
+    
+            if (response.status === 200) {
+                const data = response.data;
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
                 localStorage.setItem('user', JSON.stringify(data.user));
@@ -37,6 +38,7 @@ function Login() {
                 startTokenRefresh();
                 navigate('/');
             } else {
+                const data = response.data;
                 if (data.message === "User not found") {
                     setEmailError(data.message);
                 } else if (data.message === "Wrong password") {
@@ -45,9 +47,19 @@ function Login() {
             }
         } catch (error) {
             console.error('Error:', error);
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                if (errorMessage === "User not found") {
+                    setEmailError(errorMessage);
+                } else if (errorMessage === "Wrong password") {
+                    setPasswordError(errorMessage);
+                } else {
+                    setEmailError("An unexpected error occurred. Please try again.");
+                }
+            }
         }
     };
-
+    
     const refreshAccessToken = async () => {
         const refreshToken = localStorage.getItem('refreshToken');
         if (!refreshToken) {
@@ -55,12 +67,11 @@ function Login() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/education/refresh', {
-                method: 'POST',
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/refresh`, {
+                refreshToken},{
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ refreshToken }),
             });
 
             const data = await response.json();

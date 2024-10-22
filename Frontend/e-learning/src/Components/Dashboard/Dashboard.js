@@ -4,6 +4,7 @@ import CourseStats from './CourseStats';
 import ContactStats from './ContactStats';
 import '../assets/css/bootstrap.css';
 import '../assets/css/dashboard.css';
+import axios from 'axios';
 
 
 const Dashboard = () => {
@@ -14,20 +15,14 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userResponse = await fetch('http://localhost:5000/admin/user-stats');
-                if (!userResponse.ok) throw new Error('Network response was not ok');
-                const userData = await userResponse.json();
-                setUserStats(userData);
+                const userResponse = await axios.get(`${process.env.REACT_APP_API_URL}/admin/user-stats`);
+                setUserStats(userResponse.data);
 
-                const courseResponse = await fetch('http://localhost:5000/admin/course-stats');
-                if (!courseResponse.ok) throw new Error('Network response was not ok');
-                const courseData = await courseResponse.json();
-                setCourseStats(courseData);
+                const courseResponse = await axios.get(`${process.env.REACT_APP_API_URL}/admin/course-stats`);
+                setCourseStats(courseResponse.data);
 
-                const contactResponse = await fetch('http://localhost:5000/admin/contact-stats');
-                if (!contactResponse.ok) throw new Error('Network response was not ok');
-                const contactData = await contactResponse.json();
-                setContactStats(contactData);
+                const contactResponse = await axios.get(`${process.env.REACT_APP_API_URL}/admin/contact-stats`);
+                setContactStats(contactResponse.data);
             } catch (error) {
                 console.error('Error fetching stats:', error);
             }

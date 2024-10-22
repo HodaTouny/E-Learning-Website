@@ -56,15 +56,16 @@ class TeacherController extends ClientController {
             }
         }
     }
-
     async getAllTeachers(req, res) {
         try {
             const teachers = await this.teacherDAO.getAllTeachers();
             res.status(200).json(teachers);
         } catch (error) {
+            console.error('Error fetching teachers:', error);
             res.status(500).json({ error: error.message });
         }
     }
+    
     
     
 }

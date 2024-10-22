@@ -3,6 +3,7 @@ import '../assets/Login/css/style.css';
 import { useNavigate } from 'react-router-dom'; 
 import img2 from '../assets/Login/images/image-2.png';
 import img1 from '../assets/Login/images/image-1.png';
+import axios from 'axios';
 
 function Register() {
     const navigate = useNavigate();
@@ -72,12 +73,12 @@ function Register() {
             };
 
             try {
-                const response = await fetch('http://localhost:5000/education/register', {
-                    method: 'POST',
+                const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/register`, {
+                    formData
+                },{
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(formData)
                 });
 
                 const data = await response.json();

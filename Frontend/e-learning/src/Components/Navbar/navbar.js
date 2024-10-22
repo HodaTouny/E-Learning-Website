@@ -17,6 +17,7 @@ import '../assets/css/main.css';
 import logo from '../assets/img/logo.png';
 
 const Navbar = () => {
+
     const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
@@ -52,7 +53,7 @@ const Navbar = () => {
                 return;
             }
 
-            await axios.post('http://localhost:5000/education/logout', {
+            await axios.post(`${process.env.REACT_APP_API_URL}/education/logout`, {
                 refreshToken: refreshToken 
             }, {
                 headers: {
