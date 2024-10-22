@@ -15,7 +15,7 @@ function CourseList(userid) {
                 const filteredCourses = response.data.filter(course => course.teacherID === userid.User);
                 setCourses(filteredCourses);
             } catch (error) {
-                
+                console.error('Failed to fetch courses');
             }
         };
 
