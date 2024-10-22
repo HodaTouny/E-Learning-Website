@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
-import {  scroller } from 'react-scroll';
+import { scroller } from 'react-scroll';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../userContext';
-
+import SuccessAlert from '../SuccessAlert/SuccessAlert';
 import '../assets/css/linearicons.css';
 import '../assets/css/font-awesome.min.css';
 import '../assets/css/bootstrap.css';
@@ -22,6 +22,9 @@ const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
     const location = useLocation();
+
+    const [alertMessage, setAlertMessage] = useState('');
+    const [alertType, setAlertType] = useState('');
 
     useEffect(() => {
         const handleScroll = () => {
@@ -44,10 +47,11 @@ const Navbar = () => {
             const refreshToken = localStorage.getItem('refreshToken');
             
             if (!accessToken || !refreshToken) {
-                alert("You are not logged in.");
+                setAlertMessage("You are not logged in");
+                setAlertType('error');
                 return;
             }
-            console.log(accessToken, refreshToken);
+
             await axios.post('http://localhost:5000/education/logout', {
                 refreshToken: refreshToken 
             }, {
@@ -55,14 +59,17 @@ const Navbar = () => {
                     'Authorization': `Bearer ${accessToken}` 
                 }
             });
-    
+
             localStorage.clear();
             setUser(null);
-            alert("Logout successful"); 
+
+            setAlertMessage("Logged out successfully");
+            setAlertType('success');
             navigate('/');
         } catch (error) {
             console.error('Logout failed', error.response ? error.response.data : error);
-            alert("Logout failed. Please try again.");
+            setAlertMessage("Logout failed. Please try again");
+            setAlertType('error');
         }
     };
 
@@ -116,7 +123,6 @@ const Navbar = () => {
                     <Link className="nav-link">
                         Connect
                     </Link>
-                
                 </li>
             </>
         );
@@ -209,6 +215,8 @@ const Navbar = () => {
                     </div>
                 </div>
             </nav>
+
+            <SuccessAlert message={alertMessage} type={alertType} />
         </header>
     );
 };
