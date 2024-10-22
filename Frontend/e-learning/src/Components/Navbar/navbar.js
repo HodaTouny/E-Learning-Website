@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link as ScrollLink, scroller } from 'react-scroll';
+import {  scroller } from 'react-scroll';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -71,7 +71,8 @@ const Navbar = () => {
     const isRegisterPage = location.pathname === '/Register';
     const isAllCoursesPage = location.pathname === '/courses';
     const isDashboardPage = location.pathname === '/dashboard';
-    const headerClass = (isAllCoursesPage || isDashboardPage) ? 'default-header dark-navbar' : 'default-header';
+    const isAllTeachertsPage = location.pathname === '/allteachers';
+    const headerClass = (isAllCoursesPage || isDashboardPage || isAllTeachertsPage) ? 'default-header dark-navbar' : 'default-header';
 
     const isActive = (path) => location.pathname === path ? 'active' : '';
 

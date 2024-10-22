@@ -1,4 +1,5 @@
 import React from 'react';
+import img from '../assets/img/defaultProfile.png';
 
 const TeacherCard = ({ teacher, onDelete }) => {
     return (
@@ -18,7 +19,7 @@ const TeacherCard = ({ teacher, onDelete }) => {
         }} >
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <img
-                    src={teacher.image || 'https://via.placeholder.com/80'} 
+                    src={img}
                     alt={`${teacher.name}'s profile`}
                     style={{
                         width: '60px',
