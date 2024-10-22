@@ -41,10 +41,10 @@ const TeacherCard = ({ teacher, onDelete }) => {
                 style={{
                     background: 'linear-gradient(135deg, #b336e3, #7c32ff)',
                     color: 'white',
-                    width:'150px',
+                    width:'100px',
                     border: 'none',
                     borderRadius: '8px',
-                    padding: '8px 16px',
+                    padding: '4px 16px',
                     cursor: 'pointer',
                     fontSize: '0.9rem',
                     fontWeight: '600',
