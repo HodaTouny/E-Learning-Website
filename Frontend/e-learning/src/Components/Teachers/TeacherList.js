@@ -52,7 +52,7 @@ const TeachersList = () => {
 
     return (
         <div className="container">
-            <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '140px', marginBottom: '20px' }}>
+            <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '180px', marginBottom: '20px' }}>
                 <div style={{ position: 'relative', width: '900px' }}>
                     <input
                         type="text"
