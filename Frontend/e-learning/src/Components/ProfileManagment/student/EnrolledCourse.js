@@ -1,20 +1,65 @@
 import '../../assets/css/profilesitting.css';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function EnrolledCourse({ courses }) {
+    const [enrolledCourses, setEnrolledCourses] = useState([]);
+    const [sortKey, setSortKey] = useState("");
+    useEffect(() => {
+        if (sortKey) {
+            const sortedCourses = [...enrolledCourses].sort((a, b) => {
+                if (sortKey === "name") {
+                    return a.courseName.localeCompare(b.courseName);
+                } else if (sortKey === "trainer") {
+                    return a.teacherName.localeCompare(b.teacherName);
+                } else if (sortKey === "status") {
+                    return a.isCompleted - b.isCompleted;
+                } else if (sortKey === "fee") {
+                    return a.isPremium ? a.price - b.price : 0;
+                }
+                return 0;
+            });
+            setEnrolledCourses(sortedCourses);
+        }
+    }, [sortKey, enrolledCourses]);
+
+
+    useEffect(() => {
+        const fetchCourseDetails = async () => {
+            const updatedCourses = await Promise.all(
+                courses.map(async (course) => {
+                    try {
+                        const response = await fetch(`http://localhost:5000/getCourse/${course.courseId}`);
+                        const data = await response.json();
+                        return { ...course, courseName: data.name , teacherName: data.teacherName };
+                    } catch (error) {
+                        console.error(`Error fetching course ${course.courseId}: `, error);
+                        return { ...course, courseName: 'Unknown Course', teacherName: 'Unknown Teacher' };
+                    }
+                })
+            );
+            setEnrolledCourses(updatedCourses);
+        };
+
+        if (courses && courses.length > 0) {
+            fetchCourseDetails();
+        }
+    }, [courses]);
+
     return (
         <>
             <div className="d-flex justify-content-end pb-3">
                 <div className="form-inline">
-                    <label className="text-muted mr-3" htmlFor="order-sort">Sort courses</label>
-                    <select className="form-control" id="order-sort">
-                        <option>Course Name</option>
-                        <option>Trainer’s Name</option>
-                        <option>Status</option>
-                        <option>Fee</option>
+                    <select className="form-control" id="order-sort"  aria-placeholder='Sort by' onChange={(e) => setSortKey(e.target.value)}>
+                        <option value="">Sort by</option>
+                        <option value="name">Course Name</option>
+                        <option value="trainer">Trainer’s Name</option>
+                        <option value="status">Status</option>
+                        <option value="fee">Fee</option>
                     </select>
                 </div>
             </div>
+
             <div className="table-responsive">
                 <table className="table table-hover mb-0">
                     <thead>
@@ -26,12 +71,12 @@ function EnrolledCourse({ courses }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {courses && courses.length > 0 ? (
-                            courses.map((course, index) => (
+                        {enrolledCourses && enrolledCourses.length > 0 ? (
+                            enrolledCourses.map((course, index) => (
                                 <tr key={index}>
                                     <td>
                                         <Link className="navi-link" to={`/course/${course.courseId}`}>
-                                            Course {course.courseId}
+                                            {course.courseName}
                                         </Link>
                                     </td>
                                     <td>{course.teacherName}</td>

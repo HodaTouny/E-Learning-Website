@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import '../assets/allCourses.css';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'; 
-import { FaSearch } from 'react-icons/fa';
-
+import { FaSearch, FaFilter } from 'react-icons/fa';
 const AllCourses = () => {
     const [courses, setCourses] = useState([]);
     const [showAll, setShowAll] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
+    const [selectedType, setSelectedType] = useState('All'); 
+    const [filterVisible, setFilterVisible] = useState(false); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,9 +29,15 @@ const AllCourses = () => {
         setSelectedCategory(event.target.value);
     };
 
+    const handleTypeChange = (event) => {
+        setSelectedType(event.target.value);
+        setFilterVisible(false);
+    };
+
     const filteredCourses = courses.filter((course) => {
         return (
             (selectedCategory === 'All' || course.category.includes(selectedCategory)) &&
+            (selectedType === 'All' || (selectedType === 'Free' && !course.isPremium) || (selectedType === 'Premium' && course.isPremium)) &&
             course.name.toLowerCase().includes(searchTerm.toLowerCase()) 
         );
     });
@@ -41,6 +48,10 @@ const AllCourses = () => {
 
     const handleCourseClick = (courseID) => {
         navigate(`/course/${courseID}`);
+    };
+
+    const toggleFilterVisibility = () => {
+        setFilterVisible(!filterVisible);
     };
 
     return (
@@ -63,7 +74,7 @@ const AllCourses = () => {
                         ))}
                     </div>
 
-                    <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom:'20px' }}>
+                    <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px' }}>
                         <div style={{ position: 'relative', width: '900px' }}>
                             <input
                                 type="text"
@@ -76,23 +87,67 @@ const AllCourses = () => {
                                     borderRadius: '14px',
                                     boxShadow: '0 1px 2px rgba(0, 0, 0, 0.2)',
                                     backgroundColor: 'white',
-                                    padding: '10px 40px', 
+                                    padding: '10px 40px',
                                     color: 'black',
                                     border: '1px solid #E5E4E2'
                                 }}
                             />
-                            <FaSearch style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '10px',
-                                transform: 'translateY(-50%)',
-                                color: '#999',
-                            }} />
+                                <FaSearch style={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '10px',
+                                    transform: 'translateY(-50%)',
+                                    color: '#999',
+                                }} />
+                        </div>
+
+                        <div style={{ position: 'relative', marginLeft: '20px', cursor: 'pointer' }}>
+                            <FaFilter
+                                onClick={toggleFilterVisibility} 
+                                style={{
+                                    fontSize: '24px',
+                                    color: '#999',
+                                }}
+                            />
+                            {filterVisible && (
+                                <div className="filter-dropdown">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            value="All"
+                                            checked={selectedType === 'All'}
+                                            onChange={handleTypeChange}
+                                            name="type"
+                                        />
+                                        All
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            value="Free"
+                                            checked={selectedType === 'Free'}
+                                            onChange={handleTypeChange}
+                                            name="type"
+                                        />
+                                        Free
+                                    </label>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            value="Premium"
+                                            checked={selectedType === 'Premium'}
+                                            onChange={handleTypeChange}
+                                            name="type"
+                                        />
+                                        Premium
+                                    </label>
+                                </div>
+                            )}
                         </div>
                     </div>
 
                     <ol className="posts">
-                        {filteredCourses.slice(0, showAll ? filteredCourses.length : 12).map((course) => (
+                        {filteredCourses.slice(0, showAll ? filteredCourses.length : 8).map((course) => (
                             <li key={course.courseID} className="post" data-category={course.category}>
                                 <article>
                                     <figure>
@@ -111,8 +166,6 @@ const AllCourses = () => {
                                                     {course.name}
                                                 </span>
                                             </h2>
-                                            <p>{course.description}</p>
-                                            {course.price && <p>Price: ${course.price}</p>}
                                             <p>Created On: {new Date(course.createdDate).toLocaleDateString()}</p>
                                             <p>{course.isPremium ? 'Premium Course' : 'Free Course'}</p>
                                         </figcaption>
@@ -122,7 +175,7 @@ const AllCourses = () => {
                         ))}
                     </ol>
 
-                    {filteredCourses.length > 12 && (
+                    {filteredCourses.length > 8 && (
                         <button
                             onClick={handleShowMore}
                             className="show-more-button"
@@ -145,5 +198,7 @@ const AllCourses = () => {
         </>
     );
 };
+
+
 
 export default AllCourses;

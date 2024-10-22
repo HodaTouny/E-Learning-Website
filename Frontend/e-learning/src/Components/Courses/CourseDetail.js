@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/css/Courses.css';
 import { UserContext } from '../userContext'; 
@@ -8,7 +8,6 @@ import Alert from '../SuccessAlert/SuccessAlert';
 const CourseDetail = () => {
   const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
-  const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,6 +18,7 @@ const CourseDetail = () => {
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState(''); 
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -47,6 +47,8 @@ const CourseDetail = () => {
     fetchCourse();
   }, [id, user]);
   
+  // Check if user exists before accessing user.role
+  const userRole = user ? user.role : null;
 
   const handleEnroll = async () => {
     try {
@@ -148,6 +150,7 @@ const CourseDetail = () => {
 
   return (
     <>
+    <Alert message={alertMessage} type={alertType} />
       <section className="banner-area">
         <div className="container">
           <div className="row justify-content-center align-items-center">
@@ -186,23 +189,27 @@ const CourseDetail = () => {
                 <h4 className="title">Course Outline</h4>
                 <div className="content">
                   <ul className="course-list" style={{ flexDirection: 'column' }}>
-                    {course.lessons && course.lessons.length > 0 ? (
+                  {course.lessons && course.lessons.length > 0 ? (
                       course.lessons.map((lesson, index) => (
-                        <div key={index}>
+                        <div key={index} className="mb-4" style={{borderBottom: '1px solid #ddd'}}>
                           <li
-                            className="justify-content-between d-flex"
-                            onClick={() => {
-                              if (isEnrolled) {
-                                toggleLesson(index);
-                              }
-                            }}
-                            style={{ cursor: isEnrolled ? 'pointer' : 'not-allowed' }} 
-                          >
-                            <p>{lesson.title} {lessonProgress[index] ? ` - ${lessonProgress[index]}%` : ''}</p>
-                            <p className="btn text-uppercase" disabled={!isEnrolled}>View Details</p>
-                          </li>
-
-                          {isEnrolled && expandedLesson === index && ( 
+                              className="justify-content-between d-flex"
+                              onClick={() => {
+                                if (userRole !== 'Student' || (userRole === 'Student' && isEnrolled)) {
+                                  toggleLesson(index);
+                                } else {
+                                  setAlertMessage('You must be enrolled in this course to view details.');
+                                  setAlertType('error');
+                                }
+                              }}
+                              style={{ cursor: userRole !== 'Student' || (userRole === 'Student' && isEnrolled) ? 'pointer' : 'not-allowed' }}
+                            >
+                              <p>{lesson.title} {lessonProgress[index] ? ` - ${lessonProgress[index]}%` : ''}</p>
+                              <p className="btn text-uppercase mb-3">
+                                {expandedLesson === index ? 'Hide Details' : 'View Details'}
+                              </p>
+                            </li>
+                          {expandedLesson === index && ( 
                             <div className="lesson-details">
                               {lesson.video ? (
                                 <video
@@ -224,6 +231,7 @@ const CourseDetail = () => {
                     ) : (
                       <p>No lessons available for this course.</p>
                     )}
+
                   </ul>
                 </div>
               </div>
@@ -234,62 +242,46 @@ const CourseDetail = () => {
                 <li>
                   <p className="justify-content-between d-flex">
                     <p>Course Name</p>
-                    <span className="or">:</span>
-                    <p>{course.name}</p>
+                    <span>{course.name}</span>
                   </p>
                 </li>
                 <li>
                   <p className="justify-content-between d-flex">
-                    <p>Teacher</p>
-                    <span className="or">:</span>
-                    <p>{course.teacherName}</p>
+                    <p>Trainer</p>
+                    <span>{course.teacherName}</span>
                   </p>
                 </li>
                 <li>
                   <p className="justify-content-between d-flex">
-                    <p>Duration</p>
-                    <span className="or">:</span>
-                    <p>{course.duration} Hours</p>
-                  </p>
-                </li>
-                <li>
-                  <p className="justify-content-between d-flex">
-                    <p>Price</p>
-                    <span className="or">:</span>
-                    <p>{course.isPremium ? `${course.price}$` : 'Free'}</p>
-                  </p>
-                </li>
-                <li>
-                  <p className="justify-content-between d-flex">
-                    <p>Level</p>
-                    <span className="or">:</span>
-                    <p>{course.level}</p>
+                    <p>Course Fee</p>
+                    <span>${course.price}</span>
                   </p>
                 </li>
               </ul>
-              <div className="row justify-content-center">
-                <button
-                  className="btn btn-primary text-uppercase"
-                  onClick={isEnrolled ? null : handleEnroll} 
-                >
-                  {isEnrolled ? 'Enrolled' : 'Enroll Now'}
-                </button>
-              </div>
-
-              {otpSent && (
-                <div className="otp-verification">
-                  <h4>Enter OTP sent to your email:</h4>
-                  <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    placeholder="Enter OTP"
-                  />
-                  <button onClick={handleOtpVerification}>Verify OTP</button>
+              {userRole === 'Student' && !isEnrolled && (
+                <>
+                  <button className="btn btn-primary" onClick={handleEnroll}>
+                    Enroll Now
+                  </button>
+                  {course.isPremium && otpSent && (
+                    <div className="otp-verification">
+                      <input
+                        type="text"
+                        placeholder="Enter OTP"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                      />
+                      <button onClick={handleOtpVerification}>Verify OTP</button>
+                    </div>
+                  )}
+                  {enrollStatus && <p>{enrollStatus}</p>}
+                </>
+              )}
+              {isEnrolled && (
+                <div className="alert alert-success" role="alert">
+                  You're enrolled in this course!
                 </div>
               )}
-
-              {enrollStatus && <Alert type={alertType} message={enrollStatus} />}
             </div>
           </div>
         </div>

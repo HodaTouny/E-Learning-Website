@@ -47,7 +47,7 @@ const Navbar = () => {
                 alert("You are not logged in.");
                 return;
             }
-
+            console.log(accessToken, refreshToken);
             await axios.post('http://localhost:5000/education/logout', {
                 refreshToken: refreshToken 
             }, {
@@ -61,7 +61,7 @@ const Navbar = () => {
             alert("Logout successful"); 
             navigate('/');
         } catch (error) {
-            console.error("Logout failed", error);
+            console.error('Logout failed', error.response ? error.response.data : error);
             alert("Logout failed. Please try again.");
         }
     };

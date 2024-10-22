@@ -39,9 +39,9 @@ const Courses = () => {
               <h3>{course.name}</h3>
             </Link>
 
-              <p>{course.description}</p>
-              <p>Category: {course.category}</p>
-              {course.price && <p>Price: ${course.price}</p>}
+              {/* <p>{course.description}</p> */}
+              {/* <p>Category: {course.category}</p> */}
+              {/* {course.price && <p>Price: ${course.price}</p>} */}
               <p>Created On: {new Date(course.createdDate).toLocaleDateString()}</p>
               <p>{course.isPremium ? 'Premium Course' : 'Free Course'}</p>
             </div>
