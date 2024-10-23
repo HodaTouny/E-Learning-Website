@@ -13,7 +13,7 @@ const TeachersList = () => {
     useEffect(() => {
         const fetchTeachers = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/education/getteachers`, {
+                const response = await axios.get(`/education/getteachers`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -35,7 +35,7 @@ const TeachersList = () => {
 
     const handleDelete = async (email) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/education/delete/${email}`, {
+            await axios.delete(`/education/delete/${email}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

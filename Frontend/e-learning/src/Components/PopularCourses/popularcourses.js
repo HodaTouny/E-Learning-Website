@@ -9,7 +9,7 @@ function PopularCourses() {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/courses/sortByStudents`); 
+                const response = await axios.get(`/courses/sortByStudents`); 
                 setCourses(response.data);
             } catch (error) {
                 console.error('Error fetching courses:', error);

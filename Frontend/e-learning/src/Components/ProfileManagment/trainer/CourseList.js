@@ -11,7 +11,7 @@ function CourseList(userid) {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/getCourses`);
+                const response = await axios.get(`/getCourses`);
                 const filteredCourses = response.data.filter(course => course.teacherID === userid.User);
                 setCourses(filteredCourses);
             } catch (error) {
@@ -24,7 +24,7 @@ function CourseList(userid) {
 
     const deleteHandler = async (courseID) => {
         try {
-            await axios.delete(`${process.env.REACT_APP_API_URL}/deleteCourse/${courseID}`);
+            await axios.delete(`/deleteCourse/${courseID}`);
             setCourses(courses.filter(course => course.courseID !== courseID)); // Update state after deleting
         } catch (error) {
             console.error('Failed to delete the course');
@@ -33,7 +33,6 @@ function CourseList(userid) {
 
     return (
         <>
-            <Navbar />
             {courses.map((course) => (
                 <div class="cart-item d-md-flex justify-content-between">
                     <span class="remove-item">
@@ -41,8 +40,10 @@ function CourseList(userid) {
                     </span>
                     <div class="px-3 my-3">
                         <a class="cart-item-product" href="#">
-                            <div class="cart-item-product-thumb"><img src={`${process.env.REACT_APP_API_URL}/${course.image}`}
-                                alt="Product" /></div>
+                            <div className="cart-item-product-thumb justify-content-center">
+                                <img style={{ borderRadius: "14px" }} src={`/${course.image}`} alt="Course Thumbnail" />
+                            </div>
+
                             <div class="cart-item-product-info">
                                 <Link to={`/course/${course.courseID}`} target="_blank" rel="noopener noreferrer">
                                     <h4 class="cart-item-product-title">{course.name}</h4>

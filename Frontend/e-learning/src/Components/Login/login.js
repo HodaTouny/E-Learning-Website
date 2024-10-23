@@ -21,7 +21,7 @@ function Login() {
         setPasswordError('');
     
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/login`, 
+            const response = await axios.post(`/education/login`, 
             { email, password }, 
             {
                 headers: {
@@ -67,7 +67,7 @@ function Login() {
         }
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/refresh`, {
+            const response = await axios.post(`/education/refresh`, {
                 refreshToken},{
                 headers: {
                     'Content-Type': 'application/json',

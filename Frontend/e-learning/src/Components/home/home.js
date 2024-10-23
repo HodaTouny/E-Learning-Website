@@ -11,7 +11,6 @@ import '../assets/css/home.css';
 import headerimg from '../assets/img/header-img.png';
 import PopularCourses from '../PopularCourses/popularcourses';
 import ContactUs from '../ContactUs/ContactUs'
-import Footer from '../Footer/Footer'
 
 
 function Home() {

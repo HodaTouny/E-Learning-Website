@@ -15,13 +15,13 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const userResponse = await axios.get(`${process.env.REACT_APP_API_URL}/admin/user-stats`);
+                const userResponse = await axios.get(`/admin/user-stats`);
                 setUserStats(userResponse.data);
 
-                const courseResponse = await axios.get(`${process.env.REACT_APP_API_URL}/admin/course-stats`);
+                const courseResponse = await axios.get(`/admin/course-stats`);
                 setCourseStats(courseResponse.data);
 
-                const contactResponse = await axios.get(`${process.env.REACT_APP_API_URL}/admin/contact-stats`);
+                const contactResponse = await axios.get(`/admin/contact-stats`);
                 setContactStats(contactResponse.data);
             } catch (error) {
                 console.error('Error fetching stats:', error);

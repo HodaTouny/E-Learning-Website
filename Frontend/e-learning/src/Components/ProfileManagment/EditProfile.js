@@ -43,7 +43,7 @@ function EditProfile({ userData, token }) {
         };
 
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/editdata`, {
+            const response = await axios.post(`/education/editdata`, {
                updatedData},{
                 headers: {
                     'Content-Type': 'application/json',

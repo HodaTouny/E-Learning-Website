@@ -73,7 +73,7 @@ function Register() {
             };
 
             try {
-                const response = await axios.post(`${process.env.REACT_APP_API_URL}/education/register`, {
+                const response = await axios.post(`/education/register`, {
                     formData
                 },{
                     headers: {
