@@ -102,7 +102,7 @@ function Register() {
     return (
         <div className="wrapper">
             <div className="inner">
-                <img src={img1} alt="" className="image-1" />
+                <img src={img1} alt="" loading="lazy" className="image-1" />
                 <form onSubmit={handleSubmit}>
                     <h3>New Account?</h3>
 
@@ -172,7 +172,7 @@ function Register() {
                         <span>Register</span>
                     </button>
                 </form>
-                <img src={img2} alt="" className="image-2" />
+                <img loading="lazy" src={img2} alt="" className="image-2" />
             </div>
         </div>
     );

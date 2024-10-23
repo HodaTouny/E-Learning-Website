@@ -63,7 +63,7 @@ const About=()=>{
                 <div className="container">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-lg-5 col-md-6 about-left">
-                            <img className="img-fluid" src={img} alt="About Us" />
+                            <img className="img-fluid" loading="lazy" src={img} alt="About Us" />
                         </div>
                         <div className="offset-lg-1 col-lg-5 col-md-12 about-right">
                             <h1>

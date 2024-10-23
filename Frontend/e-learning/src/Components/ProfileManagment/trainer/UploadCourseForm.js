@@ -50,6 +50,18 @@ const UploadCourseForm = () => {
       lessons: [...prevData.lessons, { title: '', video: null }]
     }));
   };
+  const resetForm = () => {
+    setCourseData({
+      name: '',
+      description: '',
+      category: 'Backend Development',
+      isPremium: false,
+      price: 0,
+      image: null,
+      lessons: [{ title: '', video: null }]
+    });
+
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -115,6 +127,7 @@ const UploadCourseForm = () => {
             console.error('Error uploading course', error);
             setAlertMessage({ message: 'Error uploading course', type: 'error' });
         }
+        resetForm();
     } else {
         console.error('No user found in localStorage');
     }

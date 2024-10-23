@@ -203,7 +203,7 @@ const Navbar = () => {
             <nav className={`navbar navbar-expand-lg ${collapsed ? 'navbar-light' : 'navbar-dark'} ${scrolled ? 'header-scrolled sticky' : ''}`}>
                 <div className="container p-3">
                     <Link className="navbar-brand" to="/">
-                        <img src={logo} alt="Logo" />
+                        <img loading="lazy" src={logo} alt="Logo" />
                     </Link>
                     <button className="navbar-toggler" type="button" onClick={handleNavbarToggle} aria-expanded={!collapsed} aria-label="Toggle navigation">
                         <span className="lnr lnr-menu"></span>

@@ -102,7 +102,7 @@ function Login() {
         <>
             <div className="wrapper">
                 <div className="inner">
-                    <img src={img1} alt="" className="image-1" />
+                    <img src={img1} alt="" loading="lazy" className="image-1" />
                     <form onSubmit={handleSubmit}>
                         <h3>Login</h3>
                         <div className="form-holder">
@@ -133,7 +133,7 @@ function Login() {
                             <span>Login</span>
                         </button>
                     </form>
-                    <img src={img2} alt="" className="image-2" />
+                    <img loading="lazy" src={img2} alt="" className="image-2" />
                 </div>
             </div>
         </>

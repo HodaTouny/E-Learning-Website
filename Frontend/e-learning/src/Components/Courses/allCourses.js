@@ -153,6 +153,7 @@ const AllCourses = () => {
                                     <figure>
                                         <img 
                                             src={`/${course.image}`} 
+                                            loading="lazy"
                                             alt={course.name} 
                                             className="course-image" 
                                             onClick={() => handleCourseClick(course.courseID)} 

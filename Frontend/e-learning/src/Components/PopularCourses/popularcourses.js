@@ -44,6 +44,7 @@ function PopularCourses() {
                                         <div className="thumb">
                                             <Link to={`/course/${course.courseID}`} target="_blank" rel="noopener noreferrer">
                                                 <img
+                                                    loading="lazy"
                                                     className="f-img img-fluid mx-auto"
                                                     src={`http://localhost:5000/${course.image}`}
                                                     alt={course.name}

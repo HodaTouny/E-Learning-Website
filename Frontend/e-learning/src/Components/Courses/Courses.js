@@ -32,7 +32,7 @@ const Courses = () => {
         {courses.map((course) => (
           <div key={course.courseID} className="course-card">
             <Link to={`/course/${course.courseID}`}>
-              <img src={`http://localhost:5000/${course.image}`} alt={course.name} className="course-image" />
+              <img src={`http://localhost:5000/${course.image}`} loading="lazy" alt={course.name} className="course-image" />
             </Link>
             <div className="course-details">
             <Link to={`/course/${course.courseID}`}>

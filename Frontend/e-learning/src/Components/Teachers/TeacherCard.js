@@ -8,6 +8,7 @@ const TeacherCard = ({ teacher, onDelete }) => {
             <div className="d-flex col-9">
                 <img
                     src={img}
+                    loading="lazy"
                     alt={`${teacher.name}'s profile`}
                     className="rounded-circle me-3"
                     style={{

@@ -28,9 +28,9 @@ class TeacherController extends ClientController {
     }
 
     async deleteCourse(req, res) {
-        const { courseId, teacherID } = req.body;
+        const { courseID, teacherID } = req.body;
         try {
-            const result = await this.teacherDAO.deleteCourse(courseId, teacherID);
+            const result = await this.teacherDAO.deleteCourse(courseID, teacherID);
             res.status(200).json({ message: 'Course deleted successfully', result });
         } catch (error) {
             if (error.message === 'Teacher not found') {

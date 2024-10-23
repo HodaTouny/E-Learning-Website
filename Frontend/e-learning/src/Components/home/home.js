@@ -31,8 +31,8 @@ function Home() {
                             </p>
                         </div>
                         <div className="offset-lg-2 col-lg-5 col-md-12 home-banner-right">
-                            <img className="img-fluid" src="img/header-img.png" alt="" />
-                            <img src={headerimg} alt="header-img" />
+                            <img className="img-fluid" loading="lazy" src="img/header-img.png" alt="" />
+                            <img src={headerimg} loading="lazy" alt="header-img" />
                         </div>
                     </div>
                 </div>

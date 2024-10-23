@@ -63,7 +63,7 @@ function ProfileSitting() {
                         <div class="author-card pb-3">
                             <div class="author-card-profile">
                                 <div class="author-card-avatar">
-                                    <img src={img} alt={userData.name} />
+                                    <img src={img} loading="lazy" alt={userData.name} />
                                 </div>
                                 <div class="author-card-details">
                                     <h5 class="author-card-name text-lg">{userData.name}</h5>

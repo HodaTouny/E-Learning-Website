@@ -177,6 +177,7 @@ const CourseDetail = () => {
               <div className="main-image">
                 <img
                   src={`/${course.image}`}
+                  loading="lazy"
                   alt={course.name}
                   className="img-fluid"
                   style={{ width: '700px', height: '300px' }}

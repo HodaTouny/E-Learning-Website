@@ -2,11 +2,11 @@ import '../../assets/css/profilesitting.css'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../Navbar/navbar';
-
+import SuccessAlert from '../../SuccessAlert/SuccessAlert';
 
 function CourseList(userid) {
     const [courses, setCourses] = useState([]);
+    const [alertMessage, setAlertMessage] = useState(null);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -22,21 +22,35 @@ function CourseList(userid) {
         fetchCourses();
     }, []);
 
-    const deleteHandler = async (courseID) => {
+    const deleteHandler = async (courseID,teacherID) => {
+        const accessToken = localStorage.getItem('accessToken');
         try {
             await axios.delete(`/deleteCourse/${courseID}`);
-            setCourses(courses.filter(course => course.courseID !== courseID)); // Update state after deleting
+            await axios.delete(`/education/deletecourse`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                data: {
+                    courseID,
+                    teacherID
+                }
+            });
+            
+            setCourses(courses.filter(course => course.courseID !== courseID));
+            setAlertMessage({ message: 'Course deleted successfully', type: 'success' });
         } catch (error) {
             console.error('Failed to delete the course');
+            setAlertMessage({ message: 'Error deleting the course', type: 'error' });
         }
     };
 
     return (
         <>
+            {alertMessage && <SuccessAlert message={alertMessage.message} type={alertMessage.type} />}
             {courses.map((course) => (
                 <div class="cart-item d-md-flex justify-content-between">
                     <span class="remove-item">
-                        <i class="fa fa-times" onClick={() => deleteHandler(course.courseID)} ></i>
+                        <i class="fa fa-times" onClick={() => deleteHandler(course.courseID,course.teacherID)} ></i>
                     </span>
                     <div class="px-3 my-3">
                         <a class="cart-item-product" href="#">

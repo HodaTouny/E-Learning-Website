@@ -1,3 +1,4 @@
+import axios from 'axios';
 import '../../assets/css/profilesitting.css';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -29,7 +30,7 @@ function EnrolledCourse({ courses }) {
             const updatedCourses = await Promise.all(
                 courses.map(async (course) => {
                     try {
-                        const response = await fetch(`/getCourse/${course.courseId}`);
+                        const response = await axios.get(`/getCourse/${course.courseId}`);
                         const data = await response.json();
                         return { ...course, courseName: data.name , teacherName: data.teacherName };
                     } catch (error) {

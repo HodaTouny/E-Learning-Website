@@ -61,6 +61,7 @@ function ProfileSitting() {
                                 <div className="author-card-avatar">
                                     <img
                                         src={img}
+                                        loading="lazy"
                                         alt={userData.name}
                                     />
                                 </div>
