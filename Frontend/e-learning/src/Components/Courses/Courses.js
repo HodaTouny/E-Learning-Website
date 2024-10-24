@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+// src/components/Courses.js
+
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCourses } from '../actions/courseActions';
 import { Link } from 'react-router-dom';
 import '../assets/css/Courses.css';
 
 const Courses = () => {
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { courses, loading, error } = useSelector((state) => state);
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get(`/getCourses`);
-        setCourses(response.data);
-        setLoading(false);
-      } catch (error) {
-        setError('Error fetching courses');
-        setLoading(false);
-      }
-    };
-
-    fetchCourses();
-  }, []);
+    dispatch(fetchCourses());
+  }, [dispatch]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -35,13 +26,9 @@ const Courses = () => {
               <img src={`http://localhost:5000/${course.image}`} loading="lazy" alt={course.name} className="course-image" />
             </Link>
             <div className="course-details">
-            <Link to={`/course/${course.courseID}`}>
-              <h3>{course.name}</h3>
-            </Link>
-
-              {/* <p>{course.description}</p> */}
-              {/* <p>Category: {course.category}</p> */}
-              {/* {course.price && <p>Price: ${course.price}</p>} */}
+              <Link to={`/course/${course.courseID}`}>
+                <h3>{course.name}</h3>
+              </Link>
               <p>Created On: {new Date(course.createdDate).toLocaleDateString()}</p>
               <p>{course.isPremium ? 'Premium Course' : 'Free Course'}</p>
             </div>

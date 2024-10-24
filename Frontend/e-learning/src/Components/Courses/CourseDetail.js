@@ -4,135 +4,58 @@ import axios from 'axios';
 import '../assets/css/Courses.css';
 import { UserContext } from '../userContext'; 
 import Alert from '../SuccessAlert/SuccessAlert';
+import { useDispatch, useSelector } from 'react-redux';
+import { enrollCourse, fetchCourses, verifyOtp } from '../../actions/courseActions';
 
 const CourseDetail = () => {
   const { user, setUser } = useContext(UserContext);
   const { id } = useParams();
-  const [course, setCourse] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const course = useSelector((state) => state.course) || {};
+  const {enrollStatus = "", err = "", isEnrolled = false } = useSelector((state) => state.course) || {};
+
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [lessonProgress, setLessonProgress] = useState({});
-  const [enrollStatus, setEnrollStatus] = useState(null);
   const [alertType, setAlertType] = useState('success');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
-  const [isEnrolled, setIsEnrolled] = useState(false); 
-  const [alertMessage, setAlertMessage] = useState(''); 
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
-    const fetchCourse = async () => {
-      try {
-        const courseResponse = await axios.get(`/getCourse/${id}`);
-        setCourse(courseResponse.data);
+    dispatch(fetchCourses(id));
+  }, [dispatch, id]);
+
   
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          const userId = JSON.parse(storedUser).userID;
-          
-          if (user && user.enrolledCourses) {
-            const enrolled = user.enrolledCourses.some(
-              (enrolledCourse) => enrolledCourse.courseId === parseInt(id)
-            );
-            setIsEnrolled(enrolled);
-          }
-        }
-      } catch (error) {
-        setError('Error fetching course details');
-      } finally {
-        setLoading(false);
-      }
-    };
+  if (!course) return <p>Course not found</p>;
+
+
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem('accessToken');
   
-    fetchCourse();
-  }, [id, user]);
-  
-  // Check if user exists before accessing user.role
   const userRole = user ? user.role : null;
 
   const handleEnroll = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const user = JSON.parse(localStorage.getItem('user'));
-
-      if (course.isPremium) {
-        const email = user.email;
-        const billDetails = `Course: ${course.name}, Price: ${course.price}$`;
-
-        const response = await axios.post(
-          `/payment/initiate`,
-          { userId: user.userID, email, billDetails },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        setEnrollStatus(response.data.message || 'OTP sent to your email.');
-        setOtpSent(true);
-        setAlertType('success');
-
-      } else {
-        await axios.post(
-          `/education/enrollcourse`,
-          { studentId: user.userID, courseId: course.courseID },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-
-        setEnrollStatus('Successfully enrolled in the course!');
-        setAlertType('success');
-        setIsEnrolled(true); 
-        setUser((prevUser) => ({
-          ...prevUser,
-          enrolledCourses: [
-            ...prevUser.enrolledCourses,
-            { courseId: course.courseID, courseName: course.name },
-          ],
-        }));
-      }
-    } catch (error) {
-      setEnrollStatus(error.response?.data?.message || 'Enrollment failed. Try again.');
+    if (storedUser && course) {
+      dispatch(enrollCourse(course.courseID, storedUser.userID, token));
+      setOtpSent(true);
+    } else {
+      setAlertMessage('User not found or invalid course.');
       setAlertType('error');
     }
   };
 
   const handleOtpVerification = async () => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const user = JSON.parse(localStorage.getItem('user'));
-
-      const response = await axios.post(
-        `/payment/verify`,
-        { userId: user.userID, otp },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      setEnrollStatus(response.data.message || 'Payment verified successfully.');
-      setAlertType('success');
-      setOtpSent(false); 
-      setOtp(''); 
-
-      await axios.post(
-        `/education/enrollcourse`,
-        { studentId: user.userID, courseId: course.courseID },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      setIsEnrolled(true);
+    if (storedUser) {
+      dispatch(verifyOtp(storedUser.userID, otp, course, token));
+      setOtpSent(false);
+      setOtp('');
       setUser((prevUser) => ({
         ...prevUser,
         enrolledCourses: [
           ...prevUser.enrolledCourses,
-          { courseId: course.courseID, courseName: course.name },
+          { courseID: course.courseID, courseName: course.name },
         ],
       }));
-
-      await axios.post(
-        `/education/addbalance`,
-        { teacherID: course.teacherID, amount: course.price * 0.8 },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-    } catch (error) {
-      setEnrollStatus(error.response?.data?.message || 'OTP verification failed. Try again.');
-      setAlertType('error');
     }
   };
 
@@ -144,13 +67,11 @@ const CourseDetail = () => {
     const progress = (e.target.currentTime / e.target.duration) * 100;
     setLessonProgress((prev) => ({ ...prev, [index]: progress.toFixed(0) }));
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  
 
   return (
     <>
-    <Alert message={alertMessage} type={alertType} />
+      <Alert message={alertMessage} type={alertType} />
       <section className="banner-area">
         <div className="container">
           <div className="row justify-content-center align-items-center">
@@ -190,27 +111,27 @@ const CourseDetail = () => {
                 <h4 className="title">Course Outline</h4>
                 <div className="content">
                   <ul className="course-list" style={{ flexDirection: 'column' }}>
-                  {course.lessons && course.lessons.length > 0 ? (
+                    {course.lessons && course.lessons.length > 0 ? (
                       course.lessons.map((lesson, index) => (
-                        <div key={index} className="mb-4" style={{borderBottom: '1px solid #ddd'}}>
+                        <div key={index} className="mb-4" style={{ borderBottom: '1px solid #ddd' }}>
                           <li
-                              className="justify-content-between d-flex"
-                              onClick={() => {
-                                if (userRole !== 'Student' || (userRole === 'Student' && isEnrolled)) {
-                                  toggleLesson(index);
-                                } else {
-                                  setAlertMessage('You must be enrolled in this course to view details.');
-                                  setAlertType('error');
-                                }
-                              }}
-                              style={{ cursor: userRole !== 'Student' || (userRole === 'Student' && isEnrolled) ? 'pointer' : 'not-allowed' }}
-                            >
-                              <p>{lesson.title} {lessonProgress[index] ? ` - ${lessonProgress[index]}%` : ''}</p>
-                              <p className="btn text-uppercase mb-3">
-                                {expandedLesson === index ? 'Hide Details' : 'View Details'}
-                              </p>
-                            </li>
-                          {expandedLesson === index && ( 
+                            className="justify-content-between d-flex"
+                            onClick={() => {
+                              if (userRole !== 'Student' || (userRole === 'Student' && isEnrolled)) {
+                                toggleLesson(index);
+                              } else {
+                                setAlertMessage('You must be enrolled in this course to view details.');
+                                setAlertType('error');
+                              }
+                            }}
+                            style={{ cursor: userRole !== 'Student' || (userRole === 'Student' && isEnrolled) ? 'pointer' : 'not-allowed' }}
+                          >
+                            <p>{lesson.title} {lessonProgress[index] ? ` - ${lessonProgress[index]}%` : ''}</p>
+                            <p className="btn text-uppercase mb-3">
+                              {expandedLesson === index ? 'Collapse lesson' : 'Expand lesson'}
+                            </p>
+                          </li>
+                          {expandedLesson === index && (
                             <div className="lesson-details">
                               {lesson.video ? (
                                 <video
@@ -232,7 +153,6 @@ const CourseDetail = () => {
                     ) : (
                       <p>No lessons available for this course.</p>
                     )}
-
                   </ul>
                 </div>
               </div>
