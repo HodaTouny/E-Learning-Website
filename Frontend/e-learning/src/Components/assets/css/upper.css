@@ -1,0 +1,20 @@
+.Upper {
+    cursor: pointer; 
+    position: fixed;
+    margin: 20px; 
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #b336e3, #7c32ff);
+    border-radius: 50%;
+    width: 40px; 
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.UpperIcon{
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+}

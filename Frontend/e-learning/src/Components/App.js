@@ -14,6 +14,7 @@ import UploadCourseForm from './ProfileManagment/trainer/UploadCourseForm';
 import Footer from './Footer/Footer';
 import Dashboard from './Dashboard/Dashboard';
 import TeachersList from './Teachers/TeacherList';
+import Upper from './ToUpper/ToUpper';
 function App() {
     return (
         <UserProvider>
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/course/:id" element={<CourseDetail />} />
                     <Route path="/allteachers" element={<TeachersList />} />
                 </Routes>
+                <Upper />
                 <section id="Footer" >
                     <Footer />
                 </section>

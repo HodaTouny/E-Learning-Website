@@ -954,7 +954,7 @@ th {
 
 @media (max-width:990px) {
   .navbar .navbar-collapse {
-    background-color: #000000d4 !important;
+    background-color: #080c1c !important;
   }
 }
 
@@ -1069,7 +1069,6 @@ th {
 
   .navbar-toggler {
     color: #ffffff;
-    /* Light color for the toggler (menu icon) */
     border-color: #ffffff;
   }
 }
@@ -1126,11 +1125,13 @@ th {
   top: 0;
   width: 100%;
   z-index: 1000;
+  height: 93px !important;
+  background-color:#0c122b !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-nav .nav-link {
-  color: #000 !important;
+  color: #080c1c !important;
 }
 
 /* Navbar link colors when scrolled */
@@ -3078,7 +3079,7 @@ th {
 
 .single-post-area .navigation-area .nav-left .thumb {
   margin-right: 20px;
-  background: #000;
+  background: #080c1c;
 }
 
 .single-post-area .navigation-area .nav-left .thumb img {
@@ -4628,9 +4629,9 @@ h6 {
 }
 
 .navbar-dark .nav-link {
-  color: white; /* Ensure nav links are visible on dark background */
+  color: white; 
 }
 
 .navbar-dark .nav-link.active {
-  font-weight: bold; /* Optional: Make active links bold */
+  font-weight: bold; 
 }
