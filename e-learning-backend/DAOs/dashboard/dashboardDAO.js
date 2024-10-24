@@ -57,9 +57,9 @@ class DashboardDAO {
 
     async getContactStats() {
         try {
-            const totalSubscribers = await Contact.countDocuments(); // Total number of subscribers
-            const usersWithAccount = await Contact.countDocuments({ hasAccount: true }); // Subscribers with accounts
-            const emailSubscribers = totalSubscribers - usersWithAccount; // Email-only subscribers
+            const totalSubscribers = await Contact.countDocuments(); 
+            const usersWithAccount = await Contact.countDocuments({ hasAccount: true });
+            const emailSubscribers = totalSubscribers - usersWithAccount; 
 
             return { totalSubscribers, usersWithAccount, emailSubscribers };
         } catch (error) {

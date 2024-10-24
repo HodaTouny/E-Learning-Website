@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const contactSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    email: { type: String, required: true, unique: true }, 
+    email: { type: String, required: true, unique: true },
+    hasAccount: { type: Boolean, default: false }, 
     createdAt: { type: Date, default: Date.now } 
 });
 
