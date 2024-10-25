@@ -26,27 +26,25 @@ function EnrolledCourse({ courses }) {
 
 
     useEffect(() => {
-        const fetchCourseDetails = async () => {
-            const updatedCourses = await Promise.all(
-                courses.map(async (course) => {
-                    try {
-                        const response = await axios.get(`/getCourse/${course.courseId}`);
-                        const data = await response.json();
-                        return { ...course, courseName: data.name , teacherName: data.teacherName };
-                    } catch (error) {
-                        console.error(`Error fetching course ${course.courseId}: `, error);
-                        return { ...course, courseName: 'Unknown Course', teacherName: 'Unknown Teacher' };
-                    }
-                })
-            );
-            setEnrolledCourses(updatedCourses);
-        };
+    const fetchCourseDetails = async () => {
+        const updatedCourses = await Promise.all(
+            courses.map(async (course) => {
+                try {
+                    const response = await axios.get(`http://localhost:5000/getCourse/${course.courseId}`);
+                    return { ...course, courseName: response.data.name, teacherName: response.data.teacherName };
+                } catch (error) {
+                    console.error(`Error fetching course ${course.courseId}: `, error);
+                    return { ...course, courseName: 'Unknown Course', teacherName: 'Unknown Teacher' };
+                }
+            })
+        );
+        setEnrolledCourses(updatedCourses);
+    };
 
-        if (courses && courses.length > 0) {
-            fetchCourseDetails();
-        }
-    }, [courses]);
-
+    if (courses && courses.length > 0) {
+        fetchCourseDetails();
+    }
+}, [courses]);
     return (
         <>
             <div className="d-flex justify-content-end pb-3">

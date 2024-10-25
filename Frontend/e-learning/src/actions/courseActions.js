@@ -42,7 +42,12 @@ export const enrollCourse = (courseID, userID, token) =>async(dispatch)=>{
       dispatch({type: ENROLL_COURSES_SUCCESS, payload: response.data.message});
     }
     catch(err){
-      dispatch({type: ENROLL_COURSES_FAILURE, payload: err.response?.data?.message||"enrollment failed!"});
+      if(err.response?.data?.message==="already ennrolled"){
+        dispatch({type: ENROLL_COURSES_FAILURE, payload: err.response?.data?.message});
+      }
+      else{
+        dispatch({type: ENROLL_COURSES_FAILURE, payload: "enrollment failed!"});
+      }
     }
 };
 

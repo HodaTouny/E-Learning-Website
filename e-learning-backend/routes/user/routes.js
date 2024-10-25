@@ -13,6 +13,9 @@ router.post('/logout', auth, userController.logout); //tested
 router.post('/editdata', auth, clientController.editPersonalData); //tested
 router.post('/addbalance',auth,teacherController.addBalance) //tested
 router.post('/enrollcourse', auth, studentController.enrollCourse); //tested
+
+router.get('/getEnrolledCourses/:userId', auth, studentController.getEnrolledCourses);
+
 router.post('/addcourse', auth, teacherController.addCourse); //tested
 router.delete("/deletecourse", auth, teacherController.deleteCourse); //tested
 router.get('/getteachers', auth, teacherController.getAllTeachers); //tested

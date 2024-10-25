@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../assets/allCourses.css';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom'; 
+import {  useNavigate } from 'react-router-dom'; 
 import { FaSearch, FaFilter } from 'react-icons/fa';
 const AllCourses = () => {
     const [courses, setCourses] = useState([]);
@@ -77,6 +77,7 @@ const AllCourses = () => {
                     <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px', marginBottom: '20px' }}>
                         <div style={{ position: 'relative', width: '900px' }}>
                             <input
+                                aria-label="Search by name"
                                 type="text"
                                 placeholder="Search by name..."
                                 value={searchTerm}
@@ -92,17 +93,12 @@ const AllCourses = () => {
                                     border: '1px solid #E5E4E2'
                                 }}
                             />
-                                <FaSearch style={{
-                                    position: 'absolute',
-                                    top: '50%',
-                                    left: '10px',
-                                    transform: 'translateY(-50%)',
-                                    color: '#999',
-                                }} />
+                                <FaSearch style={{position: 'absolute', top: '50%',left: '10px',transform: 'translateY(-50%)',color: '#999',}} />
                         </div>
 
                         <div style={{ position: 'relative', marginLeft: '20px', cursor: 'pointer' }}>
                             <FaFilter
+                                aria-label="Filter options"
                                 onClick={toggleFilterVisibility} 
                                 style={{
                                     fontSize: '24px',

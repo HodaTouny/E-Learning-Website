@@ -18,15 +18,14 @@ const courseReducer=(state=initState, action)=>{
         case FETCH_COURSES_REQUEST:
             return {...state, loading:true}
         case FETCH_COURSES_SUCCESS:
-            console.log(action.payload);
             return {...state, loading:false, course:action.payload, err:""}
         case FETCH_COURSES_FAILURE:
             return {...state, loading:false, course:{}, err:action.payload}
         
         case ENROLL_COURSES_FAILURE:
-            return {...state, enrollStatus:action.payload}
+            return {...state, enrollStatus:action.payload, isEnrolled:false}
         case ENROLL_COURSES_SUCCESS:
-            return {...state, enrollStatus:action.payload}
+            return {...state, enrollStatus:action.payload, isEnrolled:true}
 
         case OTP_VERIFICATION_FAILURE:
             return {...state, loading:false, enrollStatus:action.payload, alertType:"error"}

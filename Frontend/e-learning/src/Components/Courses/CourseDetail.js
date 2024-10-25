@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import axios from 'axios';
 import '../assets/css/Courses.css';
 import { UserContext } from '../userContext'; 
 import Alert from '../SuccessAlert/SuccessAlert';
@@ -12,7 +11,7 @@ const CourseDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const course = useSelector((state) => state.course) || {};
-  const {enrollStatus = "", err = "", isEnrolled = false } = useSelector((state) => state.course) || {};
+  const {enrollStatus = "", isEnrolled = false } = useSelector((state) => state.course) || {};
 
   const [expandedLesson, setExpandedLesson] = useState(null);
   const [lessonProgress, setLessonProgress] = useState({});
@@ -34,15 +33,40 @@ const CourseDetail = () => {
   
   const userRole = user ? user.role : null;
 
-  const handleEnroll = async () => {
-    if (storedUser && course) {
-      dispatch(enrollCourse(course.courseID, storedUser.userID, token));
+ const handleEnroll = async () => {
+  if (storedUser && course) {
+    try {
+      await dispatch(enrollCourse(course.courseID, storedUser.userID, token));
+      const currEnrollStatus = enrollStatus;
+      if (currEnrollStatus) {
+        setAlertMessage(currEnrollStatus);
+        setAlertType(currEnrollStatus.includes("success") ? "success" : "error");
+      }
+      else{
+        setAlertMessage('Enrollment status is unclear. Please check.');
+        setAlertType('error');
+      }
       setOtpSent(true);
-    } else {
-      setAlertMessage('User not found or invalid course.');
-      setAlertType('error');
     }
-  };
+    catch(error){
+      if (error.response && error.response.data) {
+        setAlertMessage(error.response.data.message);
+        setAlertType('error');
+      }
+      else{
+        setAlertMessage('An error occurred during enrollment. Please try again.');
+        setAlertType('error');
+      }
+    }
+  }
+  else{
+    setAlertMessage('User not found or invalid course');
+    setAlertType('error');
+  }
+};
+
+
+
 
   const handleOtpVerification = async () => {
     if (storedUser) {
